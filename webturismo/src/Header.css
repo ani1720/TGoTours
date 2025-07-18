@@ -1,0 +1,110 @@
+/* .navbar {
+  width: 100%; ✅ reemplaza 100vw por 100%
+  max-width: 100vw; 🔒 límite máximo igual al viewport
+  box-sizing: border-box; ✅ asegura que el padding no lo expanda
+  background-color: #1D203E;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  gap: 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  overflow-x: hidden;
+} */
+
+body {
+  background-color: #1D203E;
+  color: #FFFFFF;
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #1D203E;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+}
+.logo img {
+  height: 80px;
+  object-fit: contain;
+}
+
+nav a:hover {
+  color: #00CFEA;
+}
+.nav-links {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.nav-links a {
+ color: #FFFFFF;
+  margin-left: 1.5rem;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.auth-buttons {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.auth-section {
+  position: relative;
+}
+
+.usuario-trigger {
+  background: none;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: #333;
+}
+
+.usuario-menu {
+  position: relative;
+  display: inline-block;
+}
+.usuario-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+
+.usuario-dropdown a,
+.usuario-dropdown button {
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  font-size: 1rem;
+  text-decoration: none;
+  color: #333;
+}
+
+.usuario-dropdown a:hover,
+.usuario-dropdown button:hover {
+  background-color: #f0f0f0;
+  border-radius: 4px;
+}
