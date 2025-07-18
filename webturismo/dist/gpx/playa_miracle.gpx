@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<gpx version="1.1" creator="ChatGPT" xmlns="http://www.topografix.com/GPX/1/1">
+  <trk>
+    <name>Ruta Playa El Miracle Curva</name>
+    <trkseg>
+      <trkpt lat="41.1111" lon="1.2540">
+        <ele>5</ele>
+      </trkpt>
+      <trkpt lat="41.1119" lon="1.2550">
+        <ele>5</ele>
+      </trkpt>
+      <trkpt lat="41.1135" lon="1.2584">
+        <ele>5</ele>
+      </trkpt>
+      <trkpt lat="41.1137" lon="1.2589">
+        <ele>5</ele>
+      </trkpt>
+      <trkpt lat="41.1143" lon="1.2606">
+        <ele>5</ele>
+      </trkpt>
+      <trkpt lat="41.1145" lon="1.2621">
+        <ele>5</ele>
+      </trkpt>
+      <trkpt lat="41.1145" lon="1.2646">
+        <ele>5</ele>
+      </trkpt>
+      <trkpt lat="41.1136" lon="1.2659">
+        <ele>5</ele>
+      </trkpt>
+      <trkpt lat="41.1139" lon="1.2664">
+        <ele>5</ele>
+      </trkpt>
+      <trkpt lat="41.1131" lon="1.2673">
+        <ele>5</ele>
+      </trkpt>
+      <trkpt lat="41.1141" lon="1.2690">
+        <ele>5</ele>
+      </trkpt>
+    </trkseg>
+  </trk>
+</gpx>
