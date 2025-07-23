@@ -35,8 +35,11 @@ function Header({ usuario, nombreUsuario, cerrarSesion }) {
   return (
     <header className="navbar">
       <div className="logo">
-        <img src={Logo} alt="Logo TgoTours" />
+        <Link to="/">
+          <img src={Logo} alt="Logo TgoTours" style={{ cursor: "pointer" }} />
+        </Link>
       </div>
+
 
       <nav className="nav-links">
         <Link to="/">HOME</Link>

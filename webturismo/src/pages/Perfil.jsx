@@ -1,9 +1,16 @@
 import { useEffect, useState } from "react";
 import { auth, db } from "../firebase/firebaseConfig";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { updateProfile, updatePassword } from "firebase/auth";
+import { updateProfile } from "firebase/auth";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebase/firebaseConfig";
+import { onAuthStateChanged } from "firebase/auth";
+import { sendPasswordResetEmail } from "firebase/auth";
+import {
+  sendEmailVerification,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
+} from "firebase/auth";
 
 function Perfil() {
   const [usuario, setUsuario] = useState(null);
@@ -12,15 +19,20 @@ function Perfil() {
     email: "",
     fechaRegistro: "",
     rol: "",
-    fotoURL: ""
+    fotoURL: "",
   });
   const [nuevaFoto, setNuevaFoto] = useState(null);
+  const [previewFoto, setPreviewFoto] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [correoVerificado, setCorreoVerificado] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const user = auth.currentUser;
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
+        await user.reload();
         setUsuario(user);
+        setCorreoVerificado(user.emailVerified);
+
         const refDoc = doc(db, "usuarios", user.uid);
         const snap = await getDoc(refDoc);
         if (snap.exists()) {
@@ -28,14 +40,19 @@ function Perfil() {
           setForm({
             nombreUsuario: data.nombreUsuario || "",
             email: data.email || user.email,
-            fechaRegistro: data.fechaRegistro?.toDate().toLocaleDateString() || "",
+            fechaRegistro:
+              data.fechaRegistro?.toDate().toLocaleDateString() || "",
             rol: data.rol || "turista",
-            fotoURL: data.fotoURL || ""
+            fotoURL: data.fotoURL || "",
           });
         }
+      } else {
+        setUsuario(null);
       }
-    };
-    fetchData();
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
   }, []);
 
   const handleUpdate = async () => {
@@ -50,34 +67,56 @@ function Perfil() {
       const url = await getDownloadURL(fileSnapshot.ref);
       await updateDoc(refDoc, { fotoURL: url });
       setForm({ ...form, fotoURL: url });
+      setPreviewFoto(null); // Limpiar vista previa tras guardar
     }
 
     alert("Perfil actualizado correctamente");
   };
 
-  const handleChangePassword = async () => {
-    const nueva = prompt("Nueva contraseña:");
-    if (nueva) {
-      await updatePassword(usuario, nueva);
-      alert("Contraseña actualizada");
+  const handleEnviarCorreoRecuperacion = async () => {
+    try {
+      await sendPasswordResetEmail(auth, usuario.email);
+      alert("📩 Se ha enviado un correo para cambiar tu contraseña.");
+    } catch (error) {
+      console.error(error);
+      alert("Error al enviar el correo: " + error.message);
     }
   };
+
+  if (loading) return <p>Cargando perfil...</p>;
+  if (!usuario) return <p>No se ha iniciado sesión.</p>;
 
   return (
     <div className="perfil-page">
       <h2>👤 Perfil de usuario</h2>
-      {form.fotoURL && <img src={form.fotoURL} alt="Foto de perfil" width={100} />}
+      {form.fotoURL && (
+        <div className="foto-perfil">
+          <img src={form.fotoURL} alt="Foto de perfil" />
+        </div>
+      )}
+
+      {previewFoto && (
+        <div style={{ marginBottom: "1rem" }}>
+          <p>📷 Vista previa de la nueva foto:</p>
+          <img src={previewFoto} alt="Vista previa" width={100} />
+        </div>
+      )}
 
       <div className="perfil-info">
         <label>Nombre de usuario</label>
         <input
           type="text"
           value={form.nombreUsuario}
-          onChange={(e) => setForm({ ...form, nombreUsuario: e.target.value })}
+          disabled
+          style={{ backgroundColor: "#eee", cursor: "not-allowed" }}
         />
 
         <label>Correo electrónico</label>
         <input type="email" value={form.email} disabled />
+        <p style={{ marginBottom: "1rem" }}>
+          Estado del correo:{" "}
+          {correoVerificado ? "✅ Verificado" : "⛔ No verificado"}
+        </p>
 
         <label>Fecha de registro</label>
         <input type="text" value={form.fechaRegistro} disabled />
@@ -86,10 +125,22 @@ function Perfil() {
         <input type="text" value={form.rol} disabled />
 
         <label>Foto de perfil</label>
-        <input type="file" onChange={(e) => setNuevaFoto(e.target.files[0])} />
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) => {
+            const archivo = e.target.files[0];
+            if (archivo) {
+              setNuevaFoto(archivo);
+              setPreviewFoto(URL.createObjectURL(archivo));
+            }
+          }}
+        />
 
         <button onClick={handleUpdate}>💾 Guardar cambios</button>
-        <button onClick={handleChangePassword}>🔒 Cambiar contraseña</button>
+        <button onClick={handleEnviarCorreoRecuperacion}>
+          📩 Enviar correo para cambiar contraseña
+        </button>
       </div>
     </div>
   );

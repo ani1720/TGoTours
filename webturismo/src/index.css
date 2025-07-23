@@ -24,12 +24,12 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
+  display: grid;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  /* background: linear-gradient(to bottom right, #0084ff, #00cfea, #c6e947, #F47B20); */
+  background: linear-gradient(to bottom right,#F47B20, #c6e947, #0084ff, #00cfea, );
 }
 
 h1 {

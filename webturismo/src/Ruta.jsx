@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
-import RutaList from "./pages/RutaList";
-import RutaDetalle from "./pages/RutaDetalle";
+import RutaList from "./Rutas/RutaList";
+import RutaDetalle from "./Rutas/RutaDetalle";
 // import MapView from "./WebView";
 
 function Ruta() {

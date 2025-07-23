@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./ForoRuta.css";
+// import "./ForoRuta.css";
 
 const ForoRuta = ({ rutaId }) => {
   const [comentarios, setComentarios] = useState([]);

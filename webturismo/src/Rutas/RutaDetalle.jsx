@@ -1,46 +1,123 @@
-import { useParams } from "react-router-dom";
-import rutas from "../data/rutas.json";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import L from "leaflet";
-import "leaflet/dist/leaflet.css";
-import "leaflet-gpx";
+import useUserLocation from "../Hooks/useUserLocation";
+import { useLocation } from "react-router-dom";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase/firebaseConfig";
 
 const RutaDetalle = () => {
-  const { id } = useParams();
-  const ruta = rutas.find((r) => r.id === parseInt(id));
   const mapRef = useRef(null);
+  const [rutaSeleccionada, setRutaSeleccionada] = useState(null);
   const [comentarios, setComentarios] = useState([]);
   const [nuevoComentario, setNuevoComentario] = useState("");
+  const userLocation = useUserLocation();
 
   useEffect(() => {
-    if (!ruta || mapRef.current) return;
+    const mapContainer = document.getElementById("map");
+    if (!mapContainer || mapRef.current) return;
 
-    mapRef.current = L.map("map").setView([41.12, 1.26], 13);
+    // Crear mapa solo una vez
+    mapRef.current = L.map("map").setView([41.117, 1.25], 14);
 
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution: "&copy; OpenStreetMap contributors",
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png", {
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors & CartoDB',
     }).addTo(mapRef.current);
 
-    new L.GPX(ruta.archivo_gpx, {
-      async: true,
-      polyline_options: {
-        color: "blue",
-        weight: 4,
-        opacity: 0.8,
-      },
-      marker_options: {
-        startIconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
-        endIconUrl: "https://cdn-icons-png.flaticon.com/512/892/892285.png",
-        shadowUrl: "",
-      },
-    })
-      .on("loaded", function (e) {
-        mapRef.current.fitBounds(e.target.getBounds());
+    // Cargar datos de Rutas.json
+    fetch("/data/Rutas.json")
+      .then((res) => res.json())
+      .then((rutas) => {
+        setRutaSeleccionada(rutas[0]); // Se puede cambiar por ruta dinámica si se desea
       })
-      .addTo(mapRef.current);
-  }, [ruta]);
+      .catch((error) => console.error("Error al cargar Rutas.json:", error));
+  }, []);
+  //cuando se cargue una ruta
+  useEffect(() => {
+    if (rutaSeleccionada) {
+      obtenerRuta(rutaSeleccionada.coordenadasJSON);
+    }
+  }, [rutaSeleccionada, userLocation]);
 
-  if (!ruta) return <p>Ruta no encontrada</p>;
+  const obtenerRuta = async (coordenadasURL) => {
+    try {
+      const response = await fetch(coordenadasURL);
+      const data = await response.json();
+
+      let coordenadas = data.ruta.map((p) => p.coordenadas);
+
+      if (userLocation && mapRef.current) {
+        L.marker(userLocation).addTo(mapRef.current).bindPopup("Tu ubicación");
+      }
+      mapRef.current.eachLayer((layer) => {
+        if (layer instanceof L.Marker || layer instanceof L.GeoJSON) {
+          mapRef.current.removeLayer(layer);
+        }
+      });
+      //Insertar ubicacion del Usuario como primer punto si existe
+      // Si hay userLocation, agrégalo al inicio (también en [lng, lat])
+
+      //Dibuja los marcadores
+      // coordenadas.forEach((coord, i) => {
+      //   L.marker(coord.slice().reverse())
+      //     .addTo(mapRef.current)
+      //     .bindPopup(
+      //       +i === 0 && userLocation
+      //         ? "Tu ubicacion"
+      //         : data.ruta[i - (userLocation ? 1 : 0)].nombre
+      //     );
+      //   // coord.reverse(); // Regresamos a [lng, lat] para ORS
+      // });
+
+      coordenadas.forEach((coord, i) => {
+        const punto = data.ruta[i - (userLocation ? 1 : 0)];
+        let popupContent;
+
+        if (+i === 0 && userLocation) {
+          popupContent = "Tu ubicacion";
+        } else if (punto) {
+          popupContent = `
+      <strong>${punto.nombre}</strong><br>
+      <img src="${punto.imagen}" alt="${punto.nombre}" style="max-width:150px;max-height:100px;" />
+    `;
+        } else {
+          popupContent = "";
+        }
+
+        L.marker(coord.slice().reverse())
+          .addTo(mapRef.current)
+          .bindPopup(popupContent);
+      });
+
+      //solicita ruta a ors
+      const orsResponse = await fetch(
+        "https://api.openrouteservice.org/v2/directions/foot-walking/geojson",
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json, application/geo+json",
+            "Content-Type": "application/json",
+            Authorization:
+              "eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjcwNGMxOTg0NGQ1MjQ5YjliOWJhMjE0NjE0MzUyNjlmIiwiaCI6Im11cm11cjY0In0=",
+          },
+          body: JSON.stringify({ coordinates: coordenadas }),
+        }
+      );
+
+      if (!orsResponse.ok) throw new Error("Error al obtener ruta de ORS");
+
+      const resultado = await orsResponse.json();
+
+      L.geoJSON(resultado, { style: { color: "blue", weight: 3 } }).addTo(
+        mapRef.current
+      );
+
+      const bounds = L.geoJSON(resultado).getBounds();
+      mapRef.current.fitBounds(bounds);
+    } catch (err) {
+      console.error("Error:", err);
+    }
+  };
 
   const publicarComentario = () => {
     if (nuevoComentario.trim() === "") return;
@@ -50,17 +127,25 @@ const RutaDetalle = () => {
 
   return (
     <div className="ruta-detalle-container" style={{ padding: "1rem" }}>
-      <h2>{ruta.nombre}</h2>
-      <span className={`badge ${ruta.tipo}`}>{ruta.tipo}</span>
-      <p><strong>Duración:</strong> {ruta.duracion}</p>
-      <p>{ruta.descripcion}</p>
+      {rutaSeleccionada && (
+        <>
+          <h2>{rutaSeleccionada.nombre}</h2>
+          <span className={`badge ${rutaSeleccionada.tipo}`}>
+            {rutaSeleccionada.tipo}
+          </span>
+          <p>
+            <strong>Duración:</strong> {rutaSeleccionada.duracion}
+          </p>
+          <p>{rutaSeleccionada.descripcion}</p>
 
-      <h3>Puntos de interés:</h3>
-      <ul>
-        {ruta.contenido.map((punto, idx) => (
-          <li key={idx}>{punto}</li>
-        ))}
-      </ul>
+          <h3>Puntos de interés:</h3>
+          <ul>
+            {rutaSeleccionada.contenido.map((punto, idx) => (
+              <li key={idx}>{punto}</li>
+            ))}
+          </ul>
+        </>
+      )}
 
       <h3>Mapa de la ruta</h3>
       <div id="map" style={{ height: "70vh", marginBottom: "2rem" }}></div>
@@ -76,7 +161,9 @@ const RutaDetalle = () => {
       <button onClick={publicarComentario}>Publicar</button>
       <ul style={{ marginTop: "1rem" }}>
         {comentarios.map((comentario, idx) => (
-          <li key={idx} style={{ marginBottom: "0.3rem" }}>🗨 {comentario}</li>
+          <li key={idx} style={{ marginBottom: "0.3rem" }}>
+            💬 {comentario}
+          </li>
         ))}
       </ul>
     </div>

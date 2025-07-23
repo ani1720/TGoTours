@@ -1,10 +1,14 @@
 import { useState } from "react";
 import { auth } from "./firebase/firebaseConfig";
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "./firebase/firebaseConfig";
 import { collection, query, where, getDocs } from "firebase/firestore";
+import { serverTimestamp } from "firebase/firestore";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
 
 function Registro() {
   const [email, setEmail] = useState("");
@@ -12,23 +16,24 @@ function Registro() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [mensaje, setMensaje] = useState(null);
+  const [rol, setRol] = useState("turista");
 
   const handleRegistro = async (e) => {
     e.preventDefault();
     setMensaje(null);
     setError(null);
-  
+
     try {
       // 🧠 Validar si el nombre de usuario ya está tomado
       const usuariosRef = collection(db, "usuarios");
       const q = query(usuariosRef, where("nombreUsuario", "==", nombreUsuario));
       const querySnapshot = await getDocs(q);
-  
+
       if (!querySnapshot.empty) {
         setError("⚠️ El nombre de usuario ya está en uso.");
         return; // ⛔ detenemos el registro si ya existe
       }
-  
+
       // ✅ Crear usuario en Auth
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -36,16 +41,26 @@ function Registro() {
         password
       );
       const uid = userCredential.user.uid;
-  
+      const user = userCredential.user;
+
       // 🗂️ Guardar datos extra en Firestore
       await setDoc(doc(db, "usuarios", uid), {
         nombreUsuario,
         email,
-        fechaRegistro: new Date(),
-        rol: "turista",
+        fechaRegistro: serverTimestamp(),
+        rol,
       });
-  
-      setMensaje(`✅ Usuario creado: ${userCredential.user.email}`);
+
+      // ✉️ Enviar correo de verificación
+      await sendEmailVerification(user);
+      // 🎉 Registro exitoso con mensaje reforzado
+      setMensaje(
+        `✅ Usuario creado: ${user.email}.
+  📩 Revisa tu bandeja de entrada para confirmar tu correo antes de iniciar sesión.`
+      );
+
+      // 🎉 Registro exitoso
+      setMensaje(`✅ Usuario creado: ${user.email}. Verifica tu correo.`);
       setEmail("");
       setPassword("");
       setNombreUsuario("");
@@ -95,12 +110,28 @@ function Registro() {
             style={{ padding: "0.5rem", margin: "0.5rem", width: "250px" }}
           />
           <br />
-          <button
-            type="submit"
-            style={{ padding: "0.5rem 1rem", marginTop: "1rem" }}
+          <label style={{ display: "block", margin: "0.5rem 0 0.2rem 0" }}>
+            Selecciona tu rol:
+          </label>
+          <select
+            value={rol}
+            onChange={(e) => setRol(e.target.value)}
+            required
+            style={{ padding: "0.5rem", margin: "0.5rem", width: "260px" }}
           >
-            Registrarse
-          </button>
+            <option value="turista">Turista</option>
+            <option value="guia">Guía</option>
+          </select>
+          <div style={{ textAlign: "center", marginTop: "1rem" }}>
+            <button
+              type="submit"
+              style={{
+                padding: "0.5rem 1rem",
+              }}
+            >
+              Registrarse
+            </button>
+          </div>
         </form>
 
         {mensaje && (

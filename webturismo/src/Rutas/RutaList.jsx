@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import rutas from "../data/rutas.json";
+import rutas from "/public/data/rutas.json";
 import "./RutaList.css";
 
 const RutaList = () => {

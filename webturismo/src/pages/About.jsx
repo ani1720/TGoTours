@@ -52,7 +52,7 @@ const About = () => {
           Nuestro equipo está formado por amantes de la historia, la cultura de Tarragona y desarroladores entusiastas.
           Juntos hemos creado esta plataforma con la intención de conectar tecnología y patrimonio,
           permitiendo a cualquier persona descubrir la ciudad a pie, a su ritmo 
-          7y con información útil.
+          y con información útil.
         </p>
 
         <p>
@@ -85,6 +85,35 @@ const About = () => {
           ¡Esperamos que disfrutes tu viaje por Tarragona tanto como nosotros
           disfrutamos construir esta plataforma!
         </p>
+      </div>
+      <div className="about-section">
+        <h2>Sobre los creadores</h2>
+
+        <div className="creator-container">
+
+          <div className="creator-card">
+          <img src="/assets/adria.jpg" alt="Foto Adrià" className="creator.image" />
+          <div className="creator-name">Adrià Gonzales </div>
+          <div className="creator-role">Desarrolador Backend</div>
+          <p className="creator-bio">Responsable de la base de datos y la interaccion del usuario</p>
+          </div>
+
+          <div className="creator-card">
+          <img src="/assets/dani.jpg" alt="Foto Adrià" className="creator.image" />
+          <div className="creator-name">Daniel Garcia</div>
+          <div className="creator-role">Desarrolador Frontend</div>
+          <p className="creator-bio">Responsable del contenido y la interaccion del usuario</p>
+          </div>
+
+          
+          <div className="creator-card">
+          <img src="/assets/dani.jpg" alt="Foto Adrià" className="creator.image" />
+          <div className="creator-name">Nighjhurey Bueno</div>
+          <div className="creator-role">Desarroladora FullStack</div>
+          <p className="creator-bio">Responsable de la interaccion del usuario</p>
+          </div>
+
+        </div>
       </div>
     </div>
   );
