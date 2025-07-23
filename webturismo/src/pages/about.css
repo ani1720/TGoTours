@@ -1,27 +1,78 @@
-.about-container {
+.about-wrapper {
   display: flex;
-  justify-content: center;
   align-items: flex-start;
-  padding: 2rem;
+  justify-content: center;
+  color: white;
+  padding: 4rem 2rem;
+  gap: 3rem;
+  flex-wrap: wrap;
+  border-radius: 12px;
+  max-width: 1200px;
+  margin: auto;
 }
 
-.about-card {
+/* Sección del logo y texto principal */
+.about-logo-section {
+  flex: 0 0 auto;
   display: flex;
-  align-items: center;
-  padding: 2rem;
-  border-radius: 8px;
-  gap: 2rem;
-  color: white;
-  max-width: 1200px;
+  align-items: flex-start;
+  justify-content: center;
 }
 
 .about-logo {
-  width: 50%;
+  width: 400px;
   height: auto;
 }
 
-.about-text p {
-  margin: 0.4rem 0;
-  font-size: 1rem;
-  line-height: 1.4;
+.about-content {
+  min-width: 300px;
+  max-width: 700px;
+}
+
+/* Títulos y texto */
+.about-content h2 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+.about-content p,
+.about-content li {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: white;
+}
+
+.about-content ul {
+  padding-left: 1.5rem;
+  list-style: disc;
+}
+
+/* NUEVA SECCIÓN que aparecerá debajo de .about-wrapper */
+.content-who {
+  width: 100%;
+  margin: 1rem auto 0;
+  padding: 0 2rem;
+  text-align: left;
+  color: white;
+  max-width: 1200px;
+  font-size: 1.2rem;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .about-wrapper {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .about-logo {
+    width: 150px;
+  }
+
+  .content-who {
+    padding: 0 1rem;
+    text-align: center; /* Opcional si quieres centrar en pantallas pequeñas */
+  }
 }
