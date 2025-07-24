@@ -3,6 +3,8 @@ import { createPortal } from "react-dom";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import Logo from "./assets/Logo2.png";
+import WebName from "./assets/webname.png"
+import LogoAll from "./assets/logounion.png"
 
 function Header({ usuario, nombreUsuario, cerrarSesion }) {
   const [menuAbierto, setMenuAbierto] = useState(false);
@@ -36,7 +38,9 @@ function Header({ usuario, nombreUsuario, cerrarSesion }) {
     <header className="navbar">
       <div className="logo">
         <Link to="/">
-          <img src={Logo} alt="Logo TgoTours" style={{ cursor: "pointer" }} />
+          <img src={LogoAll} alt="Logo TgoTours" style={{ cursor: "pointer" }} />
+          {/* <img src={Logo} alt="Logo TgoTours" style={{ cursor: "pointer" }} />
+          <img src={WebName} alt="Nombre web" /> */}
         </Link>
       </div>
 

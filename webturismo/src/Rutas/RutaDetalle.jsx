@@ -24,6 +24,16 @@ const RutaDetalle = () => {
         '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors & CartoDB',
     }).addTo(mapRef.current);
 
+    // Si existe la ubicación del usuario, agregar marcador
+    if (userLocation) {
+      L.marker(userLocation)
+        .addTo(mapRef.current)
+        .bindPopup("📍 Tu ubicación")
+        .openPopup();
+    }
+    console.log("📍 Ubicación detectada:", userLocation);
+
+
     // Cargar datos de Rutas.json
     fetch("/data/Rutas.json")
       .then((res) => res.json())
@@ -31,7 +41,8 @@ const RutaDetalle = () => {
         setRutaSeleccionada(rutas[0]); // Se puede cambiar por ruta dinámica si se desea
       })
       .catch((error) => console.error("Error al cargar Rutas.json:", error));
-  }, []);
+  }, [userLocation]);
+
   //cuando se cargue una ruta
   useEffect(() => {
     if (rutaSeleccionada) {
