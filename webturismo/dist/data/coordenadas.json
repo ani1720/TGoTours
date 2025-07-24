@@ -1,0 +1,28 @@
+{
+  "ruta": [
+    { "nombre": "Circo Romano", 
+    "coordenadas": [1.257001, 41.116196],  
+    "imagen": "/assets/circoromanoo.jpg"
+  },
+    { "nombre": "Torre de las Monjas", 
+    "coordenadas":[1.257126, 41.115827],
+    "imagen" :"/assets/torre.jpg"
+  },
+    { "nombre": "Murallas de Tarragona", 
+    "coordenadas": [1.255697, 41.119163],
+    "imagen" : "/assets/muralla.jpg"
+  },
+    { "nombre": "Anfiteatro Romano", 
+    "coordenadas": [1.258777, 41.114746],
+    "imagen" : "/assets/anfiteatroTarragona.jpg"  
+  },
+    { "nombre": "Catedral de Tarragona", 
+    "coordenadas": [1.257763, 41.118882],
+    "imagen" : "/assets/catedral.jpg"
+    } ,
+    { "nombre": "Portal San Antoni", 
+    "coordenadas": [1.260602, 41.118473],
+    "imagen" : "/assets/portalSant.jpg"
+  }
+  ]
+}
