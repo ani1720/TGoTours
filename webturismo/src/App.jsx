@@ -9,13 +9,15 @@ import Registro from "./Registro";
 import Home from "./Home";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "./firebase/firebaseConfig";
-import Mapa from './pages/Mapa';
-import Eventos from './pages/Eventos';
+import Mapa from "./pages/Mapa";
+import Eventos from "./pages/Eventos";
 import Footer from "./components/Footer";
-import EventoDetalle from './EventoDetalle'; // ajusta la ruta si es necesario
-import About from './pages/About';
+import EventosMes from "./pages/EventosMes"; 
+import About from "./pages/About";
 import Perfil from "./pages/Perfil";
-
+// import Comunidad from "./pages/comunidad";
+import NuevoHilo from "./pages/NuevoHilo"; 
+import ThreadDetail from "./pages/ThreadDetail"; 
 
 function App() {
   const [usuario, setUsuario] = useState(null);
@@ -47,6 +49,20 @@ function App() {
     obtenerNombreUsuario();
   }, [usuario]);
 
+  useEffect(() => {
+    const cargarPerfil = async () => {
+      if (usuario?.uid) {
+        const refDoc = doc(db, "usuarios", usuario.uid);
+        const snap = await getDoc(refDoc);
+        if (snap.exists()) {
+          const datos = snap.data();
+          setUsuario((prev) => ({ ...prev, ...datos }));
+        }
+      }
+    };
+    cargarPerfil();
+  }, [usuario?.uid]);
+
   return (
     <>
       <Header
@@ -64,10 +80,13 @@ function App() {
         <Route path="/rutas/*" element={<Ruta />} />
         <Route path="/mapa" element={<Mapa />} />
         <Route path="/eventos" element={<Eventos />} />
-        <Route path="/eventos/:titulo" element={<EventoDetalle />} />
-        <Route path="/about" element={<About/>} />
+        <Route path="/eventos/:mes" element={<EventosMes />} />
+        <Route path="/about" element={<About />} />
         <Route path="/perfil" element={<Perfil />} />
         <Route path="/perfil" element={<Perfil />} />
+        {/* <Route path="/comunidad" element={<Comunidad />} /> */}
+        <Route path="/nuevo-hilo" element={<NuevoHilo usuario={usuario} />} />
+        <Route path="/hilo/:threadId" element={<ThreadDetail usuario={usuario} />} />
       </Routes>
       <Footer />
     </>

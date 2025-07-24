@@ -38,9 +38,11 @@ function Header({ usuario, nombreUsuario, cerrarSesion }) {
     <header className="navbar">
       <div className="logo">
         <Link to="/">
-          <img src={LogoAll} alt="Logo TgoTours" style={{ cursor: "pointer" }} />
-          {/* <img src={Logo} alt="Logo TgoTours" style={{ cursor: "pointer" }} />
-          <img src={WebName} alt="Nombre web" /> */}
+          {/* <img src={LogoAll} alt="Logo TgoTours" style={{ cursor: "pointer" }} /> */}
+          <img src={Logo} alt="Logo TgoTours" style={{ cursor: "pointer" }} />
+          <div className="name-web">
+            <img src={WebName} alt="Nombre web" />
+            </div> 
         </Link>
       </div>
 

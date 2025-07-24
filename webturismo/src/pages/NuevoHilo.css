@@ -1,0 +1,55 @@
+/* src/pages/NuevoHilo.css */
+
+.nuevo-hilo {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .nuevo-hilo h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    color: #333;
+  }
+  
+  .nuevo-hilo form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .nuevo-hilo input,
+  .nuevo-hilo textarea {
+    padding: 0.75rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    resize: vertical;
+  }
+  
+  .nuevo-hilo input:focus,
+  .nuevo-hilo textarea:focus {
+    outline: none;
+    border-color: #0077cc;
+    box-shadow: 0 0 0 2px rgba(0, 119, 204, 0.2);
+  }
+  
+  .nuevo-hilo button {
+    padding: 0.75rem 1rem;
+    background-color: #0077cc;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .nuevo-hilo button:hover {
+    background-color: #005fa3;
+  }
+  

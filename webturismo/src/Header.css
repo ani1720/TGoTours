@@ -29,10 +29,26 @@ header {
   align-items: center;
   padding: 1rem 2rem;
 }
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* Espacio entre logo y nombre web */
+}
 .logo img {
   height: 80px;
   object-fit: contain;
+  display: block;
 }
+.name-web {
+  display: flex;
+  justify-content: flex-end; 
+  /* align-items: center;        */
+}
+
+.name-web img {
+  height: 80px; /* Adjust as needed */
+}
+
 
 nav a:hover {
   color: #00CFEA;
@@ -51,7 +67,6 @@ nav a:hover {
   font-weight: 600;
   transition: color 0.3s ease;
 }
-
 .auth-buttons {
   display: flex;
   align-items: center;

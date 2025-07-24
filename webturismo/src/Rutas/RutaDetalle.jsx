@@ -35,13 +35,18 @@ const RutaDetalle = () => {
 
 
     // Cargar datos de Rutas.json
-    fetch("/data/Rutas.json")
-      .then((res) => res.json())
-      .then((rutas) => {
-        setRutaSeleccionada(rutas[0]); // Se puede cambiar por ruta dinámica si se desea
-      })
-      .catch((error) => console.error("Error al cargar Rutas.json:", error));
-  }, [userLocation]);
+   const cargarRutas = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "rutas"));
+        const rutasData = [];
+        querySnapshot.forEach((doc) => rutasData.push(doc.data()));
+        if (rutasData.length > 0) setRutaSeleccionada(rutasData[0]);
+      } catch (error) {
+        console.error("Error al cargar rutas desde Firebase:", error);
+      }
+    };
+    cargarRutas();
+    }, [userLocation]);
 
   //cuando se cargue una ruta
   useEffect(() => {
