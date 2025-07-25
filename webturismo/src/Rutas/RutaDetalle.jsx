@@ -1,22 +1,34 @@
 import React, { useEffect, useRef, useState } from "react";
 import L from "leaflet";
 import useUserLocation from "../Hooks/useUserLocation";
-import { useLocation } from "react-router-dom";
-import { collection, getDocs } from "firebase/firestore";
+import { useParams } from "react-router-dom";
+import {
+  collection,
+  addDoc,
+  query,
+  orderBy,
+  onSnapshot,
+  serverTimestamp,
+  doc,
+  deleteDoc,
+} from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
+import { useUser } from "../context/UserContext";
+
 
 const RutaDetalle = () => {
+  const { id } = useParams(); // 🔑 Usamos el ID de la URL
   const mapRef = useRef(null);
   const [rutaSeleccionada, setRutaSeleccionada] = useState(null);
   const [comentarios, setComentarios] = useState([]);
   const [nuevoComentario, setNuevoComentario] = useState("");
   const userLocation = useUserLocation();
+  const usuario = useUser();
 
   useEffect(() => {
     const mapContainer = document.getElementById("map");
     if (!mapContainer || mapRef.current) return;
 
-    // Crear mapa solo una vez
     mapRef.current = L.map("map").setView([41.117, 1.25], 14);
 
     L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png", {
@@ -24,36 +36,33 @@ const RutaDetalle = () => {
         '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors & CartoDB',
     }).addTo(mapRef.current);
 
-    // Si existe la ubicación del usuario, agregar marcador
-    if (userLocation) {
-      L.marker(userLocation)
-        .addTo(mapRef.current)
-        .bindPopup("📍 Tu ubicación")
-        .openPopup();
-    }
-    console.log("📍 Ubicación detectada:", userLocation);
+    fetch("/data/Rutas.json")
+      .then((res) => res.json())
+      .then((rutas) => {
+        const ruta = rutas.find((r) => String(r.id) === id); // 🔍 Buscar por ID
+        setRutaSeleccionada(ruta || rutas[0]); // Fallback si no se encuentra
+      })
+      .catch((error) => console.error("Error al cargar Rutas.json:", error));
+  }, [id]);
 
-
-    // Cargar datos de Rutas.json
-   const cargarRutas = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, "rutas"));
-        const rutasData = [];
-        querySnapshot.forEach((doc) => rutasData.push(doc.data()));
-        if (rutasData.length > 0) setRutaSeleccionada(rutasData[0]);
-      } catch (error) {
-        console.error("Error al cargar rutas desde Firebase:", error);
-      }
-    };
-    cargarRutas();
-    }, [userLocation]);
-
-  //cuando se cargue una ruta
   useEffect(() => {
     if (rutaSeleccionada) {
       obtenerRuta(rutaSeleccionada.coordenadasJSON);
     }
   }, [rutaSeleccionada, userLocation]);
+
+  useEffect(() => {
+    if (!id) return;
+    const q = query(
+      collection(db, "rutas", id, "comments"),
+      orderBy("createdAt", "asc")
+    );
+    const unsubscribe = onSnapshot(q, (snap) => {
+      const lista = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      setComentarios(lista);
+    });
+    return () => unsubscribe();
+  }, [id]);
 
   const obtenerRuta = async (coordenadasURL) => {
     try {
@@ -65,37 +74,24 @@ const RutaDetalle = () => {
       if (userLocation && mapRef.current) {
         L.marker(userLocation).addTo(mapRef.current).bindPopup("Tu ubicación");
       }
+
       mapRef.current.eachLayer((layer) => {
         if (layer instanceof L.Marker || layer instanceof L.GeoJSON) {
           mapRef.current.removeLayer(layer);
         }
       });
-      //Insertar ubicacion del Usuario como primer punto si existe
-      // Si hay userLocation, agrégalo al inicio (también en [lng, lat])
-
-      //Dibuja los marcadores
-      // coordenadas.forEach((coord, i) => {
-      //   L.marker(coord.slice().reverse())
-      //     .addTo(mapRef.current)
-      //     .bindPopup(
-      //       +i === 0 && userLocation
-      //         ? "Tu ubicacion"
-      //         : data.ruta[i - (userLocation ? 1 : 0)].nombre
-      //     );
-      //   // coord.reverse(); // Regresamos a [lng, lat] para ORS
-      // });
 
       coordenadas.forEach((coord, i) => {
         const punto = data.ruta[i - (userLocation ? 1 : 0)];
         let popupContent;
 
         if (+i === 0 && userLocation) {
-          popupContent = "Tu ubicacion";
+          popupContent = "Tu ubicación";
         } else if (punto) {
           popupContent = `
-      <strong>${punto.nombre}</strong><br>
-      <img src="${punto.imagen}" alt="${punto.nombre}" style="max-width:150px;max-height:100px;" />
-    `;
+            <strong>${punto.nombre}</strong><br>
+            <img src="${punto.imagen}" alt="${punto.nombre}" style="max-width:150px;max-height:100px;" />
+          `;
         } else {
           popupContent = "";
         }
@@ -105,7 +101,6 @@ const RutaDetalle = () => {
           .bindPopup(popupContent);
       });
 
-      //solicita ruta a ors
       const orsResponse = await fetch(
         "https://api.openrouteservice.org/v2/directions/foot-walking/geojson",
         {
@@ -135,10 +130,29 @@ const RutaDetalle = () => {
     }
   };
 
-  const publicarComentario = () => {
-    if (nuevoComentario.trim() === "") return;
-    setComentarios([...comentarios, nuevoComentario.trim()]);
+  const publicarComentario = async () => {
+    if (!nuevoComentario.trim() || !usuario?.uid || !id) return;
+
+    const fotoURL = usuario.fotoURL ? usuario.fotoURL : null;
+
+    await addDoc(collection(db, "rutas", id, "comments"), {
+      content: nuevoComentario.trim(),
+      authorId: usuario.uid,
+      authorName: usuario.displayName || usuario.email,
+      fotoURL,
+      createdAt: serverTimestamp(),
+    });
+
     setNuevoComentario("");
+  };
+
+  const eliminarComentario = async (commentId) => {
+    try {
+      const refDoc = doc(db, "rutas", id, "comments", commentId);
+      await deleteDoc(refDoc);
+    } catch (error) {
+      console.error("Error al eliminar el comentario:", error);
+    }
   };
 
   return (
@@ -149,9 +163,7 @@ const RutaDetalle = () => {
           <span className={`badge ${rutaSeleccionada.tipo}`}>
             {rutaSeleccionada.tipo}
           </span>
-          <p>
-            <strong>Duración:</strong> {rutaSeleccionada.duracion}
-          </p>
+          <p><strong>Duración:</strong> {rutaSeleccionada.duracion}</p>
           <p>{rutaSeleccionada.descripcion}</p>
 
           <h3>Puntos de interés:</h3>
@@ -165,22 +177,62 @@ const RutaDetalle = () => {
 
       <h3>Mapa de la ruta</h3>
       <div id="map" style={{ height: "70vh", marginBottom: "2rem" }}></div>
-
+      
       <h3>Foro de la ruta</h3>
-      <textarea
-        value={nuevoComentario}
-        onChange={(e) => setNuevoComentario(e.target.value)}
-        placeholder="Escribe tu comentario..."
-        rows={3}
-        style={{ width: "100%", padding: "0.5rem", marginBottom: "0.5rem" }}
-      />
-      <button onClick={publicarComentario}>Publicar</button>
+      {usuario && usuario.uid ? (
+        <>
+          <textarea
+            value={nuevoComentario}
+            onChange={(e) => setNuevoComentario(e.target.value)}
+            placeholder="Escribe tu comentario..."
+            rows={3}
+            style={{ width: "100%", padding: "0.5rem", marginBottom: "0.5rem" }}
+          />
+          <button onClick={publicarComentario}>💬 Comentar</button>
+        </>
+      ) : (
+        <p>Debes iniciar sesión para comentar.</p>
+      )}
+
       <ul style={{ marginTop: "1rem" }}>
-        {comentarios.map((comentario, idx) => (
-          <li key={idx} style={{ marginBottom: "0.3rem" }}>
-            💬 {comentario}
-          </li>
-        ))}
+        {comentarios.map((c) => {
+          const initials = c.authorName
+            ? c.authorName[0].toUpperCase() + c.authorName.slice(-1).toUpperCase()
+            : "U";
+
+          const avatarURL = c.fotoURL
+            ? c.fotoURL
+            : `https://ui-avatars.com/api/?name=${initials}&background=random&color=fff&size=128`;
+
+          return (
+            <li key={c.id} style={{ display: "flex", alignItems: "flex-start", gap: "0.5rem", marginBottom: "1rem" }}>
+              <img
+                src={avatarURL}
+                alt="Avatar"
+                style={{ width: "32px", height: "32px", borderRadius: "50%", objectFit: "cover" }}
+              />
+              <div>
+                <strong>{c.authorName}</strong>
+                <p>{c.content}</p>
+                {usuario?.uid === c.authorId && (
+                  <button
+                    onClick={() => eliminarComentario(c.id)}
+                    style={{
+                      background: "transparent",
+                      border: "none",
+                      color: "#cc0000",
+                      cursor: "pointer",
+                      fontSize: "0.9rem",
+                      marginTop: "0.25rem",
+                    }}
+                  >
+                    🗑️ Eliminar
+                  </button>
+                )}
+              </div>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );

@@ -12,16 +12,20 @@ import { db } from "./firebase/firebaseConfig";
 import Mapa from "./pages/Mapa";
 import Eventos from "./pages/Eventos";
 import Footer from "./components/Footer";
+import EventoDetalle from "./EventoDetalle";
 import EventosMes from "./pages/EventosMes"; 
 import About from "./pages/About";
 import Perfil from "./pages/Perfil";
-// import Comunidad from "./pages/comunidad";
-import NuevoHilo from "./pages/NuevoHilo"; 
-import ThreadDetail from "./pages/ThreadDetail"; 
+import Comunidad from "./pages/comunidad";
+import NuevoHilo from "./pages/NuevoHilo";
+import ThreadDetail from "./pages/ThreadDetail";
+import RutaDetalle from "./Rutas/RutaDetalle";
+import { UserContext } from "./context/UserContext"
 
 function App() {
   const [usuario, setUsuario] = useState(null);
   const [nombreUsuario, setNombreUsuario] = useState("");
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -61,18 +65,29 @@ function App() {
       }
     };
     cargarPerfil();
-  }, [usuario?.uid]);
+  }, [usuario]);
 
   return (
     <>
       <Header
         usuario={usuario}
         nombreUsuario={nombreUsuario}
-        cerrarSesion={() => {
-          import("firebase/auth").then(({ signOut }) => signOut(auth));
+        cerrarSesion={async () => {
+          const { signOut } = await import("firebase/auth");
+          try {
+            await signOut(auth);
+            // Espera a que Firebase actualice el estado
+            setUsuario(null);
+            setNombreUsuario("");
+            setRefresh((prev) => !prev);
+            // Opcional: redirige al home
+            window.location.href = "/";
+          } catch (error) {
+            console.error("Error al cerrar sesión:", error);
+          }
         }}
       />
-
+<UserContext.Provider value={usuario}>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
@@ -84,10 +99,15 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/perfil" element={<Perfil />} />
         <Route path="/perfil" element={<Perfil />} />
-        {/* <Route path="/comunidad" element={<Comunidad />} /> */}
+        <Route path="/comunidad" element={<Comunidad />} />
         <Route path="/nuevo-hilo" element={<NuevoHilo usuario={usuario} />} />
-        <Route path="/hilo/:threadId" element={<ThreadDetail usuario={usuario} />} />
+        <Route
+          path="/hilo/:threadId"
+          element={<ThreadDetail usuario={usuario} />}
+        />
+        <Route path="/ruta/:id" element={<RutaDetalle usuario={usuario} />} />
       </Routes>
+      </UserContext.Provider>
       <Footer />
     </>
   );

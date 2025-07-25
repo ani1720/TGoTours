@@ -3,11 +3,13 @@ import { createPortal } from "react-dom";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import Logo from "./assets/Logo2.png";
-import WebName from "./assets/webname.png"
-import LogoAll from "./assets/logounion.png"
+import nameWeb from "./assets/webname.png";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "./firebase/firebaseConfig";
 
 function Header({ usuario, nombreUsuario, cerrarSesion }) {
   const [menuAbierto, setMenuAbierto] = useState(false);
+  const [fotoPerfil, setFotoPerfil] = useState(null);
   const navigate = useNavigate();
 
   const triggerRef = useRef();
@@ -15,7 +17,7 @@ function Header({ usuario, nombreUsuario, cerrarSesion }) {
 
   const [triggerPos, setTriggerPos] = useState({ top: 0, left: 0 });
   const [triggerHeight, setTriggerHeight] = useState(0);
-  // Cerrar menú si clic fuera
+
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -34,18 +36,28 @@ function Header({ usuario, nombreUsuario, cerrarSesion }) {
     }
   }, [menuAbierto]);
 
+  useEffect(() => {
+    const obtenerFoto = async () => {
+      if (usuario?.uid) {
+        const refDoc = doc(db, "usuarios", usuario.uid);
+        const snap = await getDoc(refDoc);
+        if (snap.exists()) {
+          const datos = snap.data();
+          setFotoPerfil(datos.fotoURL || null);
+        }
+      }
+    };
+    obtenerFoto();
+  }, [usuario]);
+
   return (
     <header className="navbar">
       <div className="logo">
         <Link to="/">
-          {/* <img src={LogoAll} alt="Logo TgoTours" style={{ cursor: "pointer" }} /> */}
           <img src={Logo} alt="Logo TgoTours" style={{ cursor: "pointer" }} />
-          <div className="name-web">
-            <img src={WebName} alt="Nombre web" />
-            </div> 
+          <img src={nameWeb} alt="nombre Web" />
         </Link>
       </div>
-
 
       <nav className="nav-links">
         <Link to="/">HOME</Link>
@@ -53,6 +65,7 @@ function Header({ usuario, nombreUsuario, cerrarSesion }) {
         <Link to="/eventos">EVENTOS</Link>
         <Link to="/mapa">MAP</Link>
         <Link to="/rutas">RUTAS</Link>
+        <Link to="/comunidad">COMUNIDAD</Link>
       </nav>
 
       <div
@@ -65,7 +78,16 @@ function Header({ usuario, nombreUsuario, cerrarSesion }) {
             <button
               className="usuario-trigger"
               onClick={() => setMenuAbierto(!menuAbierto)}
+              ref={triggerRef}
             >
+              <img
+                src={
+                  fotoPerfil ||
+                  `https://ui-avatars.com/api/?name=${nombreUsuario}&background=random&color=fff&size=128`
+                }
+                alt="Avatar"
+                className="avatar-header"
+              />
               {nombreUsuario} ▼
             </button>
 
@@ -96,4 +118,5 @@ function Header({ usuario, nombreUsuario, cerrarSesion }) {
     </header>
   );
 }
+
 export default Header;
