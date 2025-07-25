@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { auth, db } from "../firebase/firebaseConfig";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { updateProfile } from "firebase/auth";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 import { storage } from "../firebase/firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
 import { sendPasswordResetEmail } from "firebase/auth";
@@ -55,6 +55,27 @@ function Perfil() {
     return () => unsubscribe();
   }, []);
 
+  const handleEliminarFoto = async () => {
+    try {
+      if (!usuario?.uid || !form.fotoURL) return;
+  
+      // Extraer nombre del archivo desde la URL
+      const nombreArchivo = form.fotoURL.split("%2F")[1].split("?")[0];
+      const storageRef = ref(storage, `fotosPerfil/${nombreArchivo}`);
+      await deleteObject(storageRef);
+  
+      // Eliminar campo fotoURL en Firestore
+      const refDoc = doc(db, "usuarios", usuario.uid);
+      await updateDoc(refDoc, { fotoURL: "" });
+  
+      // Actualizar estado local
+      setForm((prev) => ({ ...prev, fotoURL: "" }));
+      console.log("Foto de perfil eliminada");
+    } catch (error) {
+      console.error("Error al eliminar la foto:", error);
+    }
+  };
+  
   const handleUpdate = async () => {
     const refDoc = doc(db, "usuarios", usuario.uid);
     await updateDoc(refDoc, { nombreUsuario: form.nombreUsuario });
@@ -136,7 +157,7 @@ function Perfil() {
             }
           }}
         />
-
+        <button onClick={handleEliminarFoto}>🧼 Eliminar foto de perfil</button>
         <button onClick={handleUpdate}>💾 Guardar cambios</button>
         <button onClick={handleEnviarCorreoRecuperacion}>
           📩 Enviar correo para cambiar contraseña
