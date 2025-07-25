@@ -29,15 +29,55 @@ header {
   align-items: center;
   padding: 1rem 2rem;
 }
-.logo {
+.site-header {
+  background-color: #2c2f5b;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+}
+
+/* Contenedor que une imagen + texto */
+.logo-container {
   display: flex;
   align-items: center;
-  gap: 1rem; /* Espacio entre logo y nombre web */
+  gap: 1rem;
 }
-.logo img {
+
+/* Altura fija del logo */
+.logo-img {
   height: 80px;
   object-fit: contain;
-  display: block;
+  display: flex;
+}
+/* Definimos la variable en el header */
+.site-header {
+  --logo-height: 80px;
+}
+
+/* Usamos la variable para tamaño de fuente y línea */
+.logo-text {
+  font-family: 'Montserrat', sans-serif;
+  text-transform: uppercase;
+  font-size: calc(var(--logo-height) * 0.5); /* Ajusta 0.5 al ratio deseado */
+  line-height: var(--logo-height);
+  margin: 0;
+  display: inline-flex;
+  align-items: end;
+  gap: 0.2em;
+   white-space: nowrap;
+}
+.logo-text .g {
+  color: #008080;   /* Teal */
+}
+
+.logo-text .o {
+  color: #FFA500;   /* Orange */
+  margin-right: 0.2em;
+}
+
+.logo-text .tours {
+  color: #FFFFFF;
 }
 .name-web {
   display: flex;

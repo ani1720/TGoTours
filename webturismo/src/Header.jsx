@@ -51,11 +51,15 @@ function Header({ usuario, nombreUsuario, cerrarSesion }) {
   }, [usuario]);
 
   return (
-    <header className="navbar">
-      <div className="logo">
+    <header className="site.header">
+      <div className="brand">
         <Link to="/">
-          <img src={Logo} alt="Logo TgoTours" style={{ cursor: "pointer" }} />
-          <img src={nameWeb} alt="nombre Web" />
+          <img src={Logo} alt="Logo TgoTours" className="logo-img" />
+          {/* <img src={nameWeb} alt="nombre Web" /> */}
+          <h1 className="logo-text">
+            <span className="g">G</span><span className="o">O</span>
+            <span className="tours">TOURS</span>
+          </h1>
         </Link>
       </div>
 

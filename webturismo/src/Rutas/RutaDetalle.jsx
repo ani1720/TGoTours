@@ -11,10 +11,10 @@ import {
   serverTimestamp,
   doc,
   deleteDoc,
+  getDoc,
 } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
 import { useUser } from "../context/UserContext";
-
 
 const RutaDetalle = () => {
   const { id } = useParams(); // 🔑 Usamos el ID de la URL
@@ -29,6 +29,7 @@ const RutaDetalle = () => {
     const mapContainer = document.getElementById("map");
     if (!mapContainer || mapRef.current) return;
 
+    // Crear mapa solo una vez
     mapRef.current = L.map("map").setView([41.117, 1.25], 14);
 
     L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png", {
@@ -36,20 +37,51 @@ const RutaDetalle = () => {
         '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors & CartoDB',
     }).addTo(mapRef.current);
 
-    fetch("/data/Rutas.json")
-      .then((res) => res.json())
-      .then((rutas) => {
-        const ruta = rutas.find((r) => String(r.id) === id); // 🔍 Buscar por ID
-        setRutaSeleccionada(ruta || rutas[0]); // Fallback si no se encuentra
-      })
-      .catch((error) => console.error("Error al cargar Rutas.json:", error));
-  }, [id]);
+    // Si existe la ubicación del usuario, agregar marcador
+    if (userLocation) {
+      L.marker(userLocation)
+        .addTo(mapRef.current)
+        .bindPopup("📍 Tu ubicación")
+        .openPopup();
+    }
+    console.log("📍 Ubicación detectada:", userLocation);
+
+    // Cargar datos de Rutas.json
+    //  const cargarRutas = async () => {
+    //     try {
+    //       const querySnapshot = await getDocs(collection(db, "Rutas", id));
+    //       const rutasData = [];
+    //       querySnapshot.forEach((doc) => rutasData.push(doc.data()));
+    //       if (rutasData.length > 0) setRutaSeleccionada(rutasData[0]);
+    //     } catch (error) {
+    //       console.error("Error al cargar rutas desde Firebase:", error);
+    //     }
+    //   };
+    //   cargarRutas();
+  }, [userLocation]);
 
   useEffect(() => {
-    if (rutaSeleccionada) {
-      obtenerRuta(rutaSeleccionada.coordenadasJSON);
+  const cargarRutaPorId = async () => {
+    try {
+      console.log("🆔 ID recibido:", id); // Verifica el ID
+      const docRef = doc(db, "rutas", id);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        console.log("✅ Documento encontrado:", docSnap.data());
+        setRutaSeleccionada(docSnap.data());
+      } else {
+        console.warn("⚠️ No se encontró la ruta con el ID:", id);
+      }
+    } catch (error) {
+      console.error("❌ Error al cargar la ruta:", error);
     }
-  }, [rutaSeleccionada, userLocation]);
+  };
+
+  if (id) cargarRutaPorId();
+}, [id]);
+
+  //cuando se cargue una ruta
 
   useEffect(() => {
     if (!id) return;
@@ -64,34 +96,48 @@ const RutaDetalle = () => {
     return () => unsubscribe();
   }, [id]);
 
-  const obtenerRuta = async (coordenadasURL) => {
+  const obtenerRuta = async () => {
     try {
-      const response = await fetch(coordenadasURL);
-      const data = await response.json();
+      // const response = await fetch(coordenadasURL);
+      //   const data = await response.json();
+      const data = rutaSeleccionada;
 
       let coordenadas = data.ruta.map((p) => p.coordenadas);
 
       if (userLocation && mapRef.current) {
         L.marker(userLocation).addTo(mapRef.current).bindPopup("Tu ubicación");
       }
-
       mapRef.current.eachLayer((layer) => {
         if (layer instanceof L.Marker || layer instanceof L.GeoJSON) {
           mapRef.current.removeLayer(layer);
         }
       });
+      //Insertar ubicacion del Usuario como primer punto si existe
+      // Si hay userLocation, agrégalo al inicio (también en [lng, lat])
+
+      //Dibuja los marcadores
+      // coordenadas.forEach((coord, i) => {
+      //   L.marker(coord.slice().reverse())
+      //     .addTo(mapRef.current)
+      //     .bindPopup(
+      //       +i === 0 && userLocation
+      //         ? "Tu ubicacion"
+      //         : data.ruta[i - (userLocation ? 1 : 0)].nombre
+      //     );
+      //   // coord.reverse(); // Regresamos a [lng, lat] para ORS
+      // });
 
       coordenadas.forEach((coord, i) => {
         const punto = data.ruta[i - (userLocation ? 1 : 0)];
         let popupContent;
 
         if (+i === 0 && userLocation) {
-          popupContent = "Tu ubicación";
+          popupContent = "Tu ubicacion";
         } else if (punto) {
           popupContent = `
-            <strong>${punto.nombre}</strong><br>
-            <img src="${punto.imagen}" alt="${punto.nombre}" style="max-width:150px;max-height:100px;" />
-          `;
+      <strong>${punto.nombre}</strong><br>
+      <img src="${punto.imagen}" alt="${punto.nombre}" style="max-width:150px;max-height:100px;" />
+    `;
         } else {
           popupContent = "";
         }
@@ -100,7 +146,13 @@ const RutaDetalle = () => {
           .addTo(mapRef.current)
           .bindPopup(popupContent);
       });
+      useEffect(() => {
+        if (rutaSeleccionada) {
+          obtenerRuta(rutaSeleccionada.coordenadasJSON);
+        }
+      }, [rutaSeleccionada, userLocation]);
 
+      //solicita ruta a ors
       const orsResponse = await fetch(
         "https://api.openrouteservice.org/v2/directions/foot-walking/geojson",
         {
@@ -154,7 +206,6 @@ const RutaDetalle = () => {
       console.error("Error al eliminar el comentario:", error);
     }
   };
-
   return (
     <div className="ruta-detalle-container" style={{ padding: "1rem" }}>
       {rutaSeleccionada && (
@@ -163,7 +214,9 @@ const RutaDetalle = () => {
           <span className={`badge ${rutaSeleccionada.tipo}`}>
             {rutaSeleccionada.tipo}
           </span>
-          <p><strong>Duración:</strong> {rutaSeleccionada.duracion}</p>
+          <p>
+            <strong>Duración:</strong> {rutaSeleccionada.duracion}
+          </p>
           <p>{rutaSeleccionada.descripcion}</p>
 
           <h3>Puntos de interés:</h3>
@@ -177,7 +230,7 @@ const RutaDetalle = () => {
 
       <h3>Mapa de la ruta</h3>
       <div id="map" style={{ height: "70vh", marginBottom: "2rem" }}></div>
-      
+
       <h3>Foro de la ruta</h3>
       {usuario && usuario.uid ? (
         <>
@@ -197,7 +250,8 @@ const RutaDetalle = () => {
       <ul style={{ marginTop: "1rem" }}>
         {comentarios.map((c) => {
           const initials = c.authorName
-            ? c.authorName[0].toUpperCase() + c.authorName.slice(-1).toUpperCase()
+            ? c.authorName[0].toUpperCase() +
+              c.authorName.slice(-1).toUpperCase()
             : "U";
 
           const avatarURL = c.fotoURL
@@ -205,11 +259,24 @@ const RutaDetalle = () => {
             : `https://ui-avatars.com/api/?name=${initials}&background=random&color=fff&size=128`;
 
           return (
-            <li key={c.id} style={{ display: "flex", alignItems: "flex-start", gap: "0.5rem", marginBottom: "1rem" }}>
+            <li
+              key={c.id}
+              style={{
+                display: "flex",
+                alignItems: "flex-start",
+                gap: "0.5rem",
+                marginBottom: "1rem",
+              }}
+            >
               <img
                 src={avatarURL}
                 alt="Avatar"
-                style={{ width: "32px", height: "32px", borderRadius: "50%", objectFit: "cover" }}
+                style={{
+                  width: "32px",
+                  height: "32px",
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                }}
               />
               <div>
                 <strong>{c.authorName}</strong>
