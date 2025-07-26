@@ -21,6 +21,7 @@ import NuevoHilo from "./pages/NuevoHilo";
 import ThreadDetail from "./pages/ThreadDetail";
 import RutaDetalle from "./Rutas/RutaDetalle";
 import { UserContext } from "./context/UserContext"
+import FAQPage from "./pages/FAQPage";
 
 function App() {
   const [usuario, setUsuario] = useState(null);
@@ -106,6 +107,7 @@ function App() {
           element={<ThreadDetail usuario={usuario} />}
         />
         <Route path="/ruta/:id" element={<RutaDetalle usuario={usuario} />} />
+        <Route path="/faq" element={<FAQPage />} />
       </Routes>
       </UserContext.Provider>
       <Footer />

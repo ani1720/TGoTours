@@ -1,21 +1,25 @@
 import React from "react";
 import "./Footer.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFacebookF, faInstagram, faXTwitter } from "@fortawesome/free-brands-svg-icons";
+import {
+  faFacebookF,
+  faInstagram,
+  faXTwitter,
+} from "@fortawesome/free-brands-svg-icons";
 import { faUniversalAccess } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 const Footer = ({ activarAccesibilidad }) => {
   return (
     <footer className="footer">
       <div className="footer-contenedor">
-        
         <div className="footer-col">
           <h4>Accesibilidad</h4>
           <button className="btn-accesibilidad" onClick={activarAccesibilidad}>
             <FontAwesomeIcon icon={faUniversalAccess} /> Modo Accesible
           </button>
         </div>
-        
+
         <div className="footer-col">
           <h4>Turismo Tarragona</h4>
           <p>Explora la historia, cultura y belleza de nuestra ciudad.</p>
@@ -24,10 +28,23 @@ const Footer = ({ activarAccesibilidad }) => {
         <div className="footer-col">
           <h4>Enlaces útiles</h4>
           <ul>
-            <li><a href="/">Inicio</a></li>
-            <li><a href="/rutas">Rutas</a></li>
-            <li><a href="/login">Iniciar sesión</a></li>
-            <li><a href="/registro">Registro</a></li>
+            <ul>
+              <li>
+                <Link to="/">Inicio</Link>
+              </li>
+              <li>
+                <Link to="/rutas">Rutas</Link>
+              </li>
+              <li>
+                <Link to="/login">Iniciar sesión</Link>
+              </li>
+              <li>
+                <Link to="/registro">Registro</Link>
+              </li>
+              <li>
+                <Link to="/faq">Preguntas Frecuentes</Link>
+              </li>
+            </ul>
           </ul>
         </div>
 
@@ -50,7 +67,10 @@ const Footer = ({ activarAccesibilidad }) => {
       </div>
 
       <div className="footer-copy">
-        <p>© {new Date().getFullYear()} Turismo Tarragona. Todos los derechos reservados.</p>
+        <p>
+          © {new Date().getFullYear()} Turismo Tarragona. Todos los derechos
+          reservados.
+        </p>
       </div>
     </footer>
   );
