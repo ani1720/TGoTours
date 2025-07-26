@@ -230,3 +230,76 @@ html, body {
   object-fit: cover;
   border: 1px solid #ccc;
 }
+
+/* 📱 Estilos responsive para pantallas pequeñas */
+@media (max-width: 768px) {
+  .mapa-info-container {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .slider-wrapper {
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .slider-container {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .slider-item {
+    width: 150px;
+    height: 150px;
+  }
+
+  .card-detalle {
+    flex-direction: column;
+    padding: 1.5rem;
+    margin: 2rem 1rem;
+  }
+
+  .card-imagen img {
+    max-width: 100%;
+  }
+
+  .form-page, .perfil-page {
+    width: 95%;
+    margin: 2rem auto;
+    padding: 1.5rem;
+  }
+
+  .info h1 {
+    font-size: 2rem;
+  }
+
+  .info p, .card-info p {
+    font-size: 1rem;
+  }
+
+  .card-info h2 {
+    font-size: 1.5rem;
+  }
+
+  .image-box h2 {
+    font-size: 1.5rem;
+  }
+
+  .usuario-trigger {
+    font-size: 0.9rem;
+  }
+}
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+}
+#root, .main-container {
+  padding: 0;
+  max-width: 100%;
+  overflow-x: hidden;
+}
