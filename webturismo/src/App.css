@@ -303,3 +303,15 @@ html {
   max-width: 100%;
   overflow-x: hidden;
 }
+
+.guia-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  font-weight: 500;
+}
+.guia-foto {
+  object-fit: cover;
+}
+

@@ -1,46 +1,56 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom'; // si usas React Router
+import './FAQPage.css'; // Asegúrate de tener este archivo CSS para estilos
 
-const FAQPage = () => {
+const faqs = [
+  {
+    pregunta: "¿Cuál es la mejor época para visitar Tarragona?",
+    respuesta:
+      "La primavera y el otoño ofrecen temperaturas agradables y menos aglomeraciones. El verano es ideal para disfrutar de las playas.",
+  },
+  {
+    pregunta: "¿Necesito reservar para visitar los monumentos?",
+    respuesta:
+      "Algunos monumentos requieren reserva previa, especialmente en temporada alta. Recomendamos consultar la web oficial de turismo.",
+  },
+  {
+    pregunta: "¿Hay opciones de turismo accesible?",
+    respuesta:
+      "Sí, muchos espacios están adaptados para personas con movilidad reducida. Puedes activar el modo accesible en nuestra web para más información.",
+  },
+  {
+    pregunta: "¿Dónde puedo encontrar rutas guiadas?",
+    respuesta:
+      "Ofrecemos rutas guiadas temáticas que puedes consultar en el apartado 'Rutas'. También hay opciones privadas con guías locales.",
+  },
+];
+
+const FAQPage  = () => {
+  const [activo, setActivo] = useState(null);
+
+  const toggle = (index) => {
+    setActivo(activo === index ? null : index);
+  };
+
   return (
-    <div className="faq-container">
-      <h1>Preguntas Frecuentes</h1>
-      <p>¿Tienes dudas? Aquí respondemos las más comunes sobre nuestra plataforma.</p>
+    <div className="faq-page">
+      <h2>❓ Preguntas Frecuentes</h2>
+      <p>Resolvemos tus dudas más comunes sobre turismo en Tarragona.</p>
 
       <div className="faq-list">
-        <div className="faq-item">
-          <h3>¿Qué tipo de contenido ofrece esta web?</h3>
-          <p>Ofrecemos recursos educativos, herramientas interactivas y artículos especializados para ayudarte a aprender y explorar.</p>
-        </div>
-
-        <div className="faq-item">
-          <h3>¿Necesito crear una cuenta para acceder?</h3>
-          <p>Algunos contenidos están disponibles sin registro, pero para acceder a funciones avanzadas y guardar tu progreso, es necesario crear una cuenta gratuita.</p>
-        </div>
-
-        <div className="faq-item">
-          <h3>¿Cómo puedo recuperar mi contraseña?</h3>
-          <p>En la página de inicio de sesión, haz clic en “¿Olvidaste tu contraseña?” y sigue los pasos para restablecerla.</p>
-        </div>
-
-        <div className="faq-item">
-          <h3>¿Puedo colaborar con contenido o sugerencias?</h3>
-          <p>¡Sí! Nos encanta recibir ideas. Puedes enviarlas a través del formulario de contacto.</p>
-        </div>
-
-        <div className="faq-item">
-          <h3>¿Dónde puedo ver las novedades o actualizaciones?</h3>
-          <p>Publicamos noticias y actualizaciones en nuestra sección de blog y redes sociales.</p>
-        </div>
-      </div>
-
-      <div className="faq-contact">
-        <h2>¿No encontraste lo que buscabas?</h2>
-        <p>Si tu pregunta no está aquí, puedes contactarnos directamente.</p>
-        <Link to="/contacto" className="contact-button">Ir al formulario de contacto</Link>
+        {faqs.map((item, index) => (
+          <div
+            key={index}
+            className={`faq-item ${activo === index ? "activo" : ""}`}
+            onClick={() => toggle(index)}
+          >
+            <div className="faq-pregunta">{item.pregunta}</div>
+            {activo === index && <div className="faq-respuesta">{item.respuesta}</div>}
+          </div>
+        ))}
       </div>
     </div>
   );
 };
 
-export default FAQPage;
+export default FAQPage ;

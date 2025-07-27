@@ -36,10 +36,7 @@ const Footer = ({ activarAccesibilidad }) => {
                 <Link to="/rutas">Rutas</Link>
               </li>
               <li>
-                <Link to="/login">Iniciar sesión</Link>
-              </li>
-              <li>
-                <Link to="/registro">Registro</Link>
+                <Link to="/terminos">Terminos y condiciones</Link>
               </li>
               <li>
                 <Link to="/faq">Preguntas Frecuentes</Link>

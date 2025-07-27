@@ -70,6 +70,7 @@ function Header({ usuario, nombreUsuario, cerrarSesion }) {
         <Link to="/mapa">MAP</Link>
         <Link to="/rutas">RUTAS</Link>
         <Link to="/comunidad">COMUNIDAD</Link>
+        <Link to="/tours">FREE TOURS</Link>
       </nav>
 
       <div

@@ -13,16 +13,19 @@ import Mapa from "./pages/Mapa";
 import Eventos from "./pages/Eventos";
 import Footer from "./components/Footer";
 import EventoDetalle from "./EventoDetalle";
-import EventosMes from "./pages/EventosMes"; 
+import EventosMes from "./pages/EventosMes";
 import About from "./pages/About";
 import Perfil from "./pages/Perfil";
 import Comunidad from "./pages/comunidad";
 import NuevoHilo from "./pages/NuevoHilo";
 import ThreadDetail from "./pages/ThreadDetail";
 import RutaDetalle from "./Rutas/RutaDetalle";
-import { UserContext } from "./context/UserContext"
+import { UserContext } from "./context/UserContext";
 import FAQPage from "./pages/FAQPage";
 import Contacto from "./pages/Contacto";
+import Terminos from "./pages/Terminos";
+import CrearTour from "./pages/CrearTour";
+import FreeTours from "./pages/FreeTours";
 
 function App() {
   const [usuario, setUsuario] = useState(null);
@@ -89,28 +92,31 @@ function App() {
           }
         }}
       />
-<UserContext.Provider value={usuario}>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/registro" element={<Registro />} />
-        <Route path="/rutas/*" element={<Ruta />} />
-        <Route path="/mapa" element={<Mapa />} />
-        <Route path="/eventos" element={<Eventos />} />
-        <Route path="/eventos/:mes" element={<EventosMes />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/perfil" element={<Perfil />} />
-        <Route path="/perfil" element={<Perfil />} />
-        <Route path="/comunidad" element={<Comunidad />} />
-        <Route path="/nuevo-hilo" element={<NuevoHilo usuario={usuario} />} />
-        <Route
-          path="/hilo/:threadId"
-          element={<ThreadDetail usuario={usuario} />}
-        />
-        <Route path="/ruta/:id" element={<RutaDetalle usuario={usuario} />} />
-        <Route path="/faq" element={<FAQPage />} />
-        <Route path="/contacto" element={<Contacto />} />
-      </Routes>
+      <UserContext.Provider value={usuario}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/registro" element={<Registro />} />
+          <Route path="/rutas/*" element={<Ruta />} />
+          <Route path="/mapa" element={<Mapa />} />
+          <Route path="/eventos" element={<Eventos />} />
+          <Route path="/eventos/:mes" element={<EventosMes />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/perfil" element={<Perfil />} />
+          <Route path="/perfil" element={<Perfil />} />
+          <Route path="/comunidad" element={<Comunidad />} />
+          <Route path="/nuevo-hilo" element={<NuevoHilo usuario={usuario} />} />
+          <Route
+            path="/hilo/:threadId"
+            element={<ThreadDetail usuario={usuario} />}
+          />
+          <Route path="/ruta/:id" element={<RutaDetalle usuario={usuario} />} />
+          <Route path="/faq" element={<FAQPage />} />
+          <Route path="/contacto" element={<Contacto />} />
+          <Route path="/terminos" element={<Terminos />} />
+          <Route path="/crear-tour" element={<CrearTour user={usuario} />} />
+          <Route path="/tours" element={<FreeTours user={usuario} />} />
+        </Routes>
       </UserContext.Provider>
       <Footer />
     </>

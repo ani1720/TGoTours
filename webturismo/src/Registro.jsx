@@ -1,10 +1,8 @@
 import { useState } from "react";
 import { auth } from "./firebase/firebaseConfig";
 import { Link } from "react-router-dom";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, collection, query, where, getDocs, serverTimestamp } from "firebase/firestore";
 import { db } from "./firebase/firebaseConfig";
-import { collection, query, where, getDocs } from "firebase/firestore";
-import { serverTimestamp } from "firebase/firestore";
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
@@ -17,24 +15,28 @@ function Registro() {
   const [error, setError] = useState(null);
   const [mensaje, setMensaje] = useState(null);
   const [rol, setRol] = useState("turista");
+  const [aceptaTerminos, setAceptaTerminos] = useState(false); // 🆕 nuevo estado
 
   const handleRegistro = async (e) => {
     e.preventDefault();
     setMensaje(null);
     setError(null);
 
+    if (!aceptaTerminos) {
+      setError("⚠️ Debes aceptar los términos y condiciones para registrarte.");
+      return;
+    }
+
     try {
-      // 🧠 Validar si el nombre de usuario ya está tomado
       const usuariosRef = collection(db, "usuarios");
       const q = query(usuariosRef, where("nombreUsuario", "==", nombreUsuario));
       const querySnapshot = await getDocs(q);
 
       if (!querySnapshot.empty) {
         setError("⚠️ El nombre de usuario ya está en uso.");
-        return; // ⛔ detenemos el registro si ya existe
+        return;
       }
 
-      // ✅ Crear usuario en Auth
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
@@ -43,7 +45,6 @@ function Registro() {
       const uid = userCredential.user.uid;
       const user = userCredential.user;
 
-      // 🗂️ Guardar datos extra en Firestore
       await setDoc(doc(db, "usuarios", uid), {
         nombreUsuario,
         email,
@@ -51,21 +52,18 @@ function Registro() {
         rol,
       });
 
-      // ✉️ Enviar correo de verificación
       await sendEmailVerification(user);
-      // 🎉 Registro exitoso con mensaje reforzado
+
       setMensaje(
         `✅ Usuario creado: ${user.email}.
-  📩 Revisa tu bandeja de entrada para confirmar tu correo antes de iniciar sesión.`
+📩 Revisa tu bandeja de entrada y de spam para confirmar tu correo antes de iniciar sesión.`
       );
 
-      // 🎉 Registro exitoso
-      setMensaje(`✅ Usuario creado: ${user.email}. Verifica tu correo.`);
       setEmail("");
       setPassword("");
       setNombreUsuario("");
+      setAceptaTerminos(false); // 🧼 limpiar casilla
     } catch (err) {
-      // 🎯 Manejador de errores personalizado
       if (err.code === "auth/email-already-in-use") {
         setError("⚠️ Este correo ya está registrado.");
       } else if (err.code === "auth/invalid-email") {
@@ -122,6 +120,23 @@ function Registro() {
             <option value="turista">Turista</option>
             <option value="guia">Guía</option>
           </select>
+
+          {/* 🆕 Casilla de términos */}
+          <div style={{ marginTop: "1rem", fontSize: "0.95rem", color: "#ccc" }}>
+            <label>
+              <input
+                type="checkbox"
+                checked={aceptaTerminos}
+                onChange={(e) => setAceptaTerminos(e.target.checked)}
+                style={{ marginRight: "0.5rem" }}
+              />
+              Acepto los{" "}
+              <Link to="/terminos" target="_blank" style={{ color: "#00CFEA", textDecoration: "underline" }}>
+                términos y condiciones
+              </Link>
+            </label>
+          </div>
+
           <div style={{ textAlign: "center", marginTop: "1rem" }}>
             <button
               type="submit"
