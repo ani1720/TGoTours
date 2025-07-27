@@ -21,6 +21,7 @@ import NuevoHilo from "./pages/NuevoHilo";
 import ThreadDetail from "./pages/ThreadDetail";
 import RutaDetalle from "./Rutas/RutaDetalle";
 import { UserContext } from "./context/UserContext";
+import { UserProvider } from "./context/UserContext";
 import FAQPage from "./pages/FAQPage";
 import Contacto from "./pages/Contacto";
 import Terminos from "./pages/Terminos";
@@ -92,7 +93,7 @@ function App() {
           }
         }}
       />
-      <UserContext.Provider value={usuario}>
+      <UserProvider>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
@@ -117,7 +118,7 @@ function App() {
           <Route path="/crear-tour" element={<CrearTour user={usuario} />} />
           <Route path="/tours" element={<FreeTours user={usuario} />} />
         </Routes>
-      </UserContext.Provider>
+      </UserProvider>
       <Footer />
     </>
   );

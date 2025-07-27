@@ -1,0 +1,68 @@
+.crear-tour {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .crear-tour h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #333;
+  }
+  
+  .crear-tour form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .crear-tour input,
+  .crear-tour textarea {
+    padding: 0.75rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+  
+  .crear-tour input:focus,
+  .crear-tour textarea:focus {
+    border-color: #0077cc;
+    outline: none;
+  }
+  
+  .crear-tour textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  
+  .crear-tour button[type="submit"] {
+    padding: 0.75rem 1rem;
+    background-color: #0077cc;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .crear-tour button[type="submit"]:hover {
+    background-color: #005fa3;
+  }
+  
+  .crear-tour p {
+    text-align: center;
+    font-weight: bold;
+    color: green;
+  }
+
+  input[type="time"] {
+    padding: 0.75rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+  }

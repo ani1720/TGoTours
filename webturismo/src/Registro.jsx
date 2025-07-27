@@ -1,7 +1,15 @@
 import { useState } from "react";
 import { auth } from "./firebase/firebaseConfig";
-import { Link } from "react-router-dom";
-import { doc, setDoc, collection, query, where, getDocs, serverTimestamp } from "firebase/firestore";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  doc,
+  setDoc,
+  collection,
+  query,
+  where,
+  getDocs,
+  serverTimestamp,
+} from "firebase/firestore";
 import { db } from "./firebase/firebaseConfig";
 import {
   createUserWithEmailAndPassword,
@@ -15,28 +23,47 @@ function Registro() {
   const [error, setError] = useState(null);
   const [mensaje, setMensaje] = useState(null);
   const [rol, setRol] = useState("turista");
-  const [aceptaTerminos, setAceptaTerminos] = useState(false); // 🆕 nuevo estado
+  const [aceptaTerminos, setAceptaTerminos] = useState(false);
+  const navigate = useNavigate();
 
   const handleRegistro = async (e) => {
     e.preventDefault();
     setMensaje(null);
     setError(null);
 
+    // Validación personalizada
     if (!aceptaTerminos) {
       setError("⚠️ Debes aceptar los términos y condiciones para registrarte.");
       return;
     }
+    if (!email.includes("@")) {
+      setError("❌ El correo electrónico no es válido.");
+      return;
+    }
+    if (password.length < 6) {
+      setError("❌ La contraseña debe tener al menos 6 caracteres.");
+      return;
+    }
 
+    // Validar nombre de usuario duplicado
     try {
-      const usuariosRef = collection(db, "usuarios");
-      const q = query(usuariosRef, where("nombreUsuario", "==", nombreUsuario));
+      const q = query(
+        collection(db, "usuarios"),
+        where("nombreUsuario", "==", nombreUsuario)
+      );
       const querySnapshot = await getDocs(q);
-
       if (!querySnapshot.empty) {
-        setError("⚠️ El nombre de usuario ya está en uso.");
+        setError("❌ El nombre de usuario ya está en uso.");
         return;
       }
+    } catch (queryError) {
+      console.error("❌ Error al verificar nombre de usuario:", queryError);
+      setError("❌ No se pudo verificar el nombre de usuario.");
+      return;
+    }
 
+    // Crear usuario
+    try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
@@ -45,33 +72,50 @@ function Registro() {
       const uid = userCredential.user.uid;
       const user = userCredential.user;
 
-      await setDoc(doc(db, "usuarios", uid), {
-        nombreUsuario,
-        email,
-        fechaRegistro: serverTimestamp(),
-        rol,
-      });
+      console.log("✅ Usuario creado:", uid);
+
+      try {
+        await setDoc(doc(db, "usuarios", uid), {
+          nombreUsuario,
+          email,
+          fechaRegistro: serverTimestamp(),
+          rol,
+          fotoPerfil: user.photoURL || "",
+          nombreCompleto: user.displayName || "",
+        });
+        console.log("✅ Documento creado en Firestore");
+      } catch (firestoreError) {
+        console.error("❌ Error en setDoc:", firestoreError);
+        setError(`❌ Error en Firestore: ${firestoreError.message}`);
+        return;
+      }
 
       await sendEmailVerification(user);
 
-      setMensaje(
-        `✅ Usuario creado: ${user.email}.
-📩 Revisa tu bandeja de entrada y de spam para confirmar tu correo antes de iniciar sesión.`
-      );
-
+      setMensaje(`✅ Usuario creado: ${user.email}. Revisa tu correo.`);
       setEmail("");
       setPassword("");
       setNombreUsuario("");
-      setAceptaTerminos(false); // 🧼 limpiar casilla
-    } catch (err) {
-      if (err.code === "auth/email-already-in-use") {
-        setError("⚠️ Este correo ya está registrado.");
-      } else if (err.code === "auth/invalid-email") {
-        setError("⚠️ Formato de correo inválido.");
-      } else if (err.code === "auth/weak-password") {
-        setError("⚠️ La contraseña debe tener al menos 6 caracteres.");
-      } else {
-        setError("❌ Error al registrar el usuario.");
+      setAceptaTerminos(false);
+
+      // Redirigir después de unos segundos
+      setTimeout(() => {
+        navigate("/login");
+      }, 4000);
+    } catch (authError) {
+      console.error("❌ Error en createUserWithEmailAndPassword:", authError);
+      switch (authError.code) {
+        case "auth/email-already-in-use":
+          setError("❌ Este correo ya está registrado.");
+          break;
+        case "auth/invalid-email":
+          setError("❌ El correo no es válido.");
+          break;
+        case "auth/weak-password":
+          setError("❌ La contraseña es demasiado débil.");
+          break;
+        default:
+          setError("❌ Error al crear la cuenta.");
       }
     }
   };
@@ -121,7 +165,6 @@ function Registro() {
             <option value="guia">Guía</option>
           </select>
 
-          {/* 🆕 Casilla de términos */}
           <div style={{ marginTop: "1rem", fontSize: "0.95rem", color: "#ccc" }}>
             <label>
               <input
@@ -131,19 +174,18 @@ function Registro() {
                 style={{ marginRight: "0.5rem" }}
               />
               Acepto los{" "}
-              <Link to="/terminos" target="_blank" style={{ color: "#00CFEA", textDecoration: "underline" }}>
+              <Link
+                to="/terminos"
+                target="_blank"
+                style={{ color: "#00CFEA", textDecoration: "underline" }}
+              >
                 términos y condiciones
               </Link>
             </label>
           </div>
 
           <div style={{ textAlign: "center", marginTop: "1rem" }}>
-            <button
-              type="submit"
-              style={{
-                padding: "0.5rem 1rem",
-              }}
-            >
+            <button type="submit" style={{ padding: "0.5rem 1rem" }}>
               Registrarse
             </button>
           </div>

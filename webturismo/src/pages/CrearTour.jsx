@@ -1,31 +1,34 @@
-import { useContext, useState } from 'react';
-import { UserContext } from '../context/UserContext';
-import { db } from '../firebase/firebaseConfig';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { useState } from "react";
+import { useUser } from "../context/UserContext";
+import { db } from "../firebase/firebaseConfig";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import "./CrearTour.css";
 
 const CrearTour = () => {
-  const usuario = useContext(UserContext);
+  const { usuario, rol, cargando } = useUser();
+
   const [formData, setFormData] = useState({
-    titulo: '',
-    descripcion: '',
-    duracion: '',
-    fecha: '',
-    cupos: '',
-    ubicacion: ''
+    titulo: "",
+    descripcion: "",
+    duracion: "",
+    fecha: "",
+    horaInicio: "", // 🕒 nuevo campo
+    cupos: "",
+    ubicacion: "",
   });
-  const [mensaje, setMensaje] = useState('');
+  const [mensaje, setMensaje] = useState("");
 
   // ⏳ Esperar a que el usuario esté cargado
-  if (usuario === undefined) {
-    return null; // o un spinner si prefieres
-  }
+  if (cargando) return null;
 
-  // 🚫 Bloquear acceso si es turista
-  if (!usuario || usuario.role === 'turista') {
+  // 🚫 Bloquear acceso si no es guía
+  if (!usuario || rol !== "guia") {
     return (
       <div className="crear-tour">
         <h2>📍 Crear un Free Tour</h2>
-        <p style={{ color: 'red' }}>Solo los guías pueden acceder a esta sección.</p>
+        <p style={{ color: "red" }}>
+          Solo los guías pueden acceder a esta sección.
+        </p>
       </div>
     );
   }
@@ -38,34 +41,35 @@ const CrearTour = () => {
     e.preventDefault();
 
     // 🔒 Doble protección en el envío
-    if (!usuario || usuario.role !== 'guia') {
-      setMensaje('Acceso denegado. Solo los guías pueden crear tours.');
+    if (!usuario || rol !== "guia") {
+      setMensaje("Acceso denegado. Solo los guías pueden crear tours.");
       return;
     }
 
     try {
-      await addDoc(collection(db, 'tours'), {
+      await addDoc(collection(db, "freeTours"), {
         ...formData,
         guiaID: usuario.uid,
-        guiaNombre: usuario.displayName || 'Guía',
-        guiaFoto: usuario.photoURL || '', // puede ser un avatar por defecto si está vacío
+        guiaNombre: usuario.displayName || "Guía",
+        guiaFoto: usuario.photoURL || "",
         creadoEn: serverTimestamp(),
         inscritos: [],
-        reseñas: []
+        reseñas: [],
       });
-      
-      setMensaje('¡Tour creado con éxito!');
+
+      setMensaje("¡Tour creado con éxito!");
       setFormData({
-        titulo: '',
-        descripcion: '',
-        duracion: '',
-        fecha: '',
-        cupos: '',
-        ubicacion: ''
+        titulo: "",
+        descripcion: "",
+        duracion: "",
+        fecha: "",
+        horaInicio: "", 
+        cupos: "",
+        ubicacion: "",
       });
     } catch (error) {
-      console.error('Error al crear el tour:', error);
-      setMensaje('Hubo un error al crear el tour.');
+      console.error("Error al crear el tour:", error);
+      setMensaje("Hubo un error al crear el tour.");
     }
   };
 
@@ -101,6 +105,13 @@ const CrearTour = () => {
           type="date"
           name="fecha"
           value={formData.fecha}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="time"
+          name="horaInicio"
+          value={formData.horaInicio}
           onChange={handleChange}
           required
         />
