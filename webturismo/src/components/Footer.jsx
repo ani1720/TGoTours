@@ -52,6 +52,12 @@ const Footer = ({ activarAccesibilidad }) => {
           <h4>Contacto</h4>
           <p>Email: info@tarragonaturismo.com</p>
           <p>Teléfono: +34 123 456 789</p>
+          <ul>
+            <li>
+              <Link to="/contacto">Formulario de contacto</Link>
+            </li>
+          </ul>
+
           <div className="footer-redes">
             <a href="https://facebook.com" target="_blank" rel="noreferrer">
               <FontAwesomeIcon icon={faFacebookF} />

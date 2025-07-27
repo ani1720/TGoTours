@@ -22,6 +22,7 @@ import ThreadDetail from "./pages/ThreadDetail";
 import RutaDetalle from "./Rutas/RutaDetalle";
 import { UserContext } from "./context/UserContext"
 import FAQPage from "./pages/FAQPage";
+import Contacto from "./pages/Contacto";
 
 function App() {
   const [usuario, setUsuario] = useState(null);
@@ -108,6 +109,7 @@ function App() {
         />
         <Route path="/ruta/:id" element={<RutaDetalle usuario={usuario} />} />
         <Route path="/faq" element={<FAQPage />} />
+        <Route path="/contacto" element={<Contacto />} />
       </Routes>
       </UserContext.Provider>
       <Footer />
