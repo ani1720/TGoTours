@@ -32,6 +32,45 @@ function App() {
   const [usuario, setUsuario] = useState(null);
   const [nombreUsuario, setNombreUsuario] = useState("");
   const [refresh, setRefresh] = useState(false);
+  const [modoAccesible, setModoAccesible] = useState(false);
+
+  const activarAccesibilidad = () => {
+    setModoAccesible((prev) => {
+      const nuevoEstado = !prev;
+      if (nuevoEstado) {
+        document.body.classList.add("modo-accesible");
+      } else {
+        document.body.classList.remove("modo-accesible");
+      }
+      return nuevoEstado;
+    });
+  };
+
+   const leerTexto = (textoManual = null) => {
+    const speech = new SpeechSynthesisUtterance();
+    speech.lang = "es-ES";
+
+    if (textoManual) {
+      speech.text = textoManual;
+    } else {
+      const contenido = document.getElementById("main-content")?.innerText;
+      speech.text = contenido || "No se encontró contenido para leer.";
+    }
+
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(speech);
+  };
+  useEffect(() => {
+    const guardado = localStorage.getItem("modoAccesible");
+    if (guardado === "true") {
+      document.body.classList.add("modo-accesible");
+      setModoAccesible(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("modoAccesible", modoAccesible);
+  }, [modoAccesible]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -45,6 +84,8 @@ function App() {
     });
     return () => unsubscribe();
   }, []);
+
+
 
   useEffect(() => {
     const obtenerNombreUsuario = async () => {
@@ -119,7 +160,8 @@ function App() {
           <Route path="/tours" element={<FreeTours user={usuario} />} />
         </Routes>
       </UserProvider>
-      <Footer />
+      <Footer activarAccesibilidad={activarAccesibilidad}
+        modoAccesible={modoAccesible} leerTexto={leerTexto} />
     </>
   );
 }
