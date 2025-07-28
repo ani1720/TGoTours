@@ -46,7 +46,7 @@ function App() {
     });
   };
 
-   const leerTexto = (textoManual = null) => {
+  const leerTexto = (textoManual = null) => {
     const speech = new SpeechSynthesisUtterance();
     speech.lang = "es-ES";
 
@@ -84,8 +84,6 @@ function App() {
     });
     return () => unsubscribe();
   }, []);
-
-
 
   useEffect(() => {
     const obtenerNombreUsuario = async () => {
@@ -134,6 +132,17 @@ function App() {
           }
         }}
       />
+      <a
+        href="https://wa.me/34656280412" // cambia por tu número de WhatsApp con prefijo internacional sin "+" ni espacios
+        className="whatsapp-float"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Abrir WhatsApp"
+      >
+        <img src="https://icongr.am/fontawesome/whatsapp.svg?size=32&color=ffffff"
+         alt="WhatsApp" />
+
+      </a>
       <UserProvider>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -160,9 +169,12 @@ function App() {
           <Route path="/tours" element={<FreeTours user={usuario} />} />
         </Routes>
       </UserProvider>
-      <Footer activarAccesibilidad={activarAccesibilidad}
-        modoAccesible={modoAccesible} leerTexto={leerTexto} />
-      </>
+      <Footer
+        activarAccesibilidad={activarAccesibilidad}
+        modoAccesible={modoAccesible}
+        leerTexto={leerTexto}
+      />
+    </>
   );
 }
 

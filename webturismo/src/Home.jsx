@@ -48,38 +48,19 @@ function Home() {
   return (
     <>
       <div className="mapa-info-container">
+        <div className="mapa">
+          <h2>RUTA HISTÓRICA ANTIGUO TARRACO</h2>
+          <MapView />
+        </div>
+
         <div className="info">
           <h1>Turismo en Tarragona</h1>
-          <p>
-            Bienvenido a nuestra plataforma de turismo inteligente en Tarragona.
-            Aquí descubrirás las rutas culturales más importantes, información
-            histórica y servicios útiles como restaurantes, zonas wifi,
-            transporte y más.
-          </p>
-          <p>
-            Nuestra misión es ayudarte a explorar los lugares emblemáticos de la
-            ciudad con mapas interactivos, curiosidades culturales y
-            recomendaciones personalizadas.
-          </p>
-
-          <p>
-            <strong>Descripción:</strong> Esta aplicación interactiva permite a
-            los usuarios explorar el patrimonio histórico y cultural de
-            Tarragona a través de una ruta guiada con imágenes, descripciones
-            detalladas, mapas y horarios.
-          </p>
-          <p>
-            <strong>Servicios:</strong> Ofrecemos un tour turístico
-            personalizado que se adapta al ritmo de cada persona. Disfruta de la
-            historia, los secretos y rincones emblemáticos de Tarragona a tu
-            manera.
-          </p>
+          <p>“Una plataforma de turismo inteligente en Tarragona.”</p>
+          <span className="servicios-label">Servicios</span>
+          <button>Tours personalizados</button>
+          <button>Maneras de conocer Tarragona</button>
+          <button>Ciudad Inteligente</button>
         </div>
-      </div>
-
-      <div className="mapa">
-        <h2>RUTA HISTÓRICA ANTIGUO TARRACO</h2>
-        <MapView/>
       </div>
 
       {/* <div className="App">

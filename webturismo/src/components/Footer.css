@@ -88,4 +88,45 @@
 .btn-accesibilidad:hover {
   background-color: #666;
 }
+@media (max-width: 768px) {
+  .footer-contenedor {
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 10px;
+  }
+
+  .footer-col {
+    width: 100%;
+    text-align: center;
+  }
+
+  .footer-col ul {
+    padding-left: 0;
+  }
+
+  .footer-col ul li {
+    margin-bottom: 12px;
+  }
+
+  .btn-accesibilidad {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .footer-redes {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+  .footer-redes a {
+    font-size: 24px;
+    margin: 0 10px;
+  }
+
+  .footer-copy {
+    font-size: 13px;
+    padding: 10px;
+  }
+}
 

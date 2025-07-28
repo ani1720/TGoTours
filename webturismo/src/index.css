@@ -29,7 +29,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  background: linear-gradient(to bottom right,#F47B20, #c6e947, #0084ff, #00cfea, );
+  /* background: linear-gradient(to bottom right,#F47B20, #c6e947, #0084ff, #00cfea, ); */
 }
 
 h1 {

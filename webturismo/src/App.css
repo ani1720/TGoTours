@@ -19,6 +19,7 @@ html, body {
 .image-box h2 {
   margin-bottom: 1rem;
   font-size: 2rem;
+  align-items: center;
 }
 
 .image-box img {
@@ -30,30 +31,96 @@ html, body {
 
 .mapa-info-container {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
   flex-wrap: wrap;
-  padding: 2rem;
+  justify-content: center;
+  align-items: flex-start;
   gap: 2rem;
-  max-width: 1200px;
-  margin: auto;
+  padding: 4rem 2rem;
+  background-color: #1c1c5c; /* Azul oscuro */
+  color: white;
+  min-height: 100vh;
+  box-sizing: border-box;
 }
 
-.mapa, .info {
+.mapa {
+  flex: 1;
+  min-width: 320px;
+  max-width: 600px;
+  border: 5px solid white;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.info {
   flex: 1;
   min-width: 300px;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.5rem;
 }
 
 .info h1 {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-  color: #FDD835;
+  font-size: 3rem;
+  color: #FFD700; /* Amarillo */
+  font-weight: bold;
+  /* background-color: #000; */
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+
 }
 
 .info p {
-  font-size: 1.2rem;
-  margin: 1rem 0;
-  line-height: 1.6;
+  font-size: 1.5rem;
+  color: #cccccc;
+  margin-top: -1rem;
+}
+.info button {
+  padding: 0.8rem 1.2rem;
+  font-size: 1rem;
+  background-color: white;
+  color: #1c1c5c;
+  border: 2px solid white;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.info button:hover {
+  background-color: #FFD700;
+  color: #000;
+  border-color: #FFD700;
+  transform: scale(1.05);
+}
+.servicios-label {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+/* ADAPTACIÓN RESPONSIVE */
+@media screen and (max-width: 768px) {
+  .mapa-info-container {
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem;
+  }
+
+  .info h1 {
+    font-size: 2.2rem;
+    text-align: center;
+  }
+
+  .info p,
+  .servicios-label {
+    text-align: center;
+  }
+
+  .info button {
+    width: 100%;
+  }
 }
 
 .slider-wrapper {
@@ -235,7 +302,8 @@ html, body {
 @media (max-width: 768px) {
   .mapa-info-container {
     flex-direction: column;
-    padding: 1rem;
+    padding: 1.5rem;
+    
   }
 
   .slider-wrapper {
@@ -313,5 +381,83 @@ html {
 }
 .guia-foto {
   object-fit: cover;
+}
+/* === MODO ACCESIBLE VISUAL === */
+body.modo-accesible {
+  background-color: #000 !important;
+  color: #FFD700 !important; /* Amarillo intenso */
+  font-size: 1.3em !important;
+  line-height: 1.8 !important;
+  letter-spacing: 0.5px !important;
+}
+
+body.modo-accesible a {
+  color: #00FFFF !important; /* Cian brillante */
+  text-decoration: underline !important;
+  font-weight: bold !important;
+}
+
+body.modo-accesible h1,
+body.modo-accesible h2,
+body.modo-accesible h3,
+body.modo-accesible h4,
+body.modo-accesible h5,
+body.modo-accesible h6 {
+  color: #FFA500 !important; /* Naranja fuerte */
+  font-size: 1.2em !important;
+  font-weight: bold !important;
+}
+
+body.modo-accesible p,
+body.modo-accesible li,
+body.modo-accesible label,
+body.modo-accesible span,
+body.modo-accesible input,
+body.modo-accesible textarea {
+  color: #FFD700 !important; /* Texto legible */
+  font-size: 1.2em !important;
+}
+
+body.modo-accesible button {
+  background-color: #0055ff !important;
+  color: #ffffff !important;
+  font-size: 1.2em !important;
+  border: 3px solid #FFD700 !important;
+}
+
+body.modo-accesible .faq-item,
+body.modo-accesible .form-page,
+body.modo-accesible .perfil-page,
+body.modo-accesible .nuevo-hilo,
+body.modo-accesible .card-detalle,
+body.modo-accesible .contacto-page {
+  background-color: #111 !important;
+  color: #FFD700 !important;
+  border: 2px solid #FFD700 !important;
+  box-shadow: 0 0 10px #FFD700 !important;
+}
+.whatsapp-float {
+  position: fixed;
+  bottom: 20px;
+  left: 20px; /* o 'right: 20px;' si prefieres en la derecha */
+  z-index: 1000;
+  width: 60px;
+  height: 60px;
+  background-color: #25d366;
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.whatsapp-float:hover {
+  transform: scale(1.1);
+}
+
+.whatsapp-float img {
+  width: 32px;
+  height: 32px;
 }
 
