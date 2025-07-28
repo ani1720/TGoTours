@@ -41,14 +41,16 @@ header {
 .logo-container {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
+  white-space: nowrap;
+  text-decoration: none;
 }
 
 /* Altura fija del logo */
 .logo-img {
-  height: 80px;
+  height: 90px;
   object-fit: contain;
-  display: flex;
+  /* display: block; */
 }
 /* Definimos la variable en el header */
 .site-header {
@@ -56,37 +58,30 @@ header {
 }
 
 /* Usamos la variable para tamaño de fuente y línea */
-.logo-text {
-  font-family: 'Montserrat', sans-serif;
-  text-transform: uppercase;
-  font-size: calc(var(--logo-height) * 0.5); /* Ajusta 0.5 al ratio deseado */
-  line-height: var(--logo-height);
+/* .logo-text { */
+  /* font-family: 'Montserrat', sans-serif;
+  text-transform: uppercase; */
+  /* font-size: calc(var(--logo-height) * 0.5); 
+  line-height: var(--logo-height); */
+  /* margin: 0;
+  display: inline-flex;
+  align-items: end; */
+  /* gap: 0.2em; */
+   /* white-space: nowrap; */
+/* } */
+
+.name-web {
   margin: 0;
   display: inline-flex;
   align-items: end;
-  gap: 0.2em;
-   white-space: nowrap;
-}
-.logo-text .g {
-  color: #008080;   /* Teal */
-}
-
-.logo-text .o {
-  color: #FFA500;   /* Orange */
-  margin-right: 0.2em;
-}
-
-.logo-text .tours {
-  color: #FFFFFF;
-}
-.name-web {
-  display: flex;
-  justify-content: flex-end; 
-  /* align-items: center;        */
+  white-space: nowrap;
 }
 
 .name-web img {
-  height: 80px; /* Adjust as needed */
+  height: 120px; /* Adjust as needed */
+  object-fit: contain;
+  display: block;
+  transform: translateY(5px)
 }
 
 
