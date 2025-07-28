@@ -25,6 +25,8 @@ function Registro() {
   const [rol, setRol] = useState("turista");
   const [aceptaTerminos, setAceptaTerminos] = useState(false);
   const navigate = useNavigate();
+  const [emailConfirmacion, setEmailConfirmacion] = useState("");
+  const [passwordConfirmacion, setPasswordConfirmacion] = useState("");
 
   const handleRegistro = async (e) => {
     e.preventDefault();
@@ -44,6 +46,15 @@ function Registro() {
       setError("❌ La contraseña debe tener al menos 6 caracteres.");
       return;
     }
+    if (email !== emailConfirmacion) {
+      setError("❌ Los correos electrónicos no coinciden.");
+      return;
+    }
+    if (password !== passwordConfirmacion) {
+      setError("❌ Las contraseñas no coinciden.");
+      return;
+    }
+    
 
     // Validar nombre de usuario duplicado
     try {
@@ -133,6 +144,15 @@ function Registro() {
             required
             style={{ padding: "0.5rem", margin: "0.5rem", width: "250px" }}
           />
+          <input
+            type="email"
+            placeholder="Repite tu correo electrónico"
+            value={emailConfirmacion}
+            onChange={(e) => setEmailConfirmacion(e.target.value)}
+            required
+            style={{ padding: "0.5rem", margin: "0.5rem", width: "250px" }}
+          />
+          <br />
           <br />
           <input
             type="text"
@@ -152,6 +172,15 @@ function Registro() {
             style={{ padding: "0.5rem", margin: "0.5rem", width: "250px" }}
           />
           <br />
+          <input
+            type="password"
+            placeholder="Repite tu contraseña"
+            value={passwordConfirmacion}
+            onChange={(e) => setPasswordConfirmacion(e.target.value)}
+            required
+            style={{ padding: "0.5rem", margin: "0.5rem", width: "250px" }}
+          />
+          <br />
           <label style={{ display: "block", margin: "0.5rem 0 0.2rem 0" }}>
             Selecciona tu rol:
           </label>
@@ -165,7 +194,9 @@ function Registro() {
             <option value="guia">Guía</option>
           </select>
 
-          <div style={{ marginTop: "1rem", fontSize: "0.95rem", color: "#ccc" }}>
+          <div
+            style={{ marginTop: "1rem", fontSize: "0.95rem", color: "#ccc" }}
+          >
             <label>
               <input
                 type="checkbox"
