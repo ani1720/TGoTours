@@ -23,8 +23,8 @@ const RutaDetalle = () => {
   const [comentarios, setComentarios] = useState([]);
   const [nuevoComentario, setNuevoComentario] = useState("");
   const userLocation = useUserLocation();
-  const usuario = useUser();
-
+  const { usuario, rol, cargando } = useUser();
+  
   useEffect(() => {
     const mapContainer = document.getElementById("map");
     if (!mapContainer || mapRef.current) return;
@@ -86,7 +86,7 @@ const RutaDetalle = () => {
   useEffect(() => {
     if (!id) return;
     const q = query(
-      collection(db, "Rutas", id, "comments"),
+      collection(db, "rutas", id, "comments"),
       orderBy("createdAt", "asc")
     );
     const unsubscribe = onSnapshot(q, (snap) => {
@@ -192,7 +192,7 @@ const RutaDetalle = () => {
 
     const fotoURL = usuario.fotoURL ? usuario.fotoURL : null;
 
-    await addDoc(collection(db, "Rutas", id, "comments"), {
+    await addDoc(collection(db, "rutas", id, "comments"), {
       content: nuevoComentario.trim(),
       authorId: usuario.uid,
       authorName: usuario.displayName || usuario.email,
@@ -205,12 +205,13 @@ const RutaDetalle = () => {
 
   const eliminarComentario = async (commentId) => {
     try {
-      const refDoc = doc(db, "Rutas", id, "comments", commentId);
+      const refDoc = doc(db, "rutas", id, "comments", commentId);
       await deleteDoc(refDoc);
     } catch (error) {
       console.error("Error al eliminar el comentario:", error);
     }
   };
+  console.log("👤 Usuario desde contexto:", usuario);
   return (
     <div className="ruta-detalle-container" style={{ padding: "1rem" }}>
       {rutaSeleccionada && (

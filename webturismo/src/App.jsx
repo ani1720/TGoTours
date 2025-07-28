@@ -162,7 +162,7 @@ function App() {
       </UserProvider>
       <Footer activarAccesibilidad={activarAccesibilidad}
         modoAccesible={modoAccesible} leerTexto={leerTexto} />
-    </>
+      </>
   );
 }
 
