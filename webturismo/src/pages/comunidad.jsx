@@ -3,9 +3,11 @@ import { useEffect, useState } from "react";
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
 import { Link } from "react-router-dom";
+import { useUser } from "../context/UserContext";
 
 function Comunidad() {
   const [threads, setThreads] = useState([]);
+  const { usuario } = useUser();
 
   useEffect(() => {
     const cargarThreads = async () => {
@@ -20,9 +22,11 @@ function Comunidad() {
   return (
     <div className="comunidad">
       <h1>Comunidad</h1>
-      <Link to="/nuevo-hilo">
-        <button>🧵 Crear nuevo hilo</button>
-      </Link>
+      {usuario && (
+        <Link to="/nuevo-hilo">
+          <button>🧵 Crear nuevo hilo</button>
+        </Link>
+      )}
 
       <ul>
         {threads.map((thread) => (

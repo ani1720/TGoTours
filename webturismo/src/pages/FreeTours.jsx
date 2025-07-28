@@ -4,6 +4,8 @@ import { db } from "../firebase/firebaseConfig";
 import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import "./FreeTours.css";
+import { reservarPlaza } from "../utils/reservarPlaza";
+import { cancelarReserva } from "../utils/cancelarReserva";
 
 const FreeTours = () => {
   const { usuario, rol, cargando } = useUser();
@@ -64,7 +66,7 @@ const FreeTours = () => {
               <strong>Fecha:</strong> {tour.fecha}
             </p>
             <p>
-                <strong>Hora de inicio:</strong> {tour.horaInicio}
+              <strong>Hora de inicio:</strong> {tour.horaInicio}
             </p>
             <p>
               <strong>Ubicación:</strong> {tour.ubicacion}
@@ -98,9 +100,64 @@ const FreeTours = () => {
             </div>
 
             {usuario && rol === "turista" && (
-              <Link to={`/reservar/${tour.id}`}>
-                <button className="reservar-btn">Reservar plaza</button>{" "}
-              </Link>
+              <>
+                {tour.inscritos?.includes(usuario.uid) ? (
+                  <button
+                    className="cancelar-btn"
+                    onClick={async () => {
+                      const confirmar = window.confirm(
+                        "¿Seguro que quieres cancelar tu inscripción?"
+                      );
+                      if (!confirmar) return;
+
+                      const resultado = await cancelarReserva(tour.id);
+                      if (resultado === "ok") {
+                        setTours((prevTours) =>
+                          prevTours.map((t) =>
+                            t.id === tour.id
+                              ? {
+                                  ...t,
+                                  cupos: t.cupos + 1,
+                                  inscritos: t.inscritos.filter(
+                                    (id) => id !== usuario.uid
+                                  ),
+                                }
+                              : t
+                          )
+                        );
+                      }
+                    }}
+                  >
+                    Cancelar inscripción
+                  </button>
+                ) : (
+                  <button
+                    className="reservar-btn"
+                    onClick={async () => {
+                      const resultado = await reservarPlaza(tour.id);
+                      if (resultado === "ok") {
+                        setTours((prevTours) =>
+                          prevTours.map((t) =>
+                            t.id === tour.id
+                              ? {
+                                  ...t,
+                                  cupos: t.cupos - 1,
+                                  inscritos: [
+                                    ...(t.inscritos || []),
+                                    usuario.uid,
+                                  ],
+                                }
+                              : t
+                          )
+                        );
+                      }
+                    }}
+                    disabled={tour.cupos <= 0}
+                  >
+                    {tour.cupos <= 0 ? "Sin cupos" : "Reservar plaza"}
+                  </button>
+                )}
+              </>
             )}
           </li>
         ))}
