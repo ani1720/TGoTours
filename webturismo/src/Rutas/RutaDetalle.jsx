@@ -24,7 +24,7 @@ const RutaDetalle = () => {
   const [nuevoComentario, setNuevoComentario] = useState("");
   const userLocation = useUserLocation();
   const { usuario, rol, cargando } = useUser();
-  
+
   useEffect(() => {
     const mapContainer = document.getElementById("map");
     if (!mapContainer || mapRef.current) return;
@@ -211,7 +211,6 @@ const RutaDetalle = () => {
       console.error("Error al eliminar el comentario:", error);
     }
   };
-  console.log("👤 Usuario desde contexto:", usuario);
   return (
     <div className="ruta-detalle-container" style={{ padding: "1rem" }}>
       {rutaSeleccionada && (
