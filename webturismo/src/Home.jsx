@@ -63,46 +63,40 @@ function Home() {
         </div>
       </div>
 
-      {/* <div className="App">
-        <RouteGenerator />
-      </div> */}
-
       <div className="slider-wrapper">
         {lugares.map((lugar, i) => (
-          <img
-            key={i}
-            src={lugar.img}
-            alt={lugar.nombre}
-            className={`slider-item ${hoveredIndex === i ? "active" : ""}`}
-            onMouseEnter={() => setHoveredIndex(i)}
-            onMouseLeave={() => setHoveredIndex(null)}
-            onClick={() => setSelectedLugar(lugar)}
-          />
+          <div key={i} className="slider-item-container">
+            <img
+              src={lugar.img}
+              alt={lugar.nombre}
+              className={`slider-item ${hoveredIndex === i ? "active" : ""}`}
+              onMouseEnter={() => setHoveredIndex(i)}
+              onMouseLeave={() => setHoveredIndex(null)}
+              onClick={() => setSelectedLugar(lugar)}
+            />
+
+            {selectedLugar?.id === lugar.id && (
+              <div className="card-detalle inline-card">
+                <div className="card-imagen">
+                  <img src={selectedLugar.img} alt={selectedLugar.nombre} />
+                </div>
+                <div className="card-info">
+                  <h2>{selectedLugar.nombre}</h2>
+                  <p>{selectedLugar.descripcion}</p>
+                  <p>
+                    <strong>Detalles:</strong> Este sitio es uno de los puntos
+                    destacados de la ruta turística por Tarragona. Ideal
+                    para visitas culturales, actividades al aire libre y vistas
+                    panorámicas.
+                  </p>
+                  <p><strong>Horario:</strong> 10:00 - 18:00</p>
+                  <p><strong>Ubicación:</strong> Tarragona centro histórico</p>
+                </div>
+              </div>
+            )}
+          </div>
         ))}
       </div>
-
-      {selectedLugar && (
-        <div className="card-detalle">
-          <div className="card-imagen">
-            <img src={selectedLugar.img} alt={selectedLugar.nombre} />
-          </div>
-          <div className="card-info">
-            <h2>{selectedLugar.nombre}</h2>
-            <p>{selectedLugar.descripcion}</p>
-            <p>
-              <strong>Detalles:</strong> Este sitio es uno de los puntos más
-              destacados de la ruta turística por Tarragona. Ideal para visitas
-              culturales, actividades al aire libre y vistas panorámicas.
-            </p>
-            <p>
-              <strong>Horario:</strong> 10:00 - 18:00 (todos los días)
-            </p>
-            <p>
-              <strong>Ubicación:</strong> Tarragona centro histórico
-            </p>
-          </div>
-        </div>
-      )}
     </>
   );
 }

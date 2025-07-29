@@ -37,7 +37,9 @@ const MapView = () => {
       .addTo(mapRef.current);
   }, []);
 
-  return <div id="map" style={{ width: "100%", height: "80vh" }} />;
+ return <div id="map" className="mapa-principal" />;
+
+
 };
 
 export default MapView;
