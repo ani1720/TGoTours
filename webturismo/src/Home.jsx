@@ -24,7 +24,7 @@ function Home() {
     },
     {
       id: 3,
-      nombre: "Murallas",
+      nombre: "Passeig Arqueològic",
       img: murallasImg,
       descripcion: "Murallas romanas que protegían la antigua ciudad.",
     },
