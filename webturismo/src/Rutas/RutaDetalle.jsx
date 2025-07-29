@@ -125,6 +125,7 @@ const RutaDetalle = () => {
         .addTo(mapRef.current)
         .bindPopup(popupText);
     });
+    
 
     // 🧭 Preparar coordenadas para ORS: [lng, lat]
     const coordenadasORS = coordenadas.map((p) => [p.longitude, p.latitude]);

@@ -2,10 +2,13 @@ import { useEffect, useState } from "react";
 
 function useUserLocation() {
   const [location, setLocation] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!navigator.geolocation) return;
-
+    if (!navigator.geolocation) {
+      setError("La geolocalización no está disponible en este navegador.");
+      return;
+    }
     navigator.geolocation.getCurrentPosition(
       (position) => {
         setLocation([
