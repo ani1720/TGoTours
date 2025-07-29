@@ -21,7 +21,17 @@ const faqs = [
   {
     pregunta: "¿Dónde puedo encontrar rutas guiadas?",
     respuesta:
-      "Ofrecemos rutas guiadas temáticas que puedes consultar en el apartado 'Rutas'. También hay opciones privadas con guías locales.",
+      "Ofrecemos rutas guiadas temáticas de todo tipo que puedes consultar en el apartado 'Rutas'.",
+  },
+  {
+    pregunta: "¿Dónde puedo reservar free tours?",
+    respuesta:
+      "Ofrecemos free tours de diferentes tipos, temáticas y duraciones. Puedes reservar directamente en nuestra sección 'Free Tours'.",
+  },
+  {
+    pregunta: "¿Puedo tambien trabajar con vosotros como guia de free tours?",
+    respuesta:
+      "Sí, puedes registrarte como 'guia' para poder realizar free tours con nosotros. Puedes publicar tus tours directamente en nuestra sección 'Free Tours'",
   },
 ];
 

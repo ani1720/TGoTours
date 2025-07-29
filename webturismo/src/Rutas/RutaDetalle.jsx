@@ -96,103 +96,96 @@ const RutaDetalle = () => {
     return () => unsubscribe();
   }, [id]);
 
-  const obtenerRuta = async () => {
-    try {
-      const data = rutaSeleccionada;
+    const obtenerRuta = async () => {
+  try {
+    const data = rutaSeleccionada;
 
-      // ✅ Tomamos coordenadas de tipo GeoPoint
-      const coordenadas = data.coordenadas;
+    // ✅ Tomamos coordenadas de tipo GeoPoint
+    const coordenadas = data.coordenadas;
 
-      if (!Array.isArray(coordenadas) || coordenadas.length === 0) {
-        console.warn("⚠️ No hay coordenadas válidas");
-        return;
-      }
-
-      // 🔄 Limpiar capas anteriores
-      mapRef.current.eachLayer((layer) => {
-        if (layer instanceof L.Marker || layer instanceof L.GeoJSON) {
-          mapRef.current.removeLayer(layer);
-        }
-      });
-
-      // 📍 Dibujar marcadores en el mapa
-      coordenadas.forEach((coord, i) => {
-        const latLng = [coord.latitude, coord.longitude];
-        let popupText;
-
-        if (i === 0 && userLocation) {
-          popupText = "📍 Tu ubicación";
-        } else if (
-          rutaSeleccionada &&
-          Array.isArray(rutaSeleccionada.contenido) &&
-          rutaSeleccionada.contenido[i]
-        ) {
-          popupText = rutaSeleccionada.contenido[i];
-        } else {
-          popupText = `Punto ${i + 1}`;
-        }
-
-        L.marker(latLng).addTo(mapRef.current).bindPopup(popupText);
-      });
-
-      // 🧭 Preparar coordenadas para ORS: [lng, lat]
-      const coordenadasORS = coordenadas.map((p) => [p.longitude, p.latitude]);
-
-      // 📡 Llamada a OpenRouteService
-      const orsResponse = await fetch(
-        "https://api.openrouteservice.org/v2/directions/foot-walking/geojson",
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json, application/geo+json",
-            "Content-Type": "application/json",
-            Authorization:
-              "eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjcwNGMxOTg0NGQ1MjQ5YjliOWJhMjE0NjE0MzUyNjlmIiwiaCI6Im11cm11cjY0In0=",
-          },
-          body: JSON.stringify({ coordinates: coordenadasORS }),
-        }
-      );
-
-      if (!orsResponse.ok) throw new Error("Error al obtener ruta ORS");
-
-      const resultado = await orsResponse.json();
-
-      // 🖌️ Dibujar la línea de ruta
-      L.geoJSON(resultado, { style: { color: "blue", weight: 3 } }).addTo(
-        mapRef.current
-      );
-
-      // 🗺️ Ajustar el zoom al recorrido
-      const bounds = L.geoJSON(resultado).getBounds();
-      mapRef.current.fitBounds(bounds);
-    } catch (err) {
-      console.error("❌ Error:", err);
+    if (!Array.isArray(coordenadas) || coordenadas.length === 0) {
+      console.warn("⚠️ No hay coordenadas válidas");
+      return;
     }
-  };
+
+    // 🔄 Limpiar capas anteriores
+    mapRef.current.eachLayer((layer) => {
+      if (layer instanceof L.Marker || layer instanceof L.GeoJSON) {
+        mapRef.current.removeLayer(layer);
+      }
+    });
+
+    // 📍 Dibujar marcadores en el mapa
+    coordenadas.forEach((coord, i) => {
+      const latLng = [coord.latitude, coord.longitude]; // Leaflet: [lat, lng]
+      const popupText =
+        i === 0 && userLocation ? "Tu ubicación" : `Punto ${i + 1}`;
+      L.marker(latLng)
+        .addTo(mapRef.current)
+        .bindPopup(popupText);
+    });
+
+    // 🧭 Preparar coordenadas para ORS: [lng, lat]
+    const coordenadasORS = coordenadas.map((p) => [p.longitude, p.latitude]);
+
+    // 📡 Llamada a OpenRouteService
+    const orsResponse = await fetch(
+      "https://api.openrouteservice.org/v2/directions/foot-walking/geojson",
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json, application/geo+json",
+          "Content-Type": "application/json",
+          Authorization:
+              "eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjcwNGMxOTg0NGQ1MjQ5YjliOWJhMjE0NjE0MzUyNjlmIiwiaCI6Im11cm11cjY0In0=",
+
+        },
+        body: JSON.stringify({ coordinates: coordenadasORS }),
+      }
+    );
+
+    if (!orsResponse.ok) throw new Error("Error al obtener ruta ORS");
+
+    const resultado = await orsResponse.json();
+
+    // 🖌️ Dibujar la línea de ruta
+    L.geoJSON(resultado, { style: { color: "blue", weight: 3 } }).addTo(
+      mapRef.current
+    );
+
+    // 🗺️ Ajustar el zoom al recorrido
+    const bounds = L.geoJSON(resultado).getBounds();
+    mapRef.current.fitBounds(bounds);
+  } catch (err) {
+    console.error("❌ Error:", err);
+  }
+};
 
   useEffect(() => {
-    if (rutaSeleccionada) {
-      obtenerRuta();
-    }
-  }, [rutaSeleccionada, userLocation]);
+  if (rutaSeleccionada) {
+    obtenerRuta();
+  }
+}, [rutaSeleccionada, userLocation]);
 
-  // const response = await fetch(coordenadasURL);
-  //   const data = await response.json();
 
-  //Insertar ubicacion del Usuario como primer punto si existe
-  // Si hay userLocation, agrégalo al inicio (también en [lng, lat])
 
-  //Dibuja los marcadores
-  // coordenadas.forEach((coord, i) => {
-  //   L.marker(coord.slice().reverse())
-  //     .addTo(mapRef.current)
-  //     .bindPopup(
-  //       +i === 0 && userLocation
-  //         ? "Tu ubicacion"
-  //         : data.ruta[i - (userLocation ? 1 : 0)].nombre
-  //     );
-  //   // coord.reverse(); // Regresamos a [lng, lat] para ORS
-  // });
+      // const response = await fetch(coordenadasURL);
+      //   const data = await response.json();
+      
+      //Insertar ubicacion del Usuario como primer punto si existe
+      // Si hay userLocation, agrégalo al inicio (también en [lng, lat])
+
+      //Dibuja los marcadores
+      // coordenadas.forEach((coord, i) => {
+      //   L.marker(coord.slice().reverse())
+      //     .addTo(mapRef.current)
+      //     .bindPopup(
+      //       +i === 0 && userLocation
+      //         ? "Tu ubicacion"
+      //         : data.ruta[i - (userLocation ? 1 : 0)].nombre
+      //     );
+      //   // coord.reverse(); // Regresamos a [lng, lat] para ORS
+      // });
 
   const publicarComentario = async () => {
     if (!nuevoComentario.trim() || !usuario?.uid || !id) return;

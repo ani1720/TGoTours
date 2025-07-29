@@ -1,7 +1,14 @@
 import { useState } from "react";
 import { useUser } from "../context/UserContext";
 import { db } from "../firebase/firebaseConfig";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  serverTimestamp,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
 import "./CrearTour.css";
 
 const CrearTour = () => {
@@ -39,14 +46,34 @@ const CrearTour = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // 🔒 Doble protección en el envío
+  
     if (!usuario || rol !== "guia") {
       setMensaje("Acceso denegado. Solo los guías pueden crear tours.");
       return;
     }
-
+  
     try {
+      // 📅 Convertir la fecha seleccionada a Date
+      const fechaSeleccionada = new Date(formData.fecha);
+      fechaSeleccionada.setHours(0, 0, 0, 0);
+      const finDelDia = new Date(formData.fecha);
+      finDelDia.setHours(23, 59, 59, 999);
+  
+      // 🔍 Consultar tours del guía en esa fecha usando 'fecha' como string
+      const q = query(
+        collection(db, "freeTours"),
+        where("guiaID", "==", usuario.uid),
+        where("fecha", "==", formData.fecha)
+      );
+  
+      const snapshot = await getDocs(q);
+  
+      if (snapshot.size >= 3) {
+        setMensaje("Ya has creado 3 tours para ese día. No puedes crear más.");
+        return;
+      }
+  
+      // ✅ Crear el tour
       await addDoc(collection(db, "freeTours"), {
         ...formData,
         guiaID: usuario.uid,
@@ -56,14 +83,14 @@ const CrearTour = () => {
         inscritos: [],
         reseñas: [],
       });
-
+  
       setMensaje("¡Tour creado con éxito!");
       setFormData({
         titulo: "",
         descripcion: "",
         duracion: "",
         fecha: "",
-        horaInicio: "", 
+        horaInicio: "",
         cupos: "",
         ubicacion: "",
       });
@@ -72,6 +99,7 @@ const CrearTour = () => {
       setMensaje("Hubo un error al crear el tour.");
     }
   };
+  
 
   return (
     <div className="crear-tour">

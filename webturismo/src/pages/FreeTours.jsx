@@ -47,6 +47,88 @@ const FreeTours = () => {
   return (
     <div className="free-tours">
       <h2>🌍 Free Tours disponibles</h2>
+      {usuario && rol === "turista" && (
+  <div className="explicacion-guia">
+    <h3>🌍 ¿Qué son los Free Tours?</h3>
+
+    <div className="guia-section">
+      <h4>🎒 Explora la ciudad con guías locales</h4>
+      <p>
+        Los Free Tours son recorridos guiados por expertos locales que te muestran lo mejor de la ciudad: historia, cultura, curiosidades y rincones secretos. Son una forma auténtica y enriquecedora de conocer el destino.
+      </p>
+    </div>
+
+    <div className="guia-section">
+      <h4>💸 Tú decides cuánto pagar</h4>
+      <p>
+        Al finalizar el tour, tú decides cuánto pagar según tu experiencia y presupuesto. Algunos tours también tienen un coste fijo muy accesible. ¡Sin sorpresas ni tarifas ocultas!
+      </p>
+    </div>
+
+    <div className="guia-section">
+      <h4>📍 Tours temáticos y personalizados</h4>
+      <p>
+        Puedes elegir entre diferentes tipos de tours: históricos, gastronómicos, de arte urbano, leyendas locales, rutas nocturnas y más. ¡Encuentra el que mejor se adapte a tus intereses!
+      </p>
+    </div>
+
+    <div className="guia-section">
+      <h4>📆 Reserva fácil y rápida</h4>
+      <p>
+        Solo tienes que seleccionar el tour que te interesa, elegir la fecha y confirmar tu reserva. Recibirás todos los detalles por correo electrónico y podrás contactar con el guía si lo necesitas.
+      </p>
+    </div>
+
+    <div className="guia-section">
+      <h4>⭐ Experiencias valoradas por otros viajeros</h4>
+      <p>
+        Todos los tours tienen reseñas y calificaciones de otros turistas. Así puedes elegir con confianza y asegurarte una experiencia de calidad.
+      </p>
+    </div>
+  </div>
+)}
+
+{usuario && rol === "guia" && (
+  <div className="explicacion-guia">
+    <h3>🗺️ ¿Quieres ofrecer tus propios Free Tours?</h3>
+
+    <div className="guia-section">
+      <h4>📌 ¿Cómo funciona?</h4>
+      <p>
+        Si estás enamorado de tu ciudad, conoces sus rincones y quieres compartir tu conocimiento con turistas mientras ganas dinero extra, ¡crear un tour gratuito o low cost es la opción perfecta!
+      </p>
+    </div>
+
+    <div className="guia-section">
+      <h4>🛠️ Crea tu propio tour</h4>
+      <p>
+        ¿Conoces lugares únicos, arte callejero, historia local o gastronomía tradicional? Sea cual sea tu especialidad, diseña un recorrido personalizado y compártelo con el mundo.
+      </p>
+    </div>
+
+    <div className="guia-section">
+      <h4>📬 Recibe reservas</h4>
+      <p>
+        Una vez verificada tu cuenta y aprobado tu tour, empezarás a recibir reservas confirmadas directamente en tu correo. Tendrás acceso a los datos de los participantes y podrás comunicarte con ellos antes del tour.
+      </p>
+    </div>
+
+    <div className="guia-section">
+      <h4>🤝 Reúnete con los visitantes</h4>
+      <p>
+        Encuéntrate con los viajeros en el punto de encuentro, muéstrales la ciudad, comparte historias y leyendas, y ofrece recomendaciones locales. Las buenas reseñas aumentan tu visibilidad y tus ingresos.
+      </p>
+    </div>
+
+    <div className="guia-section">
+      <h4>💰 Gana dinero</h4>
+      <p>
+        Cuanto más valor aportes, más reservas recibirás. ¡Convierte tu pasión por tu ciudad en una fuente de ingresos!
+      </p>
+    </div>
+  </div>
+)}
+
 
       {usuario && rol === "guia" && (
         <Link to="/crear-tour">
