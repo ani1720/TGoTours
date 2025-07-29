@@ -51,7 +51,7 @@ function Header({ usuario, nombreUsuario, cerrarSesion }) {
   }, [usuario]);
 
   return (
-    <header className="site.header">
+    <header className="site-header">
       <div className="brand">
         <Link to="/" className="logo-container">
           <img src={Logo} alt="Logo TgoTours" className="logo-img" />
