@@ -1,84 +1,101 @@
 .about-wrapper {
   display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  color: white;
-  padding: 4rem 2rem;
-  gap: 3rem;
   flex-wrap: wrap;
-  border-radius: 12px;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 4rem;
+  padding: 4rem 2rem;
   max-width: 1200px;
   margin: auto;
+  color: white;
 }
 
-/* Sección del logo y texto principal */
 .about-logo-section {
-  flex: 0 0 auto;
+  flex: 1;
   display: flex;
-  align-items: flex-start;
   justify-content: center;
+  align-items: center;
+  margin-top: 15%;
 }
 
 .about-logo {
-  width: 400px;
+  max-width: 100%;
+  width: 30%px;
   height: auto;
+  border-radius: 0;         /* ✅ Sin bordes */
+  box-shadow: none;         /* ✅ Sin sombra */
+  margin: 0 auto;           /* Centrado horizontal si fuera necesario */
 }
 
 .about-content {
-  min-width: 300px;
+  flex: 2;
   max-width: 700px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* ✅ Centra verticalmente dentro del contenedor */
 }
 
-/* Títulos y texto */
-.about-content h2 {
-  margin-top: 1.5rem;
-  margin-bottom: 0.5rem;
-  color: white;
-}
-
-.about-content p,
-.about-content li {
+.about-content p {
   font-size: 1.2rem;
   line-height: 1.8;
-  color: white;
+  margin-bottom: 1.5rem;
+}
+
+.about-content h2 {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+  color: #FFD700;
 }
 
 .about-content ul {
-  padding-left: 1.5rem;
-  list-style: disc;
+  list-style: none;
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-/* NUEVA SECCIÓN que aparecerá debajo de .about-wrapper */
+.about-content li {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1.1rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  backdrop-filter: blur(4px);
+}
+
+.about-content li img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
 .content-who {
   width: 100%;
-  margin: 1rem auto 0;
+  margin: 3rem auto 0;
   padding: 0 2rem;
-  text-align: left;
   color: white;
   max-width: 1200px;
   font-size: 1.2rem;
+  line-height: 1.8;
 }
 
-/* Responsive tweaks */
-@media (max-width: 768px) {
-  .about-wrapper {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  .about-logo {
-    width: 150px;
-  }
-
-  .content-who {
-    padding: 0 1rem;
-    text-align: center; /* Opcional si quieres centrar en pantallas pequeñas */
-  }
+.content-who h2 {
+  font-size: 2rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  /* color: #ffffff; */
+  border-left: 5px solid #00ffd5;
+  padding-left: 0.8rem;
+  color: #FFD700;
 }
+
+/* SECCIÓN DE CREADORES */
 .about-section {
   padding: 60px 20px;
-  /* background-color: #f9f9f9; */
   text-align: center;
 }
 
@@ -134,4 +151,22 @@
   font-size: 0.9rem;
   color: #555;
   line-height: 1.4;
+}
+
+
+/* Responsive para móvil */
+@media (max-width: 768px) {
+  .about-wrapper {
+    flex-direction: column;
+    text-align: center;
+    gap: 2rem;
+  }
+
+  .about-content ul {
+    align-items: center;
+  }
+
+  .about-content li {
+    justify-content: center;
+  }
 }

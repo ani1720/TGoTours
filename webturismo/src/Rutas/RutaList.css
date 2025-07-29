@@ -1,60 +1,163 @@
-.ruta-list {
-  padding: 1rem 2rem;
+/* Estilo general del fondo de la pantalla */
+.pantalla-completa {
+  background: linear-gradient(to bottom right, #0f0c29, #302b63, #24243e);
+  color: white;
   min-height: 100vh;
-  box-sizing: border-box;
+  padding: 2rem 1.5rem;
+  font-family: 'Segoe UI', sans-serif;
 }
 
+/* Contenedor vertical */
+.vertical-layout {
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* Títulos */
+h1 {
+  font-size: 2.8rem;
+  text-align: center;
+  margin-bottom: 3rem;
+  color: #FFD700;
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 1.2rem;
+  color: #ffffff;
+  border-left: 5px solid #00ffd5;
+  padding-left: 0.7rem;
+}
+
+/* Contenedor de tarjetas */
 .rutas-diagonales {
   display: flex;
-  height: 90vh; /* 🔷 Aumentamos la altura del contenedor */
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  gap: 1rem; /* 🔹 Separación entre tarjetas */
-  overflow: hidden;
-  margin-bottom: 10%;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  margin-bottom: 3rem;
 }
 
+/* Tarjeta individual */
 .tarjeta-diagonal {
   position: relative;
-  flex: 1;
+  width: 100%;
+  max-width: 500px;
+  height: 340px;
   overflow: hidden;
-  border-radius: 10px;
-  transition: 0.4s ease;
+  border-radius: 20px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+.tarjeta-diagonal:hover {
+  transform: scale(1.03);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+}
+
+/* Imagen de fondo */
 .tarjeta-diagonal img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: 0.5s ease;
+  transition: filter 0.4s ease;
   filter: brightness(1);
-  border-radius: 10px;
 }
 
+/* Oscurecer imagen al hacer hover */
 .tarjeta-diagonal:hover img {
-  filter: brightness(0.5);
+  filter: brightness(0.4);
 }
 
+/* Contenido sobre la imagen */
 .tarjeta-diagonal .contenido {
   position: absolute;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.4);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.3), transparent);
   color: white;
+  padding: 1.5rem;
   opacity: 0;
-  padding: 1rem;
+  transition: opacity 0.4s ease;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  transition: 0.4s ease;
+  justify-content: flex-end;
   overflow-y: auto;
   scrollbar-width: none;
+  border-radius: 20px;
 }
 
+/* Mostrar contenido al hacer hover */
+.tarjeta-diagonal:hover .contenido {
+  opacity: 1;
+}
+
+/* Ocultar scrollbar (Firefox + Webkit) */
 .tarjeta-diagonal .contenido::-webkit-scrollbar {
   display: none;
 }
+.tarjeta-diagonal .contenido {
+  scrollbar-width: none; /* Firefox */
+}
 
-.tarjeta-diagonal:hover .contenido {
-  opacity: 1;
+/* Títulos y texto dentro de tarjetas */
+.tarjeta-diagonal .contenido h2 {
+  font-size: 1.5rem;
+  margin: 0 0 0.5rem;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8);
+}
+
+.tarjeta-diagonal .contenido p,
+.tarjeta-diagonal .contenido li {
+  font-size: 1rem;
+  margin: 0;
+  line-height: 1.4;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+/* Lista dentro de las tarjetas */
+.tarjeta-diagonal .contenido ul {
+  padding-left: 1.2rem;
+  margin-top: 0.5rem;
+}
+
+/* RESPONSIVE para móviles */
+@media (max-width: 768px) {
+  .rutas-diagonales {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .tarjeta-diagonal {
+    height: 300px;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+}
+.titulo-superior {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0.8rem 1.2rem;
+  background: rgba(0, 0, 0, 0.6);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
+  border-bottom-right-radius: 15px;
+  z-index: 2;
+}
+.descripcion-rutas {
+  font-size: 1.2rem;
+  color: #dcdcdc;
+  max-width: 800px;
+  margin: -1rem auto 2.5rem auto;
+  text-align: center;
+  line-height: 1.6;
+  font-weight: 300;
 }

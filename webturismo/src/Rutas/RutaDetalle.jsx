@@ -22,8 +22,10 @@ const RutaDetalle = () => {
   const [rutaSeleccionada, setRutaSeleccionada] = useState(null);
   const [comentarios, setComentarios] = useState([]);
   const [nuevoComentario, setNuevoComentario] = useState("");
-  const userLocation = useUserLocation();
+  // const userLocation = useUserLocation();
   const { usuario, rol, cargando } = useUser();
+  const { location: userLocation, error, reintentarUbicacion } = useUserLocation();
+
 
   useEffect(() => {
     const mapContainer = document.getElementById("map");
@@ -38,13 +40,13 @@ const RutaDetalle = () => {
     }).addTo(mapRef.current);
 
     // Si existe la ubicación del usuario, agregar marcador
-    if (userLocation) {
+    if (userLocation && userLocation.lat != null && userLocation.lng != null) {
       L.marker(userLocation)
         .addTo(mapRef.current)
         .bindPopup("📍 Tu ubicación")
         .openPopup();
     }
-    console.log("📍 Ubicación detectada:", userLocation);
+    console.log("📍 Ubicación detectada:", userLocation || "no disponible");
 
     // Cargar datos de Rutas.json
     //  const cargarRutas = async () => {
@@ -68,7 +70,10 @@ const RutaDetalle = () => {
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-          console.log("✅ Documento encontrado:", docSnap.data());
+          if (!window.__documentLoggedOnce) {
+  console.log("✅ Documento encontrado:", docSnap.data());
+  window.__documentLoggedOnce = true;
+}
           setRutaSeleccionada(docSnap.data());
         } else {
           console.warn("⚠️ No se encontró la ruta con el ID:", id);

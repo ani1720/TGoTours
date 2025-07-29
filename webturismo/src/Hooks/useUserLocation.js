@@ -1,29 +1,40 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from 'react';
 
-function useUserLocation() {
+const useUserLocation = () => {
   const [location, setLocation] = useState(null);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
+  const solicitarUbicacion = () => {
     if (!navigator.geolocation) {
-      setError("La geolocalización no está disponible en este navegador.");
+      setError('Tu navegador no soporta la geolocalización.');
       return;
     }
+
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        setLocation([
-          position.coords.latitude,
-          position.coords.longitude,
-        ]);
+        setLocation({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        });
+        setError(null);
+        console.log('📍 Ubicación detectada:', position.coords);
       },
       (error) => {
-        console.error("Error obteniendo ubicación del usuario:", error);
-        setLocation(null);
-      },
-      { enableHighAccuracy: true }
+        console.error('Error obteniendo ubicación del usuario:', error);
+        if (error.code === 1) {
+          setError('Has denegado el permiso de ubicación. Actívalo para usar el mapa.');
+        } else {
+          setError('No se pudo obtener tu ubicación.');
+        }
+      }
     );
+  };
+
+  useEffect(() => {
+    solicitarUbicacion();
   }, []);
 
-  return location;
-}
-export default useUserLocation
+  return { location, error, solicitarUbicacion };
+};
+
+export default useUserLocation;
