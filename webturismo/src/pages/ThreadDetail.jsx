@@ -20,11 +20,23 @@ function ThreadDetail({ usuario }) {
   const [thread, setThread] = useState(null);
   const [comments, setComments] = useState([]);
   const [nuevoComentario, setNuevoComentario] = useState("");
+  const [autorThread, setAutorThread] = useState(null);
 
   useEffect(() => {
     const refDoc = doc(db, "threads", threadId);
     getDoc(refDoc).then((snap) => {
-      if (snap.exists()) setThread(snap.data());
+      if (snap.exists()) {
+        const threadData = snap.data();
+        setThread(threadData);
+
+        // Obtener datos del autor desde la colección usuarios
+        const refUsuario = doc(db, "usuarios", threadData.authorId);
+        getDoc(refUsuario).then((userSnap) => {
+          if (userSnap.exists()) {
+            setAutorThread(userSnap.data());
+          }
+        });
+      }
     });
 
     const q = query(
@@ -38,7 +50,7 @@ function ThreadDetail({ usuario }) {
 
     return () => unsubscribe();
   }, [threadId]);
-  
+
   const handleEliminarComentario = async (commentId) => {
     try {
       const refDoc = doc(db, "threads", threadId, "comments", commentId);
@@ -48,7 +60,7 @@ function ThreadDetail({ usuario }) {
       console.error("Error al eliminar el comentario:", error);
     }
   };
-  
+
   const handleEnviarComentario = async (e) => {
     e.preventDefault();
     if (!nuevoComentario.trim() || !usuario?.uid) return;
@@ -72,7 +84,16 @@ function ThreadDetail({ usuario }) {
     <div className="thread-detail">
       <h2>{thread.title}</h2>
       <p>{thread.content}</p>
-      <p>
+      <p className="autor-hilo">
+        <img
+          src={
+            autorThread?.fotoURL
+              ? autorThread.fotoURL
+              : `https://ui-avatars.com/api/?name=${thread.authorName}&background=random&color=fff&size=128`
+          }
+          alt="Avatar del autor"
+          className="avatar-comentario"
+        />
         <em>Publicado por {thread.authorName}</em>
       </p>
 

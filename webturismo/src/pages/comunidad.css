@@ -1,0 +1,159 @@
+.comunidad {
+    max-width: 1000px;
+    margin: 4rem auto;
+    padding: 2.5rem;
+    background: linear-gradient(145deg, #f0f0f5, #ffffff);
+    border-radius: 20px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+    color: #1c1c5c;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .comunidad h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #1c1c5c;
+    font-weight: 700;
+  }
+  
+  .comunidad .crear-hilo-btn {
+    display: block;
+    margin: 2rem auto;
+    padding: 0.9rem 1.8rem;
+    background-color: #ff6b35;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4);
+  }
+  
+  .crear-hilo-btn:hover {
+    background-color: #e0551c;
+    transform: scale(1.05);
+  }
+  
+  .hilo-card {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+  
+  .hilo-card:hover {
+    transform: translateY(-6px);
+  }
+  
+  .hilo-card h3 {
+    margin-top: 0;
+    font-size: 1.8rem;
+    color: #ff6b35;
+  }
+  
+  .hilo-card p {
+    margin: 0.8rem 0;
+    color: #555;
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+  
+  .hilo-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  
+  .hilo-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ff6b35;
+  }
+  
+  .hilo-autor {
+    color: #1c1c5c;
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+  
+  .threadtitle {
+    font-size: 1.5rem;
+    color: #1c1c5c;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .hilo-comunidad {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .link-hilo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    gap: 1.5rem;
+  }
+  
+  .avatar-comentario {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .threadtitle {
+    font-weight: bold;
+  }
+  
+  .autor-hilo {
+    font-size: 0.9rem;
+    color: #666;
+  }
+  
+  .explicacion-comunidad {
+    background-color: #fdfdfd;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border-left: 5px solid #1976d2;
+  }
+  
+  .explicacion-comunidad h3 {
+    margin-top: 0;
+    font-size: 1.8rem;
+    color: #1c1c5c;
+  }
+  
+  .comunidad-section {
+    margin-top: 1.5rem;
+    padding-left: 1rem;
+    border-left: 3px solid #1976d2;
+  }
+  
+  .comunidad-section h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.3rem;
+    color: #1976d2;
+  }
+  
+  .comunidad-section p {
+    margin: 0;
+    font-size: 1rem;
+    color: #444;
+    line-height: 1.6;
+  }
+  
