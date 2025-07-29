@@ -6,7 +6,7 @@ import "./RutaList.css";
 
 const RutaList = () => {
   const [rutas, setRutas] = useState([]);
-
+  const tipos = ["Montaña", "Histórica", "Playa"];
   useEffect(() => {
     const fetchRutas = async () => {
       try {
@@ -25,39 +25,50 @@ const RutaList = () => {
   }, []);
 
   return (
-    <div className="pantalla-completa">
-      <div className="vertical-layout">
-        <h1>Explora Rutas en Tarragona</h1>
+  <div className="pantalla-completa">
+    <div className="vertical-layout">
+      <h1>Explora Rutas en Tarragona</h1>
 
-        <section className="rutas-diagonales">
-          {rutas.slice(0, 3).map((ruta) => (
-            <Link
-              to={`/rutas/${ruta.id}`}
-              key={ruta.id}
-              className="tarjeta-diagonal"
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <img
-                src={ruta.imagen}
-                alt={ruta.nombre}
-                style={{ cursor: "pointer" }}
-              />
-              <div className="contenido">
-                <h2>{ruta.nombre}</h2>
-                <p><strong>Tipo:</strong> {ruta.tipo}</p>
-                <p><strong>Incluye:</strong></p>
-                <ul>
-                  {ruta.contenido?.map((item, idx) => (
-                    <li key={idx}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-            </Link>
-          ))}
-        </section>
-      </div>
+      {tipos.map((tipo) => {
+        const rutasPorTipo = rutas.filter((ruta) => ruta.tipo === tipo).slice(0, 3);
+
+        if (rutasPorTipo.length === 0) return null;
+
+        return (
+          <section key={tipo}>
+            <h2>{tipo}</h2>
+            <div className="rutas-diagonales">
+              {rutasPorTipo.map((ruta) => (
+                <Link
+                  to={`/rutas/${ruta.id}`}
+                  key={ruta.id}
+                  className="tarjeta-diagonal"
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
+                  <img
+                    src={ruta.imagen}
+                    alt={ruta.nombre}
+                    style={{ cursor: "pointer" }}
+                  />
+                  <div className="contenido">
+                    <h2>{ruta.nombre}</h2>
+                    <p><strong>Tipo:</strong> {ruta.tipo}</p>
+                    <p><strong>Incluye:</strong></p>
+                    <ul>
+                      {ruta.contenido?.map((item, idx) => (
+                        <li key={idx}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
+        );
+      })}
     </div>
-  );
+  </div>
+);
 };
 
 export default RutaList;
