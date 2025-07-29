@@ -42,19 +42,14 @@ const RutaDetalle = () => {
     ).addTo(mapRef.current);
   }, []);
 
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png", {
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors & CartoDB',
-    }).addTo(mapRef.current);
-
     // Si existe la ubicación del usuario, agregar marcador
-    if (userLocation && userLocation.lat != null && userLocation.lng != null) {
-      L.marker(userLocation)
-        .addTo(mapRef.current)
-        .bindPopup("📍 Tu ubicación")
-        .openPopup();
-    }
-    console.log("📍 Ubicación detectada:", userLocation || "no disponible");
+    // if (userLocation && userLocation.lat != null && userLocation.lng != null) {
+    //   L.marker(userLocation)
+    //     .addTo(mapRef.current)
+    //     .bindPopup("📍 Tu ubicación")
+    //     .openPopup();
+    // }
+    // console.log("📍 Ubicación detectada:", userLocation || "no disponible");
 
     // Cargar datos de Rutas.json
     //  const cargarRutas = async () => {
