@@ -76,8 +76,8 @@ const FreeTours = () => {
             <h4>💸 Tú decides cuánto pagar</h4>
             <p>
               Al finalizar el tour, tú decides cuánto pagar según tu experiencia
-              y presupuesto. Algunos tours también tienen un coste fijo muy
-              accesible. ¡Sin sorpresas ni tarifas ocultas!
+              y presupuesto. No hay tarifas fijas, lo que te permite disfrutar
+              sin preocuparte por el costo inicial.
             </p>
           </div>
 
@@ -93,9 +93,8 @@ const FreeTours = () => {
           <div className="guia-section">
             <h4>📆 Reserva fácil y rápida</h4>
             <p>
-              Solo tienes que seleccionar el tour que te interesa, elegir la
-              fecha y confirmar tu reserva. Recibirás todos los detalles por
-              correo electrónico y podrás contactar con el guía si lo necesitas.
+              Solo tienes que seleccionar el tour que te interesa, reservar
+              plaza y confirmar tu reserva.
             </p>
           </div>
 
@@ -129,16 +128,6 @@ const FreeTours = () => {
               ¿Conoces lugares únicos, arte callejero, historia local o
               gastronomía tradicional? Sea cual sea tu especialidad, diseña un
               recorrido personalizado y compártelo con el mundo.
-            </p>
-          </div>
-
-          <div className="guia-section">
-            <h4>📬 Recibe reservas</h4>
-            <p>
-              Una vez verificada tu cuenta y aprobado tu tour, empezarás a
-              recibir reservas confirmadas directamente en tu correo. Tendrás
-              acceso a los datos de los participantes y podrás comunicarte con
-              ellos antes del tour.
             </p>
           </div>
 
@@ -202,7 +191,7 @@ const FreeTours = () => {
               <h3>{tour.titulo}</h3>
               <p>{tour.descripcion}</p>
               <p>
-                <strong>Duración:</strong> {tour.duracion}
+                <strong>Duración (horas) :</strong> {tour.duracion}
               </p>
               <p>
                 <strong>Fecha:</strong> {tour.fecha}
@@ -303,6 +292,19 @@ const FreeTours = () => {
             </li>
           ))}
       </ul>
+      {usuario?.rol === "turista" && (
+        <div className="convertirse-guia">
+          <h3>¿Te gustaría convertirte en guía?</h3>
+          <p>
+            Si te apasiona compartir tu ciudad, tu cultura o tus rutas
+            favoritas, ¡quizás ser guía sea para ti! Regístrate como guía y
+            empieza a crear tus propios tours.
+          </p>
+          <Link to="/registro" className="boton-guia">
+            Quiero ser guía
+          </Link>
+        </div>
+      )}
     </div>
   );
 };

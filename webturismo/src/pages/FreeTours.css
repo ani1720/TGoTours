@@ -148,7 +148,7 @@
   margin-bottom: 2rem;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  border-left: 5px solid #2196f3;
+  border-left: 5px solid #1976d2;
 }
 
 .explicacion-guia h3 {
@@ -160,13 +160,13 @@
 .guia-section {
   margin-top: 1.5rem;
   padding-left: 1rem;
-  border-left: 3px solid #2196f3;
+  border-left: 3px solid #1976d2;
 }
 
 .guia-section h4 {
   margin: 0 0 0.5rem 0;
   font-size: 1.3rem;
-  color: #2196f3;
+  color: #1976d2;
 }
 
 .guia-section p {
@@ -199,3 +199,49 @@
   border-radius: 6px;
   cursor: pointer;
 }
+.convertirse-guia {
+  margin-top: 4rem;
+  padding: 2rem;
+  background-color: #e3f2fd;
+  border-left: 5px solid #1976d2;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  text-align: center;
+}
+
+.convertirse-guia h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.6rem;
+  color: #0d47a1;
+}
+
+.convertirse-guia p {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.boton-guia {
+  margin: 2rem auto;
+  display: inline-block;
+  padding: 0.9rem 1.8rem;
+  background-color: #ff6b35;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4);
+  text-align: center;
+  text-decoration: none;
+}
+
+.boton-guia:hover {
+  background-color: #e0551c;
+  transform: scale(1.05);
+  color: white; 
+  text-decoration: none; 
+}
+
