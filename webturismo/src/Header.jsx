@@ -100,7 +100,7 @@ function Header({ usuario, nombreUsuario, cerrarSesion }) {
         <Link to="/comunidad" onClick={() => setMenuOpen(false)}>
           COMUNIDAD
         </Link>
-        <Link to="/free-tours" onClick={() => setMenuOpen(false)}>
+        <Link to="/tours" onClick={() => setMenuOpen(false)}>
           FREE TOURS
         </Link>
       </nav>
