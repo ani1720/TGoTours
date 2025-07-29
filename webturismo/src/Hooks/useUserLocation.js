@@ -20,7 +20,11 @@ function useUserLocation() {
         console.error("Error obteniendo ubicación del usuario:", error);
         setLocation(null);
       },
-      { enableHighAccuracy: true }
+      {
+        enableHighAccuracy: true, // 🔍 Usa GPS si está disponible
+        maximumAge: 0,            // 🕒 No reutilices ubicaciones antiguas
+        timeout: 10000            // ⏱️ Espera hasta 10 segundos
+      }
     );
   }, []);
 
