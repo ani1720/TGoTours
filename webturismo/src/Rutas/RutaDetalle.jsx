@@ -119,7 +119,8 @@ const RutaDetalle = () => {
     coordenadas.forEach((coord, i) => {
       const latLng = [coord.latitude, coord.longitude]; // Leaflet: [lat, lng]
       const popupText =
-        i === 0 && userLocation ? "Tu ubicación" : `Punto ${i + 1}`;
+        i === 0 && userLocation ? "Tu ubicación" 
+        : rutaSeleccionada.contenido?.[i] || `Punto ${i + 1}`;    
       L.marker(latLng)
         .addTo(mapRef.current)
         .bindPopup(popupText);
