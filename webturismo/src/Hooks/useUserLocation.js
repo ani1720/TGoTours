@@ -21,12 +21,12 @@ const useUserLocation = () => {
       },
       (error) => {
 
-        console.error('Error obteniendo ubicación del usuario:', error);
-        if (error.code === 1) {
-          setError('Has denegado el permiso de ubicación. Actívalo para usar el mapa.');
-        } else {
-          setError('No se pudo obtener tu ubicación.');
-        }
+        // console.error('Error obteniendo ubicación del usuario:', error);
+        // if (error.code === 1) {
+        //   setError('Has denegado el permiso de ubicación. Actívalo para usar el mapa.');
+        // } else {
+        //   setError('No se pudo obtener tu ubicación.');
+        // }
 
         console.error("Error obteniendo ubicación del usuario:", error);
         setLocation(null);
