@@ -61,7 +61,7 @@ function Home() {
       <div className="mapa-info-container">
         <div className="mapa">
           <h2>RUTA HISTÓRICA ANTIGUO TARRACO</h2>
-          <MapView />
+          
         </div>
 
         <div className="info">
