@@ -1,14 +1,14 @@
 import React from "react";
-import Logo from "../assets/Logo2.png";
-import IconMap from "../assets/mapa.png";
-import IconLugar from "../assets/restos.png";
-import IconCamara from "../assets/camara.png";
-import IconForo from "../assets/foro.png";
-import eventos from "../assets/eventos.png";
-import freetours from "../assets/freetours.png";
-import dani from "../assets/dani.jpg";
-import adria from "../assets/adria.jpg";
-import ani from "../assets/ani.jpg";
+import Logo from "/assets/Logo2.png";
+import IconMap from "/assets/mapa.png";
+import IconLugar from "/assets/restos.png";
+import IconCamara from "/assets/camara.png";
+import IconForo from "/assets/foro.png";
+import eventos from "/assets/eventos.png";
+import freetours from "/assets/freetours.png";
+import dani from "/assets/dani.jpg";
+import adria from "/assets/adria.jpg";
+import ani from "/assets/ani.jpg";
 import "../App.css";
 import MapView from "../WebView";
 
