@@ -27,6 +27,7 @@ import Contacto from "./pages/Contacto";
 import Terminos from "./pages/Terminos";
 import CrearTour from "./pages/CrearTour";
 import FreeTours from "./pages/FreeTours";
+import CastellsDetalle from "./pages/CastellsDetalle";
 
 function App() {
   const [usuario, setUsuario] = useState(null);
@@ -152,6 +153,7 @@ function App() {
           <Route path="/mapa" element={<Mapa />} />
           <Route path="/eventos" element={<Eventos />} />
           <Route path="/eventos/:mes" element={<EventosMes />} />
+          <Route path="/eventos/:mes/castells" element={<CastellsDetalle />} />
           <Route path="/about" element={<About />} />
           <Route path="/perfil" element={<Perfil />} />
           <Route path="/perfil" element={<Perfil />} />
