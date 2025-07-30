@@ -172,7 +172,7 @@ nav a:hover {
     display: block;
     font-size: 1.5rem;         /* ⬅ Más pequeño que antes */
     position: absolute;
-    top: 2rem;                 /* ⬅ Mantiene la altura sin expandir el header */
+    top: 1rem;                 /* ⬅ Mantiene la altura sin expandir el header */
     left: 50%;
     transform: translateX(-50%);
     z-index: 1100;
@@ -182,19 +182,19 @@ nav a:hover {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding: 3.5rem 1rem 1rem; /* ⬅ Reservamos espacio arriba para el icono */
+    padding: 2.8rem 1rem 1rem; /* ⬅ Reservamos espacio arriba para el icono */
     position: relative;
   }
 
   .logo-img {
     height: 50px;
-    margin-top: -40px;
+    margin-top: -30px;
   }
 
   .name-web img {
     height: 60px;
     transform: translateY(0);
-    margin-top: -30px;
+    margin-top: -25px;
   }
 
   .auth-section {
@@ -229,7 +229,15 @@ nav a:hover {
     padding: 0.5rem;
     z-index: 999;
   }
+  .login-button {
+    font-size: 14px;
+    padding: 6px 12px;
+    max-width: 120px;
+    white-space: nowrap;
+    height: auto;
+  }
 }
+
 
 
 
