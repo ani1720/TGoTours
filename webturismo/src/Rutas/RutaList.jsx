@@ -63,7 +63,7 @@ const RutaList = () => {
                       {/* <h2>{ruta.nombre}</h2> */}
                       {/* <p><strong>Tipo:</strong> {ruta.tipo}</p> */}
                       <p>
-                        <strong>Incluye:</strong>
+                        <strong>Puntos de Interes:</strong>
                       </p>
                       <ul>
                         {ruta.contenido?.map((item, idx) => (
