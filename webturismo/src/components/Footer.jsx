@@ -41,7 +41,7 @@ const Footer = ({ activarAccesibilidad, modoAccesible, leerTexto }) => {
           <ul>
             <ul>
               <li>
-                <Link to="/">Inicio</Link>
+                <Link to="/sobrenosotros">Sobre Nosotros</Link>
               </li>
               <li>
                 <Link to="/rutas">Rutas</Link>
