@@ -85,14 +85,14 @@ function Header({ usuario, nombreUsuario, cerrarSesion }) {
         <Link to="/" onClick={() => setMenuOpen(false)}>
           HOME
         </Link>
-        <Link to="/eventos" onClick={() => setMenuOpen(false)}>
-          EVENTOS
-        </Link>
-        <Link to="/mapa" onClick={() => setMenuOpen(false)}>
-          MAP
-        </Link>
         <Link to="/rutas" onClick={() => setMenuOpen(false)}>
           RUTAS
+        </Link>
+        <Link to="/mapa" onClick={() => setMenuOpen(false)}>
+          MAPA
+        </Link>
+        <Link to="/eventos" onClick={() => setMenuOpen(false)}>
+          EVENTOS
         </Link>
         <Link to="/comunidad" onClick={() => setMenuOpen(false)}>
           COMUNIDAD

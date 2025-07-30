@@ -68,9 +68,10 @@ function Home() {
           <h1>Turismo en Tarragona</h1>
           <p>“Una plataforma de turismo inteligente en Tarragona.”</p>
           <span className="servicios-label">Servicios</span>
-          <button>Tours personalizados</button>
-          <button>Maneras de conocer Tarragona</button>
-          <button>Ciudad Inteligente</button>
+          <button>Rutas y mapas interactivos</button>
+          <button>Eventos culturales y puntos de interés</button>
+          <button>FreeTours</button>
+          <button>Comunidad</button>
         </div>
       </div>
       <div className="slider-wrapper">
