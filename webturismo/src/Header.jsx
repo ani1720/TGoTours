@@ -2,8 +2,8 @@ import "./Header.css";
 import { createPortal } from "react-dom";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
-import Logo from "./assets/Logo2.png";
-import nameWeb from "./assets/webname.png";
+import Logo from "/assets/Logo2.png";
+import nameWeb from "/assets/webname.png";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "./firebase/firebaseConfig";
 

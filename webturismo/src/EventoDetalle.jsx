@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import castells from './assets/castells.jpg';
-import collaJove from './assets/colla-jove.jpg';
-import xiquetsTgn from './assets/xiquets-tarragona.jpg';
-import xiquetsSP from './assets/xiquets-santpere.jpg';
-import collaSerrallo from './assets/colla-serrallo.jpg';
+import castells from '/assets/castells.jpg';
+import collaJove from '/assets/colla-jove.jpg';
+import xiquetsTgn from '/assets/xiquets-tarragona.jpg';
+import xiquetsSP from '/assets/xiquets-santpere.jpg';
+import collaSerrallo from '/assets/colla-serrallo.jpg';
 
 const eventoCastells = {
   titulo: "Castells semanales",

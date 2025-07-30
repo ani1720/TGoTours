@@ -2,11 +2,11 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
-import Logo from "../assets/logounion.png";
-import IconMap from "../assets/mapa.png";
-import IconLugar from "../assets/restos.png";
-import IconCamara from "../assets/camara.png";
-import IconForo from "../assets/foro.png";
+import Logo from "/assets/logounion.png";
+import IconMap from "/assets/mapa.png";
+import IconLugar from "/assets/restos.png";
+import IconCamara from "/assets/camara.png";
+import IconForo from "/assets/foro.png";
 import "./About.css";
 
 
