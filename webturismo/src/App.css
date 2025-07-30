@@ -125,16 +125,22 @@ html, body {
 
 .slider-wrapper {
   display: flex;
-  align-items: center;
+  ;
   justify-content: center;
   gap: 3rem;
   margin-top: 5rem;
   margin-bottom: 3rem;
 }
-
+.slider-item-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 .slider-container {
   display: flex;
   justify-content: center;
+  flex-direction: row;
   align-items: center;
   gap: 1rem;
   margin: 2rem 1rem;
@@ -143,10 +149,8 @@ html, body {
 .slider-item {
   width: 220px;
   height: 220px;
-  object-fit: cover;
-  
-  transition: transform 0.3s ease, opacity 0.3s ease;
-  
+  object-fit: cover;  
+  transition: transform 0.3s ease, opacity 0.3s ease;  
   transform: scale(1);
   border-radius: 8px;
 }

@@ -73,8 +73,9 @@ function Home() {
           <button>Ciudad Inteligente</button>
         </div>
       </div>
-
-      <div key={i} className="slider-item-container">
+      <div className="slider-wrapper">
+        {lugares.map((lugar, i) => (
+          <div key={i} className="slider-item-container">
             <img
               src={lugar.img}
               alt={lugar.nombre}
@@ -83,28 +84,12 @@ function Home() {
               onMouseLeave={() => setHoveredIndex(null)}
               onClick={() => setSelectedLugar(lugar)}
             />
+          </div>
+        ))}
+      </div>
 
-                  {selectedLugar?.id === lugar.id && (
-              <div className="card-detalle inline-card">
-                <div className="card-imagen">
-                  <img src={selectedLugar.img} alt={selectedLugar.nombre} />
-                </div>
-                <div className="card-info">
-                  <h2>{selectedLugar.nombre}</h2>
-                  <p>{selectedLugar.descripcion}</p>
-                  <p>
-                    <strong>Detalles:</strong> Este sitio es uno de los puntos
-                    destacados de la ruta turística por Tarragona. Ideal
-                    para visitas culturales, actividades al aire libre y vistas
-                    panorámicas.
-                  </p>
-                  <p><strong>Horario:</strong> 10:00 - 18:00</p>
-                  <p><strong>Ubicación:</strong> Tarragona centro histórico</p>
-                </div>
-              </div>
-            )}
-        {/* {/* ))} */}
-      </div> 
+
+
 
 
       {selectedLugar && (
@@ -288,7 +273,7 @@ function Home() {
           <h2>Sobre los creadores</h2>
           <div className="creadores-grid">
             <div className="creador-card">
-             <img src={adria} alt="Foto Adrià" className="creador-img" />
+              <img src={adria} alt="Foto Adrià" className="creador-img" />
               <h3>Adrià González</h3>
               <span className="creador-rol">Desarrollador Backend</span>
               <p>

@@ -7,7 +7,7 @@ import Header from "./Header";
 import Login from "./Login";
 import Registro from "./Registro";
 import Home from "./Home";
-import About from "./pages/about";
+import About from "./pages/About";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "./firebase/firebaseConfig";
 import Mapa from "./pages/Mapa";
