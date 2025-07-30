@@ -39,17 +39,60 @@ const iconos = {
     iconAnchor: [16, 32],
     popupAnchor: [0, -32],
   }),
+  restauranteOSM: new L.Icon({
+    iconUrl: "https://cdn-icons-png.flaticon.com/512/3075/3075977.png",
+    iconSize: [32, 32],
+    iconAnchor: [16, 32],
+    popupAnchor: [0, -32],
+  }),
+  barOSM: new L.Icon({
+    iconUrl: "https://cdn-icons-png.flaticon.com/512/2329/2329157.png",
+    iconSize: [32, 32],
+    iconAnchor: [16, 32],
+    popupAnchor: [0, -32],
+  }),
 };
 
 const Mapa = () => {
   const [puntos, setPuntos] = useState([]);
   const [filtros, setFiltros] = useState({
-    cafeterias: true,
+    // cafeterias: true,
     hoteles: true,
-    bares: true,
+    // bares: true,
     puntosDeInteres: true,
     Casino: true,
+    restauranteOSM: true,
+    barOSM: true,
   });
+  const fetchOverpass = async () => {
+    const query = `
+    [out:json][timeout:25];
+    (
+      node["amenity"="restaurant"](around:1000,41.1167,1.2554);
+      node["amenity"="bar"](around:1000,41.1167,1.2554);
+    );
+    out body;
+  `;
+
+    const url = "https://overpass-api.de/api/interpreter";
+    const response = await fetch(url, {
+      method: "POST",
+      body: query,
+    });
+
+    const data = await response.json();
+
+    const puntosOSM = data.elements.map((el) => ({
+      tipo: el.tags.amenity === "restaurant" ? "restauranteOSM" : "barOSM",
+      nombre: el.tags.name || "Nombre no disponible",
+      descripcion: el.tags.cuisine
+        ? `Tipo: ${el.tags.cuisine}`
+        : "Descripción no disponible",
+      coordenadas: [el.lat, el.lon],
+    }));
+
+    return puntosOSM;
+  };
 
   useEffect(() => {
     const fetchTodo = async () => {
@@ -77,8 +120,8 @@ const Mapa = () => {
           });
         });
       }
-
-      setPuntos(nuevosPuntos);
+      const puntosOSM = await fetchOverpass();
+      setPuntos([...nuevosPuntos, ...puntosOSM]);
     };
 
     fetchTodo();
@@ -96,7 +139,7 @@ const Mapa = () => {
               setFiltros((prev) => ({ ...prev, cafeterias: !prev.cafeterias }))
             }
           />
-          Cafeterías
+          {/* Cafeterías
         </label>{" "}
         <label>
           <input
@@ -105,7 +148,7 @@ const Mapa = () => {
             onChange={() =>
               setFiltros((prev) => ({ ...prev, hoteles: !prev.hoteles }))
             }
-          />
+          /> */}
           Hoteles
         </label>{" "}
         <label>
@@ -116,7 +159,7 @@ const Mapa = () => {
               setFiltros((prev) => ({ ...prev, bares: !prev.bares }))
             }
           />
-          Bares
+          {/* Bares
         </label>{" "}
         <label>
           <input
@@ -128,7 +171,7 @@ const Mapa = () => {
                 puntosDeInteres: !prev.puntosDeInteres,
               }))
             }
-          />
+          /> */}
           Puntos de Interés
         </label>{" "}
         <label>
@@ -140,6 +183,32 @@ const Mapa = () => {
             }
           />
           Casino
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            checked={filtros.restauranteOSM}
+            onChange={() =>
+              setFiltros((prev) => ({
+                ...prev,
+                restauranteOSM: !prev.restauranteOSM,
+              }))
+            }
+          />
+          Restaurantes
+        </label>{" "}
+        <label>
+          <input
+            type="checkbox"
+            checked={filtros.barOSM}
+            onChange={() =>
+              setFiltros((prev) => ({
+                ...prev,
+                barOSM: !prev.barOSM,
+              }))
+            }
+          />
+          Bares
         </label>
       </div>
 
