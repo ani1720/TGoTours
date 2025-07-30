@@ -1,0 +1,86 @@
+.gridContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+/* Tarjeta de evento estilo RutaList */
+.card {
+  position: relative;
+  width: 100%;
+  max-width: 340px;
+  height: 240px;
+  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: filter 0.4s ease;
+  filter: brightness(1);
+}
+
+.card:hover .image {
+  filter: brightness(0.4);
+}
+
+.contenido {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.3), transparent);
+  color: white;
+  padding: 1.5rem;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow-y: auto;
+  border-radius: 20px;
+}
+
+.card:hover .contenido {
+  opacity: 1;
+}
+
+.contenido h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.3rem;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8);
+}
+
+@media (max-width: 768px) {
+  .gridContainer {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card {
+    height: 220px;
+  }
+}
+.tituloMes {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0.6rem 1rem;
+  background: rgba(0, 0, 0, 0.6);
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
+  border-bottom-right-radius: 15px;
+  z-index: 2;
+}

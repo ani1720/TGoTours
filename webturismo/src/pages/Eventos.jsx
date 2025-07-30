@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
 import { Link } from "react-router-dom";
+import styles from "./Eventos.module.css"; // ✅ Importación del CSS Module
 
 const meses = [
   "enero", "febrero", "marzo", "abril", "mayo", "junio",
@@ -17,12 +18,11 @@ const Eventos = () => {
         const nuevosEventos = {};
 
         for (const mes of meses) {
-          const mesRef = collection(db, "eventos", mes, mes);
-          const snapshot = await getDocs(mesRef);
+          const docRef = doc(db, "eventos", mes);
+          const docSnap = await getDoc(docRef);
 
-          if (!snapshot.empty) {
-            const doc = snapshot.docs[0];
-            nuevosEventos[mes] = { id: doc.id, ...doc.data() };
+          if (docSnap.exists()) {
+            nuevosEventos[mes] = { id: docSnap.id, ...docSnap.data() };
           }
         }
 
@@ -38,27 +38,30 @@ const Eventos = () => {
   return (
     <div className="bg-[#0B0C2A] min-h-screen text-white">
       <h2 className="text-5xl font-bold text-center pt-10 pb-10">Eventos por mes</h2>
-      <div className="flex flex-wrap justify-center gap-10 pb-20">
+      <div className={styles.gridContainer}>
         {meses.map((mes) => {
           const evento = eventosDestacados[mes];
           return (
-            <div key={mes} className="text-center">
-              <Link to={`/eventos/${mes}`}>
-                {evento?.imagenUrl && (
+            <Link to={`/eventos/${mes}`} key={mes} className={styles.card}>
+              {evento?.imagenUrl && (
+                <>
+                  <span className={styles.tituloMes}>{mes}</span> {/* 🔽 Nombre visible */}
                   <img
                     src={evento.imagenUrl}
-                    alt={evento.nombre}
-                    className="w-80 h-52 object-cover rounded-xl"
+                    alt={evento.nombre || mes}
+                    className={styles.image}
                   />
-                )}
-                <h3 className="text-2xl font-bold mt-3 capitalize text-[#4F46E5]">
-                  {mes}
-                </h3>
-              </Link>
-            </div>
+                  <div className={styles.contenido}>
+                    {/* puedes añadir más info si quieres */}
+                  </div>
+                </>
+              )}
+            </Link>
           );
         })}
       </div>
+
+
     </div>
   );
 };

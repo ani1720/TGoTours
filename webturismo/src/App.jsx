@@ -7,12 +7,13 @@ import Header from "./Header";
 import Login from "./Login";
 import Registro from "./Registro";
 import Home from "./Home";
+import About from "./pages/about";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "./firebase/firebaseConfig";
 import Mapa from "./pages/Mapa";
 import Eventos from "./pages/Eventos";
 import Footer from "./components/Footer";
-import EventoDetalle from "./EventoDetalle";
+import EventoDetalle from "./EventoDetalle"; 
 import EventosMes from "./pages/EventosMes";
 import Perfil from "./pages/Perfil";
 import Comunidad from "./pages/comunidad";
@@ -151,8 +152,10 @@ function App() {
           <Route path="/rutas/*" element={<Ruta />} />
           <Route path="/mapa" element={<Mapa />} />
           <Route path="/eventos" element={<Eventos />} />
-          <Route path="/eventos/:mes" element={<EventosMes />} />
-          <Route path="/eventos/:mes/castells" element={<CastellsDetalle />} />
+          <Route path="/eventos/:mes" element={<EventosMes />} />         
+          <Route path="/evento/castells" element={<EventoDetalle />} />
+          <Route path="/about" element={<About />} />
+
           <Route path="/perfil" element={<Perfil />} />
           <Route path="/perfil" element={<Perfil />} />
           <Route path="/comunidad" element={<Comunidad />} />
