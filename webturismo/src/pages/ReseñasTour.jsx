@@ -4,6 +4,8 @@ import {
   collection,
   addDoc,
   getDocs,
+  getDoc,
+  doc,
   serverTimestamp,
 } from "firebase/firestore";
 import { useUser } from "../context/UserContext";
@@ -13,6 +15,7 @@ const ReseñasTour = ({ tourId }) => {
   const [reseñas, setReseñas] = useState([]);
   const [nuevaReseña, setNuevaReseña] = useState("");
   const [estrellas, setEstrellas] = useState(5);
+  const [puedeReseñar, setPuedeReseñar] = useState(false);
 
   useEffect(() => {
     const cargarReseñas = async () => {
@@ -22,8 +25,22 @@ const ReseñasTour = ({ tourId }) => {
       const lista = snapshot.docs.map((doc) => doc.data());
       setReseñas(lista);
     };
+
+    const verificarReserva = async () => {
+      const tourRef = doc(db, "freeTours", tourId);
+      const tourSnap = await getDoc(tourRef);
+      if (tourSnap.exists()) {
+        const inscritos = tourSnap.data().inscritos || [];
+        setPuedeReseñar(inscritos.includes(usuario.uid));
+      }
+    };
+
+    if (usuario) {
+      verificarReserva();
+    }
+
     cargarReseñas();
-  }, [tourId]);
+  }, [tourId, usuario]);
 
   const enviarReseña = async () => {
     if (!nuevaReseña.trim()) return;
@@ -53,7 +70,7 @@ const ReseñasTour = ({ tourId }) => {
         ))
       )}
 
-      {usuario && (
+      {usuario && puedeReseñar && (
         <div style={{ marginTop: "1rem" }}>
           <label>
             Estrellas:
@@ -77,6 +94,12 @@ const ReseñasTour = ({ tourId }) => {
           />
           <button onClick={enviarReseña}>Enviar reseña</button>
         </div>
+      )}
+
+      {usuario && !puedeReseñar && (
+        <p style={{ marginTop: "1rem", color: "gray" }}>
+          Solo puedes dejar una reseña si reservaste este tour.
+        </p>
       )}
     </div>
   );
