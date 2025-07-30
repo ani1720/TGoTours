@@ -43,7 +43,7 @@ const RutaList = () => {
 
           return (
             <section key={tipo}>
-              <h2>{tipo}</h2>
+              <h2 className="rutalist-titulo">{tipo}</h2>{" "}
               <div className="rutas-diagonales">
                 {rutasPorTipo.map((ruta) => (
                   <Link
