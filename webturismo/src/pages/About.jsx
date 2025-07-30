@@ -1,12 +1,32 @@
 import React from "react";
-import Logo from "../assets/Logo2.png";
+import { useEffect, useState } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase/firebaseConfig";
+import Logo from "../assets/logounion.png";
 import IconMap from "../assets/mapa.png";
 import IconLugar from "../assets/restos.png";
 import IconCamara from "../assets/camara.png";
 import IconForo from "../assets/foro.png";
 import "./About.css";
 
+
 const About = () => {
+  const [creadores, setCreadores] = useState([]);
+
+useEffect(() => {
+  const obtenerCreadores = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, "creadores"));
+      const datos = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      setCreadores(datos);
+    } catch (error) {
+      console.error("Error al obtener creadores:", error);
+    }
+  };
+
+  obtenerCreadores();
+}, []);
+
   return (
     <div className="about-wrapper">
       <div className="about-logo-section">
@@ -49,9 +69,10 @@ const About = () => {
         </p>
 
         <p>
-          Nuestro equipo está formado por amantes de la historia, la cultura de Tarragona y desarroladores entusiastas.
-          Juntos hemos creado esta plataforma con la intención de conectar tecnología y patrimonio,
-          permitiendo a cualquier persona descubrir la ciudad a pie, a su ritmo 
+          Nuestro equipo está formado por amantes de la historia, la cultura de
+          Tarragona y desarroladores entusiastas. Juntos hemos creado esta
+          plataforma con la intención de conectar tecnología y patrimonio,
+          permitiendo a cualquier persona descubrir la ciudad a pie, a su ritmo
           y con información útil.
         </p>
 
@@ -74,10 +95,10 @@ const About = () => {
           Estamos en constante mejora. Si tienes ideas, correcciones o quieres
           colaborar, puedes escribirnos a:{" "}
           <a
-            href="mailto:contacto@tarracoexplorer.com"
+            href="mailto:contacto@tgotours.com"
             style={{ color: "#81c7ff", textDecoration: "underline" }}
           >
-            contacto@tarracoexplorer.com
+            contacto@tgotours.com
           </a>
         </p>
 
@@ -113,6 +134,18 @@ const About = () => {
           <p className="creator-bio">Responsable de la interaccion del usuario</p>
           </div>
 
+          {creadores.map((creador) => (
+            <div className="creator-card" key={creador.id}>
+              <img
+                src={creador.imagen}
+                alt={`Foto de ${creador.nombre}`}
+                className="creator-image"
+              />
+              <div className="creator-name">{creador.nombre}</div>
+              <div className="creator-role">{creador.rol}</div>
+              <p className="creator-bio">{creador.bio}</p>
+            </div>
+          ))}
         </div>
       </div>
     </div>

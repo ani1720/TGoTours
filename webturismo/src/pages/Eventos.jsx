@@ -1,131 +1,66 @@
-import React from 'react';
-import './Eventos.css';
+import React, { useEffect, useState } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase/firebaseConfig";
 import { Link } from "react-router-dom";
 
-
-import hoguera from '../assets/hoguera.jpg';
-import fuegos from '../assets/fuegos.jpg';
-import tarracoViva from '../assets/tarraco-viva.jpg';
-import castells from '../assets/castells.jpg';
-import campdemart from '../assets/Campdemart.jpg';
-import santmagi from '../assets/santmagi.jpg';
-import dixieland from '../assets/dixieland.jpg';
-import TarraTangueando from '../assets/TarraTangueando.jpg';
-import SantaTecla from '../assets/SantaTecla.jpg';
-import URSI from '../assets/URSI.jpg';
-
-
-
-const eventosMensuales = [
-  {
-    mes: "Junio",
-    eventos: [
-      {
-        titulo: "Castells semanales",
-        descripcion: "Exhibiciones tradicionales de torres humanas.",
-        imagen: castells
-      },
-      {
-        titulo: "Nit de Sant Joan",
-        descripcion: "Celebración con hogueras, música y fuegos artificiales.",
-        imagen: hoguera
-      }
-    ]
-  },
-  {
-    mes: "Julio",
-    eventos: [
-      {
-        titulo: "Concurso de Fuegos Artificiales",
-        descripcion: "Competencia pirotécnica en la playa.",
-        imagen: fuegos
-      },
-      {
-        titulo: "Festival Camp de Mart",
-        descripcion: "Festival cultural con música y teatro al aire libre.",
-        imagen: campdemart
-      }
-    ]
-  },
-  {
-    mes: "Agosto",
-    eventos: [
-      {
-        titulo: "Sant Magí",
-        descripcion: "Fiestas patronales con procesiones y conciertos.",
-        imagen: santmagi
-      },
-      {
-        titulo: "Dixieland",
-        descripcion: "Festival de jazz tradicional.",
-        imagen: dixieland
-      },
-      {
-        titulo: "TarraTangueando",
-        descripcion: "Encuentro de tango con talleres y espectáculos.",
-        imagen: TarraTangueando
-      }
-    ]
-  },
-  {
-    mes: "Septiembre",
-    eventos: [
-      {
-        titulo: "Santa Tecla",
-        descripcion: "Gran fiesta mayor con actos tradicionales y fuegos.",
-        imagen: SantaTecla
-      },
-      {
-        titulo: "URSI",
-        descripcion: "Encuentro artístico urbano con intervenciones creativas.",
-        imagen: URSI
-      },
-      {
-        titulo: "Espectáculos en el Palau & cultura científica",
-        descripcion: "Eventos culturales y divulgación científica.",
-        imagen: tarracoViva
-      }
-    ]
-  }
+const meses = [
+  "enero", "febrero", "marzo", "abril", "mayo", "junio",
+  "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"
 ];
 
-function Eventos() {
-  return (
-    <div className="eventos-container">
-      <h1>Eventos mensuales en Tarragona</h1>
-      {eventosMensuales.map((grupo, idx) => (
-        <div key={idx}>
-          <h2>{grupo.mes}</h2>
-          <div className="evento-grid">
-            {grupo.eventos.map((evento, i) => (
-              evento.imagen ? (
-                <Link
-                  to={`/eventos/${encodeURIComponent(evento.titulo)}`}
-                  key={i}
-                  className="evento-card"
-                  style={{ textDecoration: "none", color: "inherit" }}
-                >
-                  <img src={evento.imagen} alt={evento.titulo} />
-                  <div className="evento-info">
-                    <h3>{evento.titulo}</h3>
-                    <p>{evento.descripcion}</p>
-                  </div>
-                </Link>
+const Eventos = () => {
+  const [eventosDestacados, setEventosDestacados] = useState({});
 
-              ) : (
-                <div className="evento-card evento-sin-imagen" key={i}>
-                  <div className="evento-info no-img">
-                    <h3>{evento.titulo}</h3>
-                    <p>{evento.descripcion}</p>
-                  </div>
-                </div>
-              )
-            ))}
-          </div>
-        </div>
-      ))}
+  useEffect(() => {
+    const obtenerEventos = async () => {
+      try {
+        const nuevosEventos = {};
+
+        for (const mes of meses) {
+          const mesRef = collection(db, "eventos", mes, mes);
+          const snapshot = await getDocs(mesRef);
+
+          if (!snapshot.empty) {
+            const doc = snapshot.docs[0];
+            nuevosEventos[mes] = { id: doc.id, ...doc.data() };
+          }
+        }
+
+        setEventosDestacados(nuevosEventos);
+      } catch (error) {
+        console.error("Error al cargar eventos destacados:", error);
+      }
+    };
+
+    obtenerEventos();
+  }, []);
+
+  return (
+    <div className="bg-[#0B0C2A] min-h-screen text-white">
+      <h2 className="text-5xl font-bold text-center pt-10 pb-10">Eventos por mes</h2>
+      <div className="flex flex-wrap justify-center gap-10 pb-20">
+        {meses.map((mes) => {
+          const evento = eventosDestacados[mes];
+          return (
+            <div key={mes} className="text-center">
+              <Link to={`/eventos/${mes}`}>
+                {evento?.imagenUrl && (
+                  <img
+                    src={evento.imagenUrl}
+                    alt={evento.nombre}
+                    className="w-80 h-52 object-cover rounded-xl"
+                  />
+                )}
+                <h3 className="text-2xl font-bold mt-3 capitalize text-[#4F46E5]">
+                  {mes}
+                </h3>
+              </Link>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
-}
+};
 
 export default Eventos;

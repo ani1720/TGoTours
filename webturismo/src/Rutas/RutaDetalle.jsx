@@ -22,8 +22,10 @@ const RutaDetalle = () => {
   const [rutaSeleccionada, setRutaSeleccionada] = useState(null);
   const [comentarios, setComentarios] = useState([]);
   const [nuevoComentario, setNuevoComentario] = useState("");
-  const userLocation = useUserLocation();
+  // const userLocation = useUserLocation();
   const { usuario, rol, cargando } = useUser();
+  const { location: userLocation, error, reintentarUbicacion } = useUserLocation();
+
 
   // Inicializar el mapa una sola vez
   useEffect(() => {
@@ -40,6 +42,28 @@ const RutaDetalle = () => {
     ).addTo(mapRef.current);
   }, []);
 
+    // Si existe la ubicación del usuario, agregar marcador
+    // if (userLocation && userLocation.lat != null && userLocation.lng != null) {
+    //   L.marker(userLocation)
+    //     .addTo(mapRef.current)
+    //     .bindPopup("📍 Tu ubicación")
+    //     .openPopup();
+    // }
+    // console.log("📍 Ubicación detectada:", userLocation || "no disponible");
+
+    // Cargar datos de Rutas.json
+    //  const cargarRutas = async () => {
+    //     try {
+    //       const querySnapshot = await getDocs(collection(db, "Rutas", id));
+    //       const rutasData = [];
+    //       querySnapshot.forEach((doc) => rutasData.push(doc.data()));
+    //       if (rutasData.length > 0) setRutaSeleccionada(rutasData[0]);
+    //     } catch (error) {
+    //       console.error("Error al cargar rutas desde Firebase:", error);
+    //     }
+    //   };
+    //   cargarRutas();
+
   // Advertir si la geolocalización no está disponible
   useEffect(() => {
     if (!userLocation) {
@@ -47,6 +71,7 @@ const RutaDetalle = () => {
         "⚠️ Ubicación del usuario no disponible. Verifica permisos del navegador."
       );
     }
+
   }, [userLocation]);
 
   // Cargar datos de la ruta desde Firestore
@@ -58,7 +83,10 @@ const RutaDetalle = () => {
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-          console.log("✅ Documento encontrado:", docSnap.data());
+          if (!window.__documentLoggedOnce) {
+  console.log("✅ Documento encontrado:", docSnap.data());
+  window.__documentLoggedOnce = true;
+}
           setRutaSeleccionada(docSnap.data());
         } else {
           console.warn("⚠️ No se encontró la ruta con el ID:", id);
