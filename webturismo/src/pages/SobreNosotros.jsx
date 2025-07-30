@@ -173,7 +173,7 @@ const SobreNosotros = () => {
           <h2>Sobre los creadores</h2>
           <div className="creadores-grid">
             <div className="creador-card">
-              <img src={adria} alt="Foto Adrià" className="creador-img" />
+              <img src="https://firebasestorage.googleapis.com/v0/b/webturismo-9e4b1.firebasestorage.app/o/imagenes%2Fadria.jpg?alt=media&token=7298667a-ad51-4c6d-ab0b-a3d07ac5fc59" alt="Foto Adrià" className="creador-img" />
               <h3>Adrià González</h3>
               <span className="creador-rol">Desarrollador Backend</span>
               <p>
@@ -183,7 +183,7 @@ const SobreNosotros = () => {
 
             <div className="creador-card">
               <img
-                src={dani}
+                src="https://firebasestorage.googleapis.com/v0/b/webturismo-9e4b1.firebasestorage.app/o/imagenes%2Fdani.jpg?alt=media&token=39a9ae5e-34cf-44a0-abee-664ea3d5bf0c"
                 alt="Foto Daniel"
                 className="creador-img"
               />
@@ -196,7 +196,7 @@ const SobreNosotros = () => {
 
             <div className="creador-card">
               <img
-                src={ani}
+                src="https://firebasestorage.googleapis.com/v0/b/webturismo-9e4b1.firebasestorage.app/o/imagenes%2Fani.jpg?alt=media&token=c282db41-fa07-40ad-97c0-f7220f8b32e6"
                 alt="Foto Nighjhurey"
                 className="creador-img"
               />

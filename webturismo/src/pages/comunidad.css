@@ -8,6 +8,15 @@
     color: #1c1c5c;
     font-family: 'Poppins', sans-serif;
   }
+
+  .comunidad h1 {
+    text-align: center;
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    color: #FFD700;
+    font-weight: 700;
+    text-shadow: 0 0 0.5px #FFD700, 0 0 0.5px #FFA500;
+  }
   
   .comunidad h2 {
     text-align: center;
