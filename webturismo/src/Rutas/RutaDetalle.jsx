@@ -15,6 +15,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
 import { useUser } from "../context/UserContext";
+import "./rutadetalle.css";
 
 const RutaDetalle = () => {
   const { id } = useParams(); // 🔑 Usamos el ID de la URL
@@ -29,6 +30,19 @@ const RutaDetalle = () => {
     error,
     reintentarUbicacion,
   } = useUserLocation();
+  function calcularDistanciaKm(coord1, coord2) {
+    const R = 6371; // radio de la Tierra en km
+    const dLat = (coord2.lat - coord1.lat) * (Math.PI / 180);
+    const dLon = (coord2.lng - coord1.lng) * (Math.PI / 180);
+    const lat1 = coord1.lat * (Math.PI / 180);
+    const lat2 = coord2.lat * (Math.PI / 180);
+
+    const a =
+      Math.sin(dLat / 2) ** 2 +
+      Math.sin(dLon / 2) ** 2 * Math.cos(lat1) * Math.cos(lat2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+  }
 
   // Inicializar el mapa una sola vez
   useEffect(() => {
@@ -145,7 +159,6 @@ const RutaDetalle = () => {
         L.marker(latLng).addTo(mapRef.current).bindPopup(popupText);
       });
 
-      // Preparar coords para ORS (solo ruta)
       // Combinar ubicación del usuario + coordenadas de la ruta
       const coordenadasORS = [];
 
@@ -218,19 +231,52 @@ const RutaDetalle = () => {
       console.error("Error al eliminar el comentario:", error);
     }
   };
+  let requiereTransporte = false;
+
+  if (
+    rutaSeleccionada?.requiereTransporte === true ||
+    (userLocation &&
+      rutaSeleccionada?.coordenadas?.[0] &&
+      calcularDistanciaKm(
+        { lat: userLocation.lat, lng: userLocation.lng },
+        {
+          lat: rutaSeleccionada.coordenadas[0].latitude,
+          lng: rutaSeleccionada.coordenadas[0].longitude,
+        }
+      ) > 1.5) // umbral de 1.5 km
+  ) {
+    requiereTransporte = true;
+  }
 
   return (
     <div className="ruta-detalle-container" style={{ padding: "1rem" }}>
       {rutaSeleccionada && (
         <>
-          <h2>{rutaSeleccionada.nombre}</h2>
+          <h1>{rutaSeleccionada.nombre}</h1>
           <span className={`badge ${rutaSeleccionada.tipo}`}>
-            {rutaSeleccionada.tipo}
+            {/* {rutaSeleccionada.tipo} */}
           </span>
           <p>
             <strong>Duración:</strong> {rutaSeleccionada.duracion}
           </p>
           <p>{rutaSeleccionada.descripcion}</p>
+          <p>
+           
+            <strong>Accesibilidad:</strong>{" "}
+            {requiereTransporte
+              ? "Se requiere transporte (coche, moto o bici) para llegar al inicio."
+              : "Puedes llegar caminando desde el centro de Tarragona."}
+          </p>
+          {requiereTransporte && (
+            <div
+              className="sugerencias-transporte"
+              style={{ marginTop: "1rem" }}
+            >
+
+              {/* <h4>🚗 Sugerencias de acceso:</h4> */}
+              
+            </div>
+          )}
 
           <h3>Puntos de interés:</h3>
           <ul>
@@ -240,7 +286,7 @@ const RutaDetalle = () => {
           </ul>
         </>
       )}
-
+      
       <h3>Mapa de la ruta</h3>
       <div id="map" style={{ height: "70vh", marginBottom: "2rem" }} />
 

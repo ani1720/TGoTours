@@ -1,0 +1,85 @@
+.ruta-detalle-container {
+  background-color: #0f0f1e;
+  color: #f1f1f1;
+  padding: 2.5rem;
+  border-radius: 12px;
+  max-width: 960px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.8;
+  font-size: 1.2rem;
+}
+
+.ruta-detalle-container h1 {
+  font-size: 2.5rem;
+  color: #ffd700;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  text-shadow: 1px 1px 3px #000;
+}
+
+.ruta-detalle-container h2,
+.ruta-detalle-container h3 {
+  font-size: 1.6rem;
+  color: #ffda55;
+  margin-top: 2rem;
+  margin-bottom: 0.8rem;
+}
+
+.ruta-detalle-container strong {
+  font-weight: 700;
+}
+
+.ruta-detalle-container a {
+  color: #7aa8ff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.ruta-detalle-container a:hover {
+  text-decoration: underline;
+}
+
+.ruta-detalle-container ul {
+  margin-top: 0.5rem;
+  margin-left: 1.8rem;
+  list-style-type: disc;
+}
+
+.ruta-detalle-container li {
+  margin-bottom: 0.4rem;
+  font-size: 1.2rem;
+}
+
+.mapa-container {
+  margin-top: 2.5rem;
+  border: 2px solid #2d2d5f;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 12px rgba(120, 120, 255, 0.2);
+}
+
+/* 🔽 MEDIA QUERY PARA MÓVILES */
+@media screen and (max-width: 600px) {
+  .ruta-detalle-container {
+    padding: 1.2rem;
+    font-size: 1rem;
+  }
+
+  .ruta-detalle-container h1 {
+    font-size: 1.8rem;
+  }
+
+  .ruta-detalle-container h2,
+  .ruta-detalle-container h3 {
+    font-size: 1.3rem;
+  }
+
+  .ruta-detalle-container ul {
+    margin-left: 1rem;
+  }
+
+  .mapa-container {
+    margin-top: 1.5rem;
+  }
+}
