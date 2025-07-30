@@ -141,7 +141,7 @@ function Header({ usuario, nombreUsuario, cerrarSesion }) {
           </div>
         ) : (
           <Link to="/login">
-            <button class="login-button">Iniciar sesión</button>{" "}
+            <button className="login-button">Iniciar sesión</button>{" "}
           </Link>
         )}
       </div>

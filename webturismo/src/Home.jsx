@@ -60,8 +60,18 @@ function Home() {
     <>
       <div className="mapa-info-container">
         <div className="mapa">
-          <h2>RUTA HISTÓRICA ANTIGUO TARRACO</h2>
-          
+          <h2>     RUTA HISTÓRICA ANTIGUO TARRACO</h2>
+          <img
+            src="https://firebasestorage.googleapis.com/v0/b/webturismo-9e4b1.firebasestorage.app/o/imagenes%2Fmapapng.png?alt=media&token=3167f00f-240e-43cc-bdfc-79d41906a4c4"
+            alt="Ruta Romana en Tarragona"
+            style={{
+              width: "100%",
+              maxWidth: "600px",
+              margin: "1rem auto",
+              display: "block",
+              borderRadius: "8px",
+            }}
+          />
         </div>
 
         <div className="info">
@@ -88,10 +98,6 @@ function Home() {
           </div>
         ))}
       </div>
-
-
-
-
 
       {selectedLugar && (
         <div className="card-detalle">
