@@ -108,7 +108,7 @@ function Home() {
           </div>
         ))}
       </div>
- 
+
 
       {selectedLugar && (
         <div className="card-detalle">

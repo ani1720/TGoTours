@@ -153,7 +153,6 @@ function App() {
           <Route path="/eventos" element={<Eventos />} />
           <Route path="/eventos/:mes" element={<EventosMes />} />
           <Route path="/eventos/:mes/castells" element={<CastellsDetalle />} />
-          <Route path="/about" element={<About />} />
           <Route path="/perfil" element={<Perfil />} />
           <Route path="/perfil" element={<Perfil />} />
           <Route path="/comunidad" element={<Comunidad />} />
