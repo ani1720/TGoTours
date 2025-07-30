@@ -74,9 +74,7 @@ function Home() {
         </div>
       </div>
 
-      <div className="slider-wrapper">
-        {lugares.map((lugar, i) => (
-          <div key={i} className="slider-item-container">
+      <div key={i} className="slider-item-container">
             <img
               src={lugar.img}
               alt={lugar.nombre}
@@ -86,7 +84,7 @@ function Home() {
               onClick={() => setSelectedLugar(lugar)}
             />
 
-            {selectedLugar?.id === lugar.id && (
+                  {selectedLugar?.id === lugar.id && (
               <div className="card-detalle inline-card">
                 <div className="card-imagen">
                   <img src={selectedLugar.img} alt={selectedLugar.nombre} />
@@ -105,9 +103,8 @@ function Home() {
                 </div>
               </div>
             )}
-          </div>
-        ))}
-      </div>
+        {/* {/* ))} */}
+      </div> 
 
 
       {selectedLugar && (
