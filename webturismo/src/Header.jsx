@@ -85,9 +85,6 @@ function Header({ usuario, nombreUsuario, cerrarSesion }) {
         <Link to="/" onClick={() => setMenuOpen(false)}>
           HOME
         </Link>
-        <Link to="/about" onClick={() => setMenuOpen(false)}>
-          ABOUT
-        </Link>
         <Link to="/eventos" onClick={() => setMenuOpen(false)}>
           EVENTOS
         </Link>

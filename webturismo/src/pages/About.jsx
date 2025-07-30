@@ -93,7 +93,7 @@ const About = () => {
 
           <div className="creator-card">
           <img src="/assets/adria.jpg" alt="Foto Adrià" className="creator.image" />
-          <div className="creator-name">Adrià Gonzales </div>
+          <div className="creator-name">Adrià González </div>
           <div className="creator-role">Desarrolador Backend</div>
           <p className="creator-bio">Responsable de la base de datos y la interaccion del usuario</p>
           </div>
