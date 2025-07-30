@@ -28,6 +28,7 @@ import Terminos from "./pages/Terminos";
 import CrearTour from "./pages/CrearTour";
 import FreeTours from "./pages/FreeTours";
 import CastellsDetalle from "./pages/CastellsDetalle";
+import SobreNosotros from "./pages/SobreNosotros";
 
 function App() {
   const [usuario, setUsuario] = useState(null);
@@ -170,6 +171,7 @@ function App() {
           <Route path="/terminos" element={<Terminos />} />
           <Route path="/crear-tour" element={<CrearTour user={usuario} />} />
           <Route path="/tours" element={<FreeTours user={usuario} />} />
+          <Route path="/sobrenosotros" element={<SobreNosotros />} />
         </Routes>
       </UserProvider>
       <Footer
