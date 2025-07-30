@@ -24,8 +24,11 @@ const RutaDetalle = () => {
   const [nuevoComentario, setNuevoComentario] = useState("");
   // const userLocation = useUserLocation();
   const { usuario, rol, cargando } = useUser();
-  const { location: userLocation, error, reintentarUbicacion } = useUserLocation();
-
+  const {
+    location: userLocation,
+    error,
+    reintentarUbicacion,
+  } = useUserLocation();
 
   // Inicializar el mapa una sola vez
   useEffect(() => {
@@ -33,36 +36,33 @@ const RutaDetalle = () => {
     if (!mapContainer || mapRef.current) return;
 
     mapRef.current = L.map("map").setView([41.117, 1.25], 14);
-    L.tileLayer(
-      "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
-      {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors & CartoDB',
-      }
-    ).addTo(mapRef.current);
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png", {
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors & CartoDB',
+    }).addTo(mapRef.current);
   }, []);
 
-    // Si existe la ubicación del usuario, agregar marcador
-    // if (userLocation && userLocation.lat != null && userLocation.lng != null) {
-    //   L.marker(userLocation)
-    //     .addTo(mapRef.current)
-    //     .bindPopup("📍 Tu ubicación")
-    //     .openPopup();
-    // }
-    // console.log("📍 Ubicación detectada:", userLocation || "no disponible");
+  // Si existe la ubicación del usuario, agregar marcador
+  // if (userLocation && userLocation.lat != null && userLocation.lng != null) {
+  //   L.marker(userLocation)
+  //     .addTo(mapRef.current)
+  //     .bindPopup("📍 Tu ubicación")
+  //     .openPopup();
+  // }
+  // console.log("📍 Ubicación detectada:", userLocation || "no disponible");
 
-    // Cargar datos de Rutas.json
-    //  const cargarRutas = async () => {
-    //     try {
-    //       const querySnapshot = await getDocs(collection(db, "Rutas", id));
-    //       const rutasData = [];
-    //       querySnapshot.forEach((doc) => rutasData.push(doc.data()));
-    //       if (rutasData.length > 0) setRutaSeleccionada(rutasData[0]);
-    //     } catch (error) {
-    //       console.error("Error al cargar rutas desde Firebase:", error);
-    //     }
-    //   };
-    //   cargarRutas();
+  // Cargar datos de Rutas.json
+  //  const cargarRutas = async () => {
+  //     try {
+  //       const querySnapshot = await getDocs(collection(db, "Rutas", id));
+  //       const rutasData = [];
+  //       querySnapshot.forEach((doc) => rutasData.push(doc.data()));
+  //       if (rutasData.length > 0) setRutaSeleccionada(rutasData[0]);
+  //     } catch (error) {
+  //       console.error("Error al cargar rutas desde Firebase:", error);
+  //     }
+  //   };
+  //   cargarRutas();
 
   // Advertir si la geolocalización no está disponible
   useEffect(() => {
@@ -71,7 +71,6 @@ const RutaDetalle = () => {
         "⚠️ Ubicación del usuario no disponible. Verifica permisos del navegador."
       );
     }
-
   }, [userLocation]);
 
   // Cargar datos de la ruta desde Firestore
@@ -84,9 +83,9 @@ const RutaDetalle = () => {
 
         if (docSnap.exists()) {
           if (!window.__documentLoggedOnce) {
-  console.log("✅ Documento encontrado:", docSnap.data());
-  window.__documentLoggedOnce = true;
-}
+            console.log("✅ Documento encontrado:", docSnap.data());
+            window.__documentLoggedOnce = true;
+          }
           setRutaSeleccionada(docSnap.data());
         } else {
           console.warn("⚠️ No se encontró la ruta con el ID:", id);
@@ -142,18 +141,23 @@ const RutaDetalle = () => {
       // 📍 Dibujar marcadores de la ruta
       coordenadas.forEach((coord, i) => {
         const latLng = [coord.latitude, coord.longitude];
-        const popupText =
-          data.contenido?.[i] || `Punto ${i + 1}`; 
-        L.marker(latLng)
-          .addTo(mapRef.current)
-          .bindPopup(popupText);
+        const popupText = data.contenido?.[i] || `Punto ${i + 1}`;
+        L.marker(latLng).addTo(mapRef.current).bindPopup(popupText);
       });
 
       // Preparar coords para ORS (solo ruta)
-      const coordenadasORS = coordenadas.map((p) => [
-        p.longitude,
-        p.latitude,
-      ]);
+      // Combinar ubicación del usuario + coordenadas de la ruta
+      const coordenadasORS = [];
+
+      if (userLocation) {
+        // 1️⃣ Añadimos el punto de origen al principio (usuario)
+        coordenadasORS.push([userLocation.lng, userLocation.lat]);
+      }
+
+      // 2️⃣ Añadimos los puntos de la ruta
+      coordenadas.forEach((p) => {
+        coordenadasORS.push([p.longitude, p.latitude]);
+      });
 
       // Llamada a OpenRouteService
       const orsResponse = await fetch(
