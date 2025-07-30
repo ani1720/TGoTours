@@ -16,6 +16,7 @@ const ReseñasTour = ({ tourId }) => {
   const [nuevaReseña, setNuevaReseña] = useState("");
   const [estrellas, setEstrellas] = useState(5);
   const [puedeReseñar, setPuedeReseñar] = useState(false);
+  const [mensajeConfirmacion, setMensajeConfirmacion] = useState("");
 
   useEffect(() => {
     const cargarReseñas = async () => {
@@ -54,6 +55,9 @@ const ReseñasTour = ({ tourId }) => {
 
     setNuevaReseña("");
     setEstrellas(5);
+    setMensajeConfirmacion("✅ ¡Gracias por tu reseña!");
+
+    setTimeout(() => setMensajeConfirmacion(""), 3000);
   };
 
   return (
@@ -94,6 +98,12 @@ const ReseñasTour = ({ tourId }) => {
           />
           <button onClick={enviarReseña}>Enviar reseña</button>
         </div>
+      )}
+      
+      {mensajeConfirmacion && (
+        <p style={{ color: "green", marginTop: "0.5rem" }}>
+          {mensajeConfirmacion}
+        </p>
       )}
 
       {usuario && !puedeReseñar && (

@@ -9,6 +9,7 @@ function NuevoHilo({ usuario }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const navigate = useNavigate();
+  const [mensajeConfirmacion, setMensajeConfirmacion] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,10 +20,15 @@ function NuevoHilo({ usuario }) {
       content,
       authorId: usuario.uid,
       authorName: usuario.displayName || usuario.email,
-      createdAt: serverTimestamp()
+      createdAt: serverTimestamp(),
     });
+    setMensajeConfirmacion("✅ ¡Tu hilo ha sido publicado con éxito!");
+    setTitle("");
+    setContent("");
 
-    navigate("/comunidad");
+    setTimeout(() => {
+      navigate("/comunidad");
+    }, 2000);
   };
 
   return (
@@ -41,6 +47,11 @@ function NuevoHilo({ usuario }) {
           onChange={(e) => setContent(e.target.value)}
         />
         <button type="submit">Publicar hilo</button>
+        {mensajeConfirmacion && (
+          <p style={{ color: "green", marginTop: "0.5rem" }}>
+            {mensajeConfirmacion}
+          </p>
+        )}
       </form>
     </div>
   );

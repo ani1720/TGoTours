@@ -168,27 +168,41 @@ nav a:hover {
 }
 /* === RESPONSIVE HEADER PARA TABLETS Y MÓVILES === */
 @media (max-width: 768px) {
-  header,
-  .site-header {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 1rem;
-    /* gap: 1rem; */
-  }
   .menu-toggle {
     display: block;
+    font-size: 1.5rem;         /* ⬅ Más pequeño que antes */
     position: absolute;
-    top: 1.2rem;
-    right: 1.5rem;
+    top: 2rem;                 /* ⬅ Mantiene la altura sin expandir el header */
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 1100;
   }
+
+  .site-header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 3.5rem 1rem 1rem; /* ⬅ Reservamos espacio arriba para el icono */
+    position: relative;
+  }
+
   .logo-img {
-    height: 70px;
+    height: 50px;
+    margin-top: -40px;
   }
 
   .name-web img {
-    height: 80px;
+    height: 60px;
     transform: translateY(0);
+    margin-top: -30px;
+  }
+
+  .auth-section {
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+    z-index: 1100;
   }
 
   .nav-links {
@@ -196,29 +210,30 @@ nav a:hover {
     flex-direction: column;
     width: 100%;
     background-color: #2c2f5b;
-    padding: 1rem 2rem;
+    padding: 1rem;
     gap: 1rem;
+    margin-top: 2rem;       /* ⬅ Añade espacio entre el icono y los links */
   }
+
   .nav-links.open {
     display: flex;
   }
 
-  .auth-buttons {
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-    gap: 0.5rem;
-    padding-left: 1rem;
-  }
-
   .usuario-dropdown {
-    position: static;
-    width: 100%;
-  }
-
-  .usuario-dropdown a,
-  .usuario-dropdown button {
-    width: 100%;
-    text-align: left;
+    position: absolute;
+    top: 120%;
+    right: 0;
+    background-color: white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    border-radius: 6px;
+    padding: 0.5rem;
+    z-index: 999;
   }
 }
+
+
+
+
+
+
+

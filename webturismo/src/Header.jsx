@@ -122,7 +122,7 @@ function Header({ usuario, nombreUsuario, cerrarSesion }) {
                 alt="Avatar"
                 className="avatar-header"
               />
-              {nombreUsuario} ▼
+              {} ▼
             </button>
 
             {menuAbierto && (
