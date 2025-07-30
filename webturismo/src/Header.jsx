@@ -128,10 +128,6 @@ function Header({ usuario, nombreUsuario, cerrarSesion }) {
             {menuAbierto && (
               <div className="usuario-dropdown">
                 <Link to="/perfil">👤 Mi perfil</Link>
-                <Link to="/rutas-guardadas">🗺️ Rutas guardadas</Link>
-                <Link to="/restaurantes-guardados">
-                  🍽️ Restaurantes guardados
-                </Link>
                 <button
                   onClick={() => {
                     cerrarSesion();
