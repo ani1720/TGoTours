@@ -102,7 +102,7 @@ function Registro() {
 
       await sendEmailVerification(user);
 
-      setMensaje(`✅ Usuario creado: ${user.email}. Revisa tu correo.`);
+      setMensaje(`✅ Usuario creado: ${user.email}. Revisa tu correo y tu bandeja de spam.`);
       setEmail("");
       setPassword("");
       setNombreUsuario("");
