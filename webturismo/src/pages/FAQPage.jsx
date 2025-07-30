@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // si usas React Router
-import './FAQPage.css'; // Asegúrate de tener este archivo CSS para estilos
+import React, { useState } from "react";
+import { Link } from "react-router-dom"; // si usas React Router
+import "./FAQPage.css"; // Asegúrate de tener este archivo CSS para estilos
 
 const faqs = [
   {
@@ -15,8 +15,21 @@ const faqs = [
   },
   {
     pregunta: "¿Hay opciones de turismo accesible?",
-    respuesta:
-      "Sí, muchos espacios están adaptados para personas con movilidad reducida. Puedes activar el modo accesible en nuestra web para más información.",
+    respuesta: (
+      <>
+        Sí, muchos espacios están adaptados para personas con movilidad
+        reducida. Además puedes activar el modo accesible o con audiodescripción
+        en nuestra web. También recomendamos visitar la web de nuestros
+        compañeros en accesibilidad:&nbsp;
+        <a
+          href="https://komuni.netlify.app/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          KOMUNI
+        </a>
+      </>
+    ),
   },
   {
     pregunta: "¿Dónde puedo encontrar rutas guiadas?",
@@ -35,7 +48,7 @@ const faqs = [
   },
 ];
 
-const FAQPage  = () => {
+const FAQPage = () => {
   const [activo, setActivo] = useState(null);
 
   const toggle = (index) => {
@@ -55,7 +68,9 @@ const FAQPage  = () => {
             onClick={() => toggle(index)}
           >
             <div className="faq-pregunta">{item.pregunta}</div>
-            {activo === index && <div className="faq-respuesta">{item.respuesta}</div>}
+            {activo === index && (
+              <div className="faq-respuesta">{item.respuesta}</div>
+            )}
           </div>
         ))}
       </div>
@@ -63,4 +78,4 @@ const FAQPage  = () => {
   );
 };
 
-export default FAQPage ;
+export default FAQPage;

@@ -38,22 +38,24 @@ const Footer = ({ activarAccesibilidad, modoAccesible, leerTexto }) => {
 
         <div className="footer-col">
           <h4>Enlaces útiles</h4>
-          <ul>
             <ul>
               <li>
-              <Link to="/rutas">Rutas</Link>
+                <Link to="/rutas">Rutas</Link>
               </li>
               <li>
+
               <Link to="/sobrenosotros">Sobre Nosotros</Link>
               </li>
               <li>
                 <Link to="/faq">Preguntas Frecuentes</Link>
+
+                <Link to="/sobrenosotros">Sobre Nosotros</Link>
+
               </li>
               <li>
                 <Link to="/terminos">Terminos y condiciones</Link>
               </li>
-            </ul>
-          </ul>
+        </ul>
         </div>
 
         <div className="footer-col">

@@ -54,7 +54,6 @@ function Registro() {
       setError("❌ Las contraseñas no coinciden.");
       return;
     }
-    
 
     // Validar nombre de usuario duplicado
     try {
@@ -103,7 +102,7 @@ function Registro() {
 
       await sendEmailVerification(user);
 
-      setMensaje(`✅ Usuario creado: ${user.email}. Revisa tu correo.`);
+      setMensaje(`✅ Usuario creado: ${user.email}. Revisa tu correo y tu bandeja de spam.`);
       setEmail("");
       setPassword("");
       setNombreUsuario("");
@@ -112,7 +111,7 @@ function Registro() {
       // Redirigir después de unos segundos
       setTimeout(() => {
         navigate("/login");
-      }, 4000);
+      }, 10000);
     } catch (authError) {
       console.error("❌ Error en createUserWithEmailAndPassword:", authError);
       switch (authError.code) {
@@ -124,6 +123,11 @@ function Registro() {
           break;
         case "auth/weak-password":
           setError("❌ La contraseña es demasiado débil.");
+          break;
+        case "auth/password-does-not-meet-requirements":
+          setError(
+            "❌ La contraseña no cumple los requisitos mínimos: debe tener al menos 8 caracteres, incluir mayúsculas, minúsculas y algun numero."
+          );
           break;
         default:
           setError("❌ Error al crear la cuenta.");
@@ -165,7 +169,7 @@ function Registro() {
           <br />
           <input
             type="password"
-            placeholder="Contraseña (mínimo 6 caracteres)"
+            placeholder="Contraseña"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -180,7 +184,24 @@ function Registro() {
             required
             style={{ padding: "0.5rem", margin: "0.5rem", width: "250px" }}
           />
-          <br />
+          <div
+            style={{
+              margin: "1rem auto",
+              fontSize: "0.95rem",
+              color: "#666",
+              textAlign: "center",
+              maxWidth: "260px",
+              lineHeight: "1.5",
+              backgroundColor: "#f5f5f5",
+              padding: "0.75rem",
+              borderRadius: "8px",
+            }}
+          >
+            🔐 <strong>Requisitos:</strong>
+            <br />- Mínimo <strong>8 caracteres</strong>
+            <br />- Al menos <strong>una mayúscula</strong>,{" "}
+            <strong>una minúscula</strong>, y <strong>un número</strong>
+          </div>
           <label style={{ display: "block", margin: "0.5rem 0 0.2rem 0" }}>
             Selecciona tu rol:
           </label>
