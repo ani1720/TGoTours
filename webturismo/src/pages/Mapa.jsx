@@ -64,8 +64,8 @@ const Mapa = () => {
     restauranteOSM: true,
     barOSM: true,
   });
-  const fetchOverpass = async () => {
-    const query = `
+ const fetchOverpass = async () => {
+  const query = `
     [out:json][timeout:25];
     (
       node["amenity"="restaurant"](around:1000,41.1167,1.2554);
@@ -74,25 +74,31 @@ const Mapa = () => {
     out body;
   `;
 
-    const url = "https://overpass-api.de/api/interpreter";
-    const response = await fetch(url, {
-      method: "POST",
-      body: query,
-    });
+  const url = "https://overpass-api.de/api/interpreter";
+  const response = await fetch(url, {
+    method: "POST",
+    body: query,
+  });
 
-    const data = await response.json();
+  const data = await response.json();
 
-    const puntosOSM = data.elements.map((el) => ({
+  const puntosOSM = data.elements
+    .filter((el) => el.tags && el.tags.name) // <- Filtrado corregido
+    .map((el) => ({
       tipo: el.tags.amenity === "restaurant" ? "restauranteOSM" : "barOSM",
-      nombre: el.tags.name || "Nombre no disponible",
-      descripcion: el.tags.cuisine
-        ? `Tipo: ${el.tags.cuisine}`
-        : "Descripción no disponible",
+      nombre: el.tags.name,
+      descripcion:
+        el.tags.description ||
+        (el.tags.cuisine && `Tipo: ${el.tags.cuisine}`) ||
+        (el.tags["contact:phone"] && `Tel: ${el.tags["contact:phone"]}`) ||
+        (el.tags.website && `Web: ${el.tags.website}`) ||
+        "Información no disponible",
       coordenadas: [el.lat, el.lon],
     }));
 
-    return puntosOSM;
-  };
+  return puntosOSM;
+};
+
 
   useEffect(() => {
     const fetchTodo = async () => {
@@ -131,16 +137,16 @@ const Mapa = () => {
     <div>
       {/* Filtros */}
       <div style={{ padding: "10px" }}>
-        <label>
-          <input
+        {/* <label> */}
+        {/* <input
             type="checkbox"
             checked={filtros.cafeterias}
             onChange={() =>
               setFiltros((prev) => ({ ...prev, cafeterias: !prev.cafeterias }))
             }
           />
-          {/* Cafeterías
-        </label>{" "}
+          Cafeterías */}
+        {/* </label>{" "} */}
         <label>
           <input
             type="checkbox"
@@ -148,10 +154,10 @@ const Mapa = () => {
             onChange={() =>
               setFiltros((prev) => ({ ...prev, hoteles: !prev.hoteles }))
             }
-          /> */}
+          />
           Hoteles
         </label>{" "}
-        <label>
+        {/* <label>
           <input
             type="checkbox"
             checked={filtros.bares}
@@ -159,8 +165,8 @@ const Mapa = () => {
               setFiltros((prev) => ({ ...prev, bares: !prev.bares }))
             }
           />
-          {/* Bares
-        </label>{" "}
+          Bares
+        </label>{" "} */}
         <label>
           <input
             type="checkbox"
@@ -171,7 +177,7 @@ const Mapa = () => {
                 puntosDeInteres: !prev.puntosDeInteres,
               }))
             }
-          /> */}
+          />
           Puntos de Interés
         </label>{" "}
         <label>
@@ -246,8 +252,13 @@ const Mapa = () => {
                 >
                   <Popup>
                     <strong>{punto.nombre}</strong>
-                    <br />
-                    {punto.descripcion}
+                    {punto.descripcion !== "Información no disponible" &&
+                      punto.descripcion !== "Descripción no disponible" && (
+                        <>
+                          <br />
+                          {punto.descripcion}
+                        </>
+                      )}
                   </Popup>
                 </Marker>
               ))}
