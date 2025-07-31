@@ -1,8 +1,8 @@
 .ruta-detalle-container {
-   background: linear-gradient(to bottom right, #0f0c29, #302b63, #24243e);
+   /* background: linear-gradient(to bottom right, #0f0c29, #302b63, #24243e); */
   color: #f1f1f1;
   padding: 2.5rem;
-  /* border-radius: 12px; */
+  border-radius: 12px;
   max-width: 960px;
   margin: 0 auto;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
