@@ -77,8 +77,7 @@ const CrearTour = () => {
       await addDoc(collection(db, "freeTours"), {
         ...formData,
         guiaID: usuario.uid,
-        guiaNombre: usuario.displayName || "Guía",
-        guiaFoto: usuario.photoURL || "",
+        guiaNombre: usuario.nombreUsuario,        guiaFoto: usuario.fotoURL || "",
         creadoEn: serverTimestamp(),
         inscritos: [],
         reseñas: [],

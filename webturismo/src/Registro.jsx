@@ -90,7 +90,7 @@ function Registro() {
           email,
           fechaRegistro: serverTimestamp(),
           rol,
-          fotoPerfil: user.photoURL || "",
+          fotoPerfil: user.fotoURL || "",
           nombreCompleto: user.displayName || "",
         });
         console.log("✅ Documento creado en Firestore");
