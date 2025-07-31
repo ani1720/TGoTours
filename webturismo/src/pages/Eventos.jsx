@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
 import { Link } from "react-router-dom";
-import styles from "./Eventos.module.css"; // ✅ Importación del CSS Module
+import styles from "./Eventos.module.css"; 
 
 const meses = [
   "enero", "febrero", "marzo", "abril", "mayo", "junio",

@@ -124,7 +124,9 @@ const Mapa = () => {
               data.coordenadas.latitude,
               data.coordenadas.longitude,
             ],
+            link: data.link, // ← esta línea agrega el link
           });
+
         });
       }
       const puntosOSM = await fetchOverpass();
@@ -306,7 +308,16 @@ const Mapa = () => {
                             {punto.descripcion}
                           </>
                         )}
+                      {punto.link && (
+                        <>
+                          <br />
+                          <a href={punto.link} target="_blank" rel="noopener noreferrer">
+                            Visitar sitio web
+                          </a>
+                        </>
+                      )}
                     </Popup>
+
                   </Marker>
                 ))}
             </MarkerClusterGroup>
