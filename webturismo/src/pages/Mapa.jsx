@@ -135,186 +135,164 @@ const Mapa = () => {
   }, []);
 
   return (
-    <div className="mapa-contenedor">
-      <p className="mapa-parrafo">
-        {" "}
-        Puedes mostrar u ocultar los distintos tipos de lugares en el mapa
-        utilizando los siguientes filtros:
-      </p>
-      {/* Filtros */}
-      <div className="mapa-filtro">
-        {/* <label> */}
-        {/* <input
-            type="checkbox"
-            checked={filtros.cafeterias}
-            onChange={() =>
-              setFiltros((prev) => ({ ...prev, cafeterias: !prev.cafeterias }))
-            }
-          />
-          Cafeterías */}
-        {/* </label>{" "} */}
-        <label>
-          <input
-            type="checkbox"
-            checked={filtros.hoteles}
-            onChange={() =>
-              setFiltros((prev) => ({ ...prev, hoteles: !prev.hoteles }))
-            }
-          />
-          Hoteles
-        </label>{" "}
-        {/* <label>
-          <input
-            type="checkbox"
-            checked={filtros.bares}
-            onChange={() =>
-              setFiltros((prev) => ({ ...prev, bares: !prev.bares }))
-            }
-          />
-          Bares
-        </label>{" "} */}
-        <label>
-          <input
-            type="checkbox"
-            checked={filtros.puntosDeInteres}
-            onChange={() =>
-              setFiltros((prev) => ({
-                ...prev,
-                puntosDeInteres: !prev.puntosDeInteres,
-              }))
-            }
-          />
-          Puntos de Interés
-        </label>{" "}
-        <label>
-          <input
-            type="checkbox"
-            checked={filtros.Casino}
-            onChange={() =>
-              setFiltros((prev) => ({ ...prev, Casino: !prev.Casino }))
-            }
-          />
-          Casino
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={filtros.restauranteOSM}
-            onChange={() =>
-              setFiltros((prev) => ({
-                ...prev,
-                restauranteOSM: !prev.restauranteOSM,
-              }))
-            }
-          />
-          Restaurantes
-        </label>{" "}
-        <label>
-          <input
-            type="checkbox"
-            checked={filtros.barOSM}
-            onChange={() =>
-              setFiltros((prev) => ({
-                ...prev,
-                barOSM: !prev.barOSM,
-              }))
-            }
-          />
-          Bares
-        </label>
+  <div className="mapa-contenedor">
+    {/* 🟡 CONTENEDOR CENTRAL */}
+    <div className="mapa-inner">
+
+      {/* 🟡 TÍTULO PRINCIPAL */}
+      <h1 className="mapa-titulo-principal">Explora lugares en Tarragona</h1>
+
+      {/* 🟣 BLOQUE DE FILTROS */}
+      <div className="mapa-bloque">
+        {/* 🔵 SUBTÍTULO */}
+        <h2 className="mapa-section-title">Mapa de Tarragona</h2>
+
+        {/* 🔵 DESCRIPCIÓN */}
+        <p className="mapa-parrafo">
+          Puedes mostrar u ocultar los distintos tipos de lugares en el mapa utilizando los siguientes filtros:
+        </p>
+
+        {/* 🔵 FILTROS DE CATEGORÍAS */}
+        <div className="mapa-filtros">
+          {/* ✅ Puedes reactivar los que necesites */}
+          {/* 
+          <label>
+            <input
+              type="checkbox"
+              checked={filtros.cafeterias}
+              onChange={() =>
+                setFiltros((prev) => ({ ...prev, cafeterias: !prev.cafeterias }))
+              }
+            />
+            Cafeterías
+          </label> 
+          */}
+          <label>
+            <input
+              type="checkbox"
+              checked={filtros.hoteles}
+              onChange={() =>
+                setFiltros((prev) => ({ ...prev, hoteles: !prev.hoteles }))
+              }
+            />
+            Hoteles
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={filtros.puntosDeInteres}
+              onChange={() =>
+                setFiltros((prev) => ({
+                  ...prev,
+                  puntosDeInteres: !prev.puntosDeInteres,
+                }))
+              }
+            />
+            Puntos de Interés
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={filtros.Casino}
+              onChange={() =>
+                setFiltros((prev) => ({ ...prev, Casino: !prev.Casino }))
+              }
+            />
+            Casino
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={filtros.restauranteOSM}
+              onChange={() =>
+                setFiltros((prev) => ({
+                  ...prev,
+                  restauranteOSM: !prev.restauranteOSM,
+                }))
+              }
+            />
+            Restaurantes
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={filtros.barOSM}
+              onChange={() =>
+                setFiltros((prev) => ({
+                  ...prev,
+                  barOSM: !prev.barOSM,
+                }))
+              }
+            />
+            Bares
+          </label>
+        </div>
       </div>
-      {/* Leyenda de íconos */}
+
+      {/* 🟣 BLOQUE DE LEYENDA */}
+      <h2 className="mapa-section-title">Leyenda</h2>
       <div className="mapa-leyenda">
         <strong>🗺️ Leyenda de íconos:</strong>
-        <ul style={{ listStyle: "none", paddingLeft: 0 }}>
+        <ul>
           <li>
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/139/139899.png"
-              width="30"
-            />{" "}
+            <img src="https://cdn-icons-png.flaticon.com/512/139/139899.png" />
             Hotel
           </li>
           <li>
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/2651/2651172.png"
-              width="30"
-            />{" "}
+            <img src="https://cdn-icons-png.flaticon.com/512/2651/2651172.png" />
             Punto de interés
           </li>
           <li>
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/5971/5971903.png"
-              width="30"
-            />{" "}
+            <img src="https://cdn-icons-png.flaticon.com/512/5971/5971903.png" />
             Casino
           </li>
           <li>
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png"
-              width="30"
-            />{" "}
+            <img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" />
             Restaurante
           </li>
           <li>
-            <img
-              src="https://images.icon-icons.com/3015/PNG/512/beer_drink_glass_jar_icon_188550.png"
-              width="20"
-            />{" "}
+            <img src="https://images.icon-icons.com/3015/PNG/512/beer_drink_glass_jar_icon_188550.png" />
             Bar
           </li>
         </ul>
       </div>
-      <div
-        style={{
-          height: "90vh",
-          width: "90%",
-          maxWidth: "800px",
-          margin: "0 auto",
-          padding: "10px",
-          boxSizing: "border-box",
-        }}
-      >
-        <div className="mapa-wrapper">
-          <MapContainer
-            center={[41.1167, 1.2554]}
-            zoom={15}
-            style={{ height: "100%", width: "100%" }}
-          >
-            <TileLayer
-              url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-              attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors & CartoDB'
-            />
-
-            <MarkerClusterGroup
-              maxClusterRadius={20}
-              disableClusteringAtZoom={20}
-            >
-              {puntos
-                .filter((p) => filtros[p.tipo])
-                .map((punto, idx) => (
-                  <Marker
-                    key={idx}
-                    position={punto.coordenadas}
-                    icon={iconos[punto.tipo]}
-                  >
-                    <Popup>
-                      <strong>{punto.nombre}</strong>
-                      {punto.descripcion !== "Información no disponible" &&
-                        punto.descripcion !== "Descripción no disponible" && (
-                          <>
-                            <br />
-                            {punto.descripcion}
-                          </>
-                        )}
-                    </Popup>
-                  </Marker>
-                ))}
-            </MarkerClusterGroup>
-          </MapContainer>
-        </div>
-      </div>
     </div>
-  );
-};
 
-export default Mapa;
+    {/* 🟢 CONTENEDOR DEL MAPA */}
+    <div className="mapa-wrapper">
+      <MapContainer
+        center={[41.1167, 1.2554]}
+        zoom={15}
+        style={{ height: "100%", width: "100%" }}
+      >
+        <TileLayer
+          url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors & CartoDB'
+        />
+        <MarkerClusterGroup maxClusterRadius={20} disableClusteringAtZoom={20}>
+          {puntos
+            .filter((p) => filtros[p.tipo])
+            .map((punto, idx) => (
+              <Marker
+                key={idx}
+                position={punto.coordenadas}
+                icon={iconos[punto.tipo]}
+              >
+                <Popup>
+                  <strong>{punto.nombre}</strong>
+                  {punto.descripcion !== "Información no disponible" && (
+                    <>
+                      <br />
+                      {punto.descripcion}
+                    </>
+                  )}
+                </Popup>
+              </Marker>
+            ))}
+        </MarkerClusterGroup>
+      </MapContainer>
+    </div>
+  </div>
+);
+}
+export default Mapa

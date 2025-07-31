@@ -6,7 +6,7 @@ html, body {
   box-sizing: border-box;
   width: 100%;
   font-family: 'Poppins', sans-serif;
-  background: radial-gradient(circle at bottom, #1c1c3a 0%, #101026 100%);
+  background: linear-gradient(to bottom right, #181343, #302b63, #24243e);
   color: #ffffff;
 }
 
@@ -35,7 +35,7 @@ html, body {
   align-items: flex-start;
   gap: 2rem;
   padding: 4rem 2rem;
-  background-color: #1c1c5c; /* Azul oscuro */
+  /* background: linear-gradient(to bottom right, #181343, #302b63, #24243e); */
   color: white;
   min-height: 100vh;
   box-sizing: border-box;

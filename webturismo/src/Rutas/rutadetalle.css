@@ -1,8 +1,8 @@
 .ruta-detalle-container {
-  background-color: #0f0f1e;
+   background: linear-gradient(to bottom right, #0f0c29, #302b63, #24243e);
   color: #f1f1f1;
   padding: 2.5rem;
-  border-radius: 12px;
+  /* border-radius: 12px; */
   max-width: 960px;
   margin: 0 auto;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -12,7 +12,7 @@
 
 .ruta-detalle-container h1 {
   font-size: 2.5rem;
-  color: #ffd700;
+  color: #fac643;
   font-weight: 800;
   margin-bottom: 1.5rem;
   text-shadow: 1px 1px 3px #000;
@@ -21,7 +21,7 @@
 .ruta-detalle-container h2,
 .ruta-detalle-container h3 {
   font-size: 1.6rem;
-  color: #ffda55;
+  color: #fac643;
   margin-top: 2rem;
   margin-bottom: 0.8rem;
 }

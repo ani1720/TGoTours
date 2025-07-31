@@ -61,6 +61,7 @@ function Home() {
 
   return (
     <>
+   
       <div className="mapa-info-container">
         <div className="mapa">
           <h2> Mapa de Rutas</h2>

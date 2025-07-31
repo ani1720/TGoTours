@@ -3,6 +3,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
 import { Link } from "react-router-dom";
 import styles from "./Eventos.module.css"; // ✅ Importación del CSS Module
+import "./Eventos.css";
 
 const meses = [
   "enero", "febrero", "marzo", "abril", "mayo", "junio",
@@ -37,7 +38,11 @@ const Eventos = () => {
 
   return (
     <div className="bg-[#0B0C2A] min-h-screen text-white">
-      <h2 className="text-5xl font-bold text-center pt-10 pb-10">Eventos por mes</h2>
+      <h1 className="titulo-principal">Explora eventos en Tarragona</h1>
+
+
+     <h2 className="titulo">Eventos</h2>
+
       <div className={styles.gridContainer}>
         {meses.map((mes) => {
           const evento = eventosDestacados[mes];
