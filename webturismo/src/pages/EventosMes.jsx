@@ -4,7 +4,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
 import styles from "./EventosMes.module.css";
 
-const subcolecciones = ["castells", "santjoan", "fuegos", "bailes","cavalcada","carnaval","temporada","semana","tarraco","santmagi","santatecla"];
+const subcolecciones = ["castells", "santjoan", "fuegos", "bailes", "cavalcada", "carnaval", "temporada", "semana", "tarraco", "santmagi", "santatecla", "octubre", "noviembre"];
 
 const EventosMes = () => {
   const { mes } = useParams();
@@ -61,6 +61,17 @@ const EventosMes = () => {
             <h3 className={styles.nombre}>{evento.nombre}</h3>
             <p className={styles.fecha}>{evento.fecha}</p>
             <p className={styles.descripcion}>{evento.descripcion}</p>
+            {evento.enlace && (
+              <a
+                href={evento.enlace}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.enlace}
+              >
+                Más información →
+              </a>
+            )}
+
           </div>
         ))
       )}

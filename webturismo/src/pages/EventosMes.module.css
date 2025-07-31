@@ -53,7 +53,7 @@
 .botonVolverFijo {
   position: fixed;
   top: 170px;
-  left: 82%;
+  left: 88%;
   transform: translateX(-50%);
   z-index: 1000;
 
@@ -71,6 +71,7 @@
     background-color 0.3s ease,
     transform 0.2s ease,
     color 0.3s ease;
+  display: block;
 }
 
 .botonVolverFijo:hover {
@@ -79,5 +80,9 @@
   color: #1a1a1a;
   transform: translateX(-50%) scale(1.05);
 }
-
+@media (max-width: 768px) {
+  .botonVolverFijo {
+    display: none;
+  }
+}
 
