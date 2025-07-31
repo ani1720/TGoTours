@@ -83,7 +83,7 @@ function Header({ usuario, nombreUsuario, cerrarSesion }) {
       </nav> */}
       <nav className={`nav-links ${menuOpen ? "open" : ""}`}>
         <Link to="/" onClick={() => setMenuOpen(false)}>
-          HOME
+          INICIO
         </Link>
         <Link to="/rutas" onClick={() => setMenuOpen(false)}>
           RUTAS
