@@ -96,7 +96,7 @@ function Home() {
           </button>
 
           <button
-            onClick={() => navigate("/freetours")}
+            onClick={() => navigate("/tours")}
           >
             FreeTours
           </button>

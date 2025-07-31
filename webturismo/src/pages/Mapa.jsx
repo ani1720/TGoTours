@@ -232,9 +232,9 @@ const Mapa = () => {
       </div>
 
       {/* 🟣 BLOQUE DE LEYENDA */}
-      <h2 className="mapa-section-title">Leyenda</h2>
+      <h2 className="mapa-section-title">🗺️ Leyenda de íconos</h2>
       <div className="mapa-leyenda">
-        <strong>🗺️ Leyenda de íconos:</strong>
+        {/* <strong>🗺️ Leyenda de íconos:</strong> */}
         <ul>
           <li>
             <img src="https://cdn-icons-png.flaticon.com/512/139/139899.png" />
@@ -307,42 +307,7 @@ const Mapa = () => {
           </MapContainer>
         </div>
       </div>
-
-    {/* 🟢 CONTENEDOR DEL MAPA */}
-    <div className="mapa-wrapper">
-      <MapContainer
-        center={[41.1167, 1.2554]}
-        zoom={15}
-        style={{ height: "100%", width: "100%" }}
-      >
-        <TileLayer
-          url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-          attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors & CartoDB'
-        />
-        <MarkerClusterGroup maxClusterRadius={20} disableClusteringAtZoom={20}>
-          {puntos
-            .filter((p) => filtros[p.tipo])
-            .map((punto, idx) => (
-              <Marker
-                key={idx}
-                position={punto.coordenadas}
-                icon={iconos[punto.tipo]}
-              >
-                <Popup>
-                  <strong>{punto.nombre}</strong>
-                  {punto.descripcion !== "Información no disponible" && (
-                    <>
-                      <br />
-                      {punto.descripcion}
-                    </>
-                  )}
-                </Popup>
-              </Marker>
-            ))}
-        </MarkerClusterGroup>
-      </MapContainer>
     </div>
-  </div>
 );
 }
 export default Mapa
