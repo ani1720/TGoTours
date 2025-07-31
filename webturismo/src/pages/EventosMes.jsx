@@ -4,7 +4,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
 import styles from "./EventosMes.module.css";
 
-const subcolecciones = ["castells", "santjoan", "fuegos", "bailes", "cavalcada", "carnaval", "temporada", "semana", "tarraco", "santmagi", "santatecla", "octubre", "noviembre"];
+const subcolecciones = ["castells", "santjoan", "fuegos", "bailes", "cavalcada", "carnaval", "temporada", "semana", "tarraco", "santmagi", "santatecla", "octubre", "noviembre", "diciembre"];
 
 const EventosMes = () => {
   const { mes } = useParams();
