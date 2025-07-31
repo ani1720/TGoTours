@@ -102,7 +102,9 @@ function Registro() {
 
       await sendEmailVerification(user);
 
-      setMensaje(`✅ Usuario creado: ${user.email}. Revisa tu correo y tu bandeja de spam.`);
+      setMensaje(
+        `✅ Usuario creado: ${user.email}. Revisa tu correo y tu bandeja de spam.`
+      );
       setEmail("");
       setPassword("");
       setNombreUsuario("");
@@ -111,7 +113,7 @@ function Registro() {
       // Redirigir después de unos segundos
       setTimeout(() => {
         navigate("/login");
-      }, 10000);
+      }, 4000);
     } catch (authError) {
       console.error("❌ Error en createUserWithEmailAndPassword:", authError);
       switch (authError.code) {
@@ -140,50 +142,143 @@ function Registro() {
       <div className="form-page">
         <h2>Crear cuenta</h2>
         <form onSubmit={handleRegistro}>
-          <input
-            type="email"
-            placeholder="Correo electrónico"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            style={{ padding: "0.5rem", margin: "0.5rem", width: "250px" }}
-          />
-          <input
-            type="email"
-            placeholder="Repite tu correo electrónico"
-            value={emailConfirmacion}
-            onChange={(e) => setEmailConfirmacion(e.target.value)}
-            required
-            style={{ padding: "0.5rem", margin: "0.5rem", width: "250px" }}
-          />
-          <br />
-          <br />
-          <input
-            type="text"
-            placeholder="Nombre de usuario"
-            value={nombreUsuario}
-            onChange={(e) => setNombreUsuario(e.target.value)}
-            required
-            style={{ padding: "0.5rem", margin: "0.5rem", width: "250px" }}
-          />
-          <br />
-          <input
-            type="password"
-            placeholder="Contraseña"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            style={{ padding: "0.5rem", margin: "0.5rem", width: "250px" }}
-          />
-          <br />
-          <input
-            type="password"
-            placeholder="Repite tu contraseña"
-            value={passwordConfirmacion}
-            onChange={(e) => setPasswordConfirmacion(e.target.value)}
-            required
-            style={{ padding: "0.5rem", margin: "0.5rem", width: "250px" }}
-          />
+          <div style={{ maxWidth: "300px", margin: "0 auto" }}>
+            {/* Correo electrónico */}
+            <div style={{ marginBottom: "1rem" }}>
+              <label
+                htmlFor="email"
+                style={{
+                  display: "block",
+                  marginBottom: "0.3rem",
+                  fontWeight: "bold",
+                }}
+              >
+                Correo electrónico
+              </label>
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                style={{
+                  padding: "0.5rem",
+                  width: "100%",
+                  border: "1px solid #ccc",
+                  borderRadius: "4px",
+                }}
+              />
+            </div>
+
+            {/* Confirmación de correo */}
+            <div style={{ marginBottom: "1rem" }}>
+              <label
+                htmlFor="emailConfirmacion"
+                style={{
+                  display: "block",
+                  marginBottom: "0.3rem",
+                  fontWeight: "bold",
+                }}
+              >
+                Repite tu correo electrónico
+              </label>
+              <input
+                id="emailConfirmacion"
+                type="email"
+                value={emailConfirmacion}
+                onChange={(e) => setEmailConfirmacion(e.target.value)}
+                required
+                style={{
+                  padding: "0.5rem",
+                  width: "100%",
+                  border: "1px solid #ccc",
+                  borderRadius: "4px",
+                }}
+              />
+            </div>
+
+            {/* Nombre de usuario */}
+            <div style={{ marginBottom: "1rem" }}>
+              <label
+                htmlFor="nombreUsuario"
+                style={{
+                  display: "block",
+                  marginBottom: "0.3rem",
+                  fontWeight: "bold",
+                }}
+              >
+                Nombre de usuario
+              </label>
+              <input
+                id="nombreUsuario"
+                type="text"
+                value={nombreUsuario}
+                onChange={(e) => setNombreUsuario(e.target.value)}
+                required
+                style={{
+                  padding: "0.5rem",
+                  width: "100%",
+                  border: "1px solid #ccc",
+                  borderRadius: "4px",
+                }}
+              />
+            </div>
+
+            {/* Contraseña */}
+            <div style={{ marginBottom: "1rem" }}>
+              <label
+                htmlFor="password"
+                style={{
+                  display: "block",
+                  marginBottom: "0.3rem",
+                  fontWeight: "bold",
+                }}
+              >
+                Contraseña
+              </label>
+              <input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                style={{
+                  padding: "0.5rem",
+                  width: "100%",
+                  border: "1px solid #ccc",
+                  borderRadius: "4px",
+                }}
+              />
+            </div>
+
+            {/* Confirmación de contraseña */}
+            <div style={{ marginBottom: "1rem" }}>
+              <label
+                htmlFor="passwordConfirmacion"
+                style={{
+                  display: "block",
+                  marginBottom: "0.3rem",
+                  fontWeight: "bold",
+                }}
+              >
+                Repite tu contraseña
+              </label>
+              <input
+                id="passwordConfirmacion"
+                type="password"
+                value={passwordConfirmacion}
+                onChange={(e) => setPasswordConfirmacion(e.target.value)}
+                required
+                style={{
+                  padding: "0.5rem",
+                  width: "100%",
+                  border: "1px solid #ccc",
+                  borderRadius: "4px",
+                }}
+              />
+            </div>
+          </div>
+
           <div
             style={{
               margin: "1rem auto",

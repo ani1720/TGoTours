@@ -20,6 +20,7 @@ import ani from "/assets/ani.jpg";
 import "./App.css";
 import MapView from "./WebView";
 import mapaHome from "/assets/mapahome.png";
+import "./Registro.css";
 
 function Home() {
   const lugares = [
@@ -65,7 +66,9 @@ function Home() {
       <div className="mapa-info-container">
         <div className="mapa">
           <h2> Mapa de Rutas</h2>
-          <p> Rutas planificada para conocer Tarragona</p>
+          <p style={{ textAlign: "center" }}>
+            Rutas planificadas para conocer Tarragona
+          </p>{" "}
           <img
             src={mapaHome}
             alt="Ruta Romana en Tarragona"
@@ -83,15 +86,12 @@ function Home() {
           <h1>Turismo en Tarragona</h1>
           <p>“Una plataforma de turismo inteligente en Tarragona.”</p>
           <span className="servicios-label">Servicios</span>
-          
+
           <button onClick={() => navigate("/rutas")}>
             Rutas y mapas interactivos
           </button>
 
-          <button
-        
-            onClick={() => navigate("/eventos")}
-          >
+          <button onClick={() => navigate("/eventos")}>
             Eventos culturales y puntos de interés
           </button>
 
@@ -100,13 +100,8 @@ function Home() {
           >
             FreeTours
           </button>
-
-          <button
-            
-            onClick={() => navigate("/comunidad")}
-          >
-            Comunidad
-          </button>
+          <button onClick={() => navigate("/freetours")}>FreeTours</button>
+          <button onClick={() => navigate("/comunidad")}>Comunidad</button>
         </div>
       </div>
       <div className="slider-wrapper">
