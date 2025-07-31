@@ -124,7 +124,9 @@ const Mapa = () => {
               data.coordenadas.latitude,
               data.coordenadas.longitude,
             ],
+            link: data.link, // ← esta línea agrega el link
           });
+
         });
       }
       const puntosOSM = await fetchOverpass();
@@ -256,7 +258,55 @@ const Mapa = () => {
           </li>
         </ul>
       </div>
-    </div>
+  
+        <div className="mapa-wrapper">
+          <MapContainer
+            center={[41.1167, 1.2554]}
+            zoom={15}
+            style={{ height: "100%", width: "100%" }}
+          >
+            <TileLayer
+              url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+              attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors & CartoDB'
+            />
+
+            <MarkerClusterGroup
+              maxClusterRadius={20}
+              disableClusteringAtZoom={20}
+            >
+              {puntos
+                .filter((p) => filtros[p.tipo])
+                .map((punto, idx) => (
+                  <Marker
+                    key={idx}
+                    position={punto.coordenadas}
+                    icon={iconos[punto.tipo]}
+                  >
+                    <Popup>
+                      <strong>{punto.nombre}</strong>
+                      {punto.descripcion !== "Información no disponible" &&
+                        punto.descripcion !== "Descripción no disponible" && (
+                          <>
+                            <br />
+                            {punto.descripcion}
+                          </>
+                        )}
+                      {punto.link && (
+                        <>
+                          <br />
+                          <a href={punto.link} target="_blank" rel="noopener noreferrer">
+                            Visitar sitio web
+                          </a>
+                        </>
+                      )}
+                    </Popup>
+
+                  </Marker>
+                ))}
+            </MarkerClusterGroup>
+          </MapContainer>
+        </div>
+      </div>
 
     {/* 🟢 CONTENEDOR DEL MAPA */}
     <div className="mapa-wrapper">

@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import styles from "./Eventos.module.css"; // ✅ Importación del CSS Module
 import "./Eventos.css";
 
+
+
 const meses = [
   "enero", "febrero", "marzo", "abril", "mayo", "junio",
   "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"
