@@ -95,7 +95,7 @@ function Home() {
             Eventos culturales y puntos de interés
           </button>
 
-          <button onClick={() => navigate("/freetours")}>Tours</button>
+          <button onClick={() => navigate("/tours")}>FreeTours</button>
 
           <button onClick={() => navigate("/comunidad")}>Comunidad</button>
         </div>
