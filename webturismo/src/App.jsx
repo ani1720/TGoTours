@@ -13,7 +13,7 @@ import { db } from "./firebase/firebaseConfig";
 import Mapa from "./pages/Mapa";
 import Eventos from "./pages/Eventos";
 import Footer from "./components/Footer";
-import EventoDetalle from "./EventoDetalle"; 
+import EventoDetalle from "./EventoDetalle";
 import EventosMes from "./pages/EventosMes";
 import Perfil from "./pages/Perfil";
 import Comunidad from "./pages/comunidad";
@@ -48,20 +48,16 @@ function App() {
     });
   };
 
-  const leerTexto = (textoManual = null) => {
-    const speech = new SpeechSynthesisUtterance();
-    speech.lang = "es-ES";
-
-    if (textoManual) {
-      speech.text = textoManual;
+  const leerTexto = (texto) => {
+    if (window.speechSynthesis.speaking) {
+      window.speechSynthesis.cancel(); // Detiene si ya está hablando
     } else {
-      const contenido = document.getElementById("main-content")?.innerText;
-      speech.text = contenido || "No se encontró contenido para leer.";
+      const utterance = new SpeechSynthesisUtterance(texto);
+      utterance.lang = "es-ES";
+      window.speechSynthesis.speak(utterance);
     }
-
-    window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(speech);
   };
+
   useEffect(() => {
     const guardado = localStorage.getItem("modoAccesible");
     if (guardado === "true") {
@@ -141,9 +137,10 @@ function App() {
         rel="noopener noreferrer"
         aria-label="Abrir WhatsApp"
       >
-        <img src="https://icongr.am/fontawesome/whatsapp.svg?size=32&color=ffffff"
-         alt="WhatsApp" />
-
+        <img
+          src="https://icongr.am/fontawesome/whatsapp.svg?size=32&color=ffffff"
+          alt="WhatsApp"
+        />
       </a>
       <UserProvider>
         <Routes>
@@ -153,7 +150,7 @@ function App() {
           <Route path="/rutas/*" element={<Ruta />} />
           <Route path="/mapa" element={<Mapa />} />
           <Route path="/eventos" element={<Eventos />} />
-          <Route path="/eventos/:mes" element={<EventosMes />} />         
+          <Route path="/eventos/:mes" element={<EventosMes />} />
           <Route path="/evento/castells" element={<EventoDetalle />} />
           <Route path="/about" element={<About />} />
 

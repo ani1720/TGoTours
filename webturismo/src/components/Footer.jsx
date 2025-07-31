@@ -9,6 +9,7 @@ import {
 import { faUniversalAccess } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
+
 const Footer = ({ activarAccesibilidad, modoAccesible, leerTexto }) => {
   return (
     <footer className="footer">
@@ -28,6 +29,41 @@ const Footer = ({ activarAccesibilidad, modoAccesible, leerTexto }) => {
             }
           >
             <FontAwesomeIcon icon={faUniversalAccess} /> Escuchar descripción
+            general
+          </button>
+
+          <button
+            className="btn-accesibilidad"
+            onClick={() =>
+              leerTexto(
+                "Sección de enlaces útiles. Accede a rutas, información sobre nosotros, preguntas frecuentes y términos legales."
+              )
+            }
+          >
+            <FontAwesomeIcon icon={faUniversalAccess} /> Escuchar enlaces útiles
+          </button>
+
+          <button
+            className="btn-accesibilidad"
+            onClick={() =>
+              leerTexto(
+                "Sección de contacto. Puedes escribirnos a contacto arroba T G O tours punto com o llamarnos al más treinta y cuatro, seis cinco seis, dos ocho cero, cuatro uno dos."
+              )
+            }
+          >
+            <FontAwesomeIcon icon={faUniversalAccess} /> Escuchar contacto
+          </button>
+
+          <button
+            className="btn-accesibilidad"
+            onClick={() =>
+              leerTexto(
+                `© ${new Date().getFullYear()} Turismo Tarragona. Todos los derechos reservados.`
+              )
+            }
+          >
+            <FontAwesomeIcon icon={faUniversalAccess} /> Escuchar derechos
+            reservados
           </button>
         </div>
 
@@ -38,21 +74,20 @@ const Footer = ({ activarAccesibilidad, modoAccesible, leerTexto }) => {
 
         <div className="footer-col">
           <h4>Enlaces útiles</h4>
-            <ul>
-              <li>
-                <Link to="/rutas">Rutas</Link>
-              </li>
-              <li>
-
+          <ul>
+            <li>
+              <Link to="/rutas">Rutas</Link>
+            </li>
+            <li>
               <Link to="/sobrenosotros">Sobre Nosotros</Link>
-              </li>
-              <li>
-                <Link to="/faq">Preguntas Frecuentes</Link>
-              </li>
-              <li>
-                <Link to="/terminos">Terminos y condiciones</Link>
-              </li>
-        </ul>
+            </li>
+            <li>
+              <Link to="/faq">Preguntas Frecuentes</Link>
+            </li>
+            <li>
+              <Link to="/terminos">Terminos y condiciones</Link>
+            </li>
+          </ul>
         </div>
 
         <div className="footer-col">
