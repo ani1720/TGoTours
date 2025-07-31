@@ -5,6 +5,7 @@ import murallasImg from "/assets/murallas.jpg";
 import plazaReiImg from "/assets/plaza-rei.jpg";
 import balconImg from "/assets/balcon.jpg";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import React from "react";
 import Logo from "/assets/Logo2.png";
 import IconMap from "/assets/mapa.png";
@@ -56,15 +57,16 @@ function Home() {
 
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [selectedLugar, setSelectedLugar] = useState(null);
+  const navigate = useNavigate();
 
   return (
     <>
       <div className="mapa-info-container">
         <div className="mapa">
-          <h2>   Mapa de Rutas</h2>
-          <p>     Rutas planificada para conocer Tarragona</p>
+          <h2> Mapa de Rutas</h2>
+          <p> Rutas planificada para conocer Tarragona</p>
           <img
-            src= {mapaHome}
+            src={mapaHome}
             alt="Ruta Romana en Tarragona"
             style={{
               width: "100%",
@@ -80,10 +82,30 @@ function Home() {
           <h1>Turismo en Tarragona</h1>
           <p>“Una plataforma de turismo inteligente en Tarragona.”</p>
           <span className="servicios-label">Servicios</span>
-          <button>Rutas y mapas interactivos</button>
-          <button>Eventos culturales y puntos de interés</button>
-          <button>FreeTours</button>
-          <button>Comunidad</button>
+          
+          <button onClick={() => navigate("/rutas")}>
+            Rutas y mapas interactivos
+          </button>
+
+          <button
+        
+            onClick={() => navigate("/eventos")}
+          >
+            Eventos culturales y puntos de interés
+          </button>
+
+          <button
+            onClick={() => navigate("/freetours")}
+          >
+            FreeTours
+          </button>
+
+          <button
+            
+            onClick={() => navigate("/comunidad")}
+          >
+            Comunidad
+          </button>
         </div>
       </div>
       <div className="slider-wrapper">
