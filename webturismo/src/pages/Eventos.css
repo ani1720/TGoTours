@@ -39,7 +39,14 @@
 .evento-card:hover img {
   filter: brightness(0.4);
 }
-
+.titulo{
+  font-size: 2rem;
+  margin-bottom: 1.2rem;
+  color: #ffffff;
+  border-left: 5px solid #00ffd5;
+  padding-left: 0.7rem;
+  
+}
 .evento-info {
   position: absolute;
   bottom: 0;
