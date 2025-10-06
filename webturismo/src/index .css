@@ -11,4 +11,5 @@ html, body {
 }
 .navbar {
   border-radius: 0; /* elimina bordes redondeados */
+  position : fixed;
 }
